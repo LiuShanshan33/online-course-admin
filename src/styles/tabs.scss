@@ -1,0 +1,55 @@
+.el-tabs {
+  width: 70%;
+  margin-left: 90px;
+  border: 1px solid rgba(203, 203, 203, 1);
+  // border-width: 1px 1px 1px 0px;
+  margin-bottom: 20px;
+}
+
+.el-tabs--border-card {
+  box-shadow: none !important;
+}
+
+.el-tabs--border-card>.el-tabs__content {
+  padding: 15px 15px 20px 15px;
+}
+
+.el-tabs__nav-scroll {
+  background: #F0F5F7;
+}
+
+.el-tabs__header .el-tabs__item {
+  border-right: 1px solid #CBCBCB !important;
+}
+
+.el-tabs__header .el-tabs__item {
+  color: rgba(51, 51, 51, 1) !important;
+  font-size: 12px;
+  font-family: STSongti-SC-Bold, STSongti-SC;
+  font-weight: bold;
+}
+
+.el-button--primary {
+  background: linear-gradient(180deg, rgba(31, 147, 151, 1) 0%, rgba(85, 176, 171, 1) 100%);
+//   width:75px;
+// height:30px;
+// background:linear-gradient(180deg,rgba(31,147,151,1) 0%,rgba(85,176,171,1) 100%);
+// border-radius:2px;
+
+}
+
+.el-button--default {
+  background: linear-gradient(180deg, rgba(241, 246, 249, 1) 0%, rgba(214, 224, 229, 1) 54%, rgba(236, 241, 243, 1) 100%);
+  border: 1px solid rgba(204, 204, 204, 1);
+}
+
+.el-button--medium {
+  width: 75px;
+  height: 30px;
+  border-radius: 2px;
+  padding: 0px;
+}
+
+.el-form-item__label {
+  font-size: 12px;
+}

@@ -1,0 +1,36 @@
+.el-switch__label {
+  position: absolute;
+  display: none;
+  font-size: 11px !important;
+  color: #fff!important;
+}
+.el-switch__label *{
+  font-size: 11px !important;
+}
+/*打开时文字位置设置*/
+.el-switch__label--right {
+  z-index: 1;
+  right: -10px;
+  top: 0.5px;
+}
+/*关闭时文字位置设置*/
+.el-switch__label--left {
+  z-index: 1;
+  left: 23px;
+  top: 0.5px;
+}
+/*显示文字*/
+.el-switch__label.is-active {
+  display: block;
+}
+.el-switch .el-switch__core,
+.el-switch .el-switch__label {
+  width: 45px !important;
+  height: 22px !important;
+}
+.el-switch__core {
+  width: 45px;
+  height: 22px;
+  border: 2px solid #DCDFE6;
+  border-radius: 13px;
+}

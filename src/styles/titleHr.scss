@@ -1,0 +1,22 @@
+.top-container {
+  margin: 20px 12px 5px 12px;
+
+  .content-title {
+    width: 120px;
+    height: 30px;
+    font-size: 15px;
+    font-family: STSongti-SC-Black, STSongti-SC;
+    font-weight: 900;
+    color: rgba(51, 51, 51, 1);
+    line-height: 25px;
+    border-bottom: 3px solid #419793;
+  }
+
+  hr {
+    width: 100%;
+    margin: 0 auto;
+    border: 0;
+    height: 0;
+    border-bottom: 1px solid rgba(203, 203, 203, 1);
+  }
+}

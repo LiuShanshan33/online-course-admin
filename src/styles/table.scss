@@ -1,0 +1,178 @@
+.text-lable {
+  //输入框前的title
+  font-weight: bold;
+  color: rgba(51, 51, 51, 1);
+  line-height: 17px;
+  display: inline-block;
+  padding-left: 4px;
+  position: relative;
+  bottom: 6px;
+}
+
+.filter-container {
+  //搜索栏
+  padding-bottom: 0px !important;
+}
+
+.el-input--medium .el-input__inner {
+  //输入框和下拉框
+  height: 30px;
+  line-height: 36px;
+  font-size: 12px;
+
+}
+
+.el-select-dropdown__wrap.el-scrollbar__wrap {
+  margin-bottom: 0px !important;
+}
+
+.el-autocomplete-suggestion__wrap.el-scrollbar__wrap {
+  // height: 200px!important;
+  margin-bottom: 0px !important;
+  // padding-bottom: 0px !important;
+
+}
+
+.el-input--medium .el-input__icon {
+  //下拉框的下拉图标
+  line-height: 30px;
+}
+
+.filter-container .filter-item.search-btn {
+  //搜索按钮
+  height: 30px !important;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.el-date-editor {
+  //日期选择框
+  height: 30px !important;
+  width: 140px !important;
+  bottom: 5px;
+  position: relative;
+  line-height: 30px;
+}
+
+.panelBar {
+  //工具栏
+  overflow: hidden;
+  width: 100%;
+  height: 35px;
+  background: rgba(245, 248, 249, 1);
+  border-radius: 3px;
+  border: 1px solid rgba(211, 219, 222, 1);
+  margin-bottom: 12px;
+
+  .toolBar {
+    list-style: none;
+    position: relative;
+    right: 28px;
+
+    >li {
+      float: left !important;
+      display: block;
+      overflow: hidden;
+      height: 26px;
+      text-align: center;
+      padding: 1px 6px;
+      margin-right: 22px;
+      font-weight: bold;
+      color: rgba(51, 51, 51, 1);
+      position: relative;
+      bottom: 5px;
+
+      .barIcon {
+        position: relative !important;
+        top: -3px !important;
+      }
+    }
+
+  }
+}
+
+.el-table--group,
+.el-table--border {
+  //表格边框
+  border: 0.8px solid #CBCBCB;
+}
+
+// .el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td {
+//   background-color: #FFF6BF !important;
+// }
+.el-table__body tr.el-table__row--striped.current-row td,
+.el-table__body tr.current-row>td {
+  //点击当前行背景色
+  background-color: #FFF6BF !important;
+}
+
+.el-table__body tr:hover>td {
+  background-color: #FFF6BF !important;
+}
+
+.el-table__empty-text {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.el-table th.is-leaf,
+.el-table td {
+  border-right: 0px;
+}
+
+.el-table--border td {
+  border-right: 1px dotted #CBCBCB;
+}
+
+.el-table--border th,
+.el-table--border td:last-child {
+  border-right: 1px solid #CBCBCB;
+}
+
+.el-table th.is-leaf,
+.el-table td {
+  border-bottom: 0px;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: #F5F8FA;
+}
+
+.pagination-container {
+  //分页器
+  margin-top: 0px !important;
+  padding-top: 15px !important;
+  padding-bottom: 0px !important;
+}
+
+// .page{
+//   margin: 0px -1px;
+//   border: 1px solid #CBCBCB;
+//   /* border-right: 0px; */
+//   color: #606266;
+//   min-width: 30px;
+//   border-radius: 2px;
+// }
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .el-pager li {
+  margin: 0px -1px;
+  border: 1px solid #CBCBCB;
+  /* border-right: 0px; */
+  color: #419793;
+  min-width: 30px;
+  border-radius: 2px;
+  background: #FFF;
+}
+
+.el-pagination.is-background .btn-prev:hover,
+.el-pagination.is-background .btn-next:hover,
+.el-pagination.is-background:hover .el-pager li:hover {
+  background: #419793;
+  color: #FFF;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #F5F8FA;
+  color: #333333;
+}
