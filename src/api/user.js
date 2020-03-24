@@ -3,7 +3,7 @@ import qs from 'qs'
 // 登录接口
 export function login(empNo, password) {
   return request({
-    url: '/login',
+    url: '/login.do',
     method: 'post',
     data: qs.stringify({
       empNo,
