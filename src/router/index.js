@@ -85,7 +85,7 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: false,
           title: ' 首页 ',
-          icon: require('../_layout/components/image/工作台.png'),
+          icon: require('../_layout/components/image/首页.png'),
           affix: true
         }
       },
@@ -98,7 +98,6 @@ export const constantRoutes = [{
           isUseCache: false,
           keepAlive: true,
           title: '编辑工作台',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       }
@@ -110,7 +109,7 @@ export const constantRoutes = [{
     redirect: '/Home/working',
     meta: {
       title: ' 用户管理',
-      icon: require('../_layout/components/image/护理设置.png'),
+      icon: require('../_layout/components/image/用户管理.png'),
       affix: false,
       roles: ['admin', 'editor']
     },
@@ -123,7 +122,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 评估设置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -134,8 +132,7 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 护理评估',
-          icon: require('../_layout/components/image/子菜单.png'),
+          title: ' 教师管理',
           affix: false
         }
       },
@@ -146,12 +143,11 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 护理诊断',
-          icon: require('../_layout/components/image/子菜单.png'),
+          title: ' 学生管理',
           affix: false
         }
       },
-      {
+      /*{
         path: 'grade',
         component: () => import('@/views/NursingSet/grade/grade'),
         name: 'Grade',
@@ -159,7 +155,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 护理等级',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -171,7 +166,6 @@ export const constantRoutes = [{
           isUseCache: false,
           keepAlive: true,
           title: ' 护理任务',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -183,7 +177,6 @@ export const constantRoutes = [{
           isUseCache: false,
           keepAlive: true,
           title: ' 护理事件',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -195,7 +188,6 @@ export const constantRoutes = [{
           isUseCache: false,
           keepAlive: true,
           title: ' 事件设置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -207,7 +199,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 宣教模板',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -219,7 +210,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 护理记录',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -231,10 +221,9 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 表单关联部门',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
-      }
+      }*/
     ]
   },
   {
@@ -242,7 +231,7 @@ export const constantRoutes = [{
     component: Layout,
     meta: {
       title: ' 课程管理',
-      icon: require('../_layout/components/image/日志管理.png'),
+      icon: require('../_layout/components/image/课程管理.png'),
       affix: false
     },
     children: [{
@@ -252,8 +241,7 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 医院信息',
-          icon: require('../_layout/components/image/子菜单.png'),
+          title: ' 课程信息',
           affix: false
         }
       },
@@ -264,12 +252,11 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 科室信息',
-          icon: require('../_layout/components/image/子菜单.png'),
+          title: ' 课件管理',
           affix: false
         }
       },
-      {
+      /*{
         path: 'BedInfo',
         component: () => import('@/views/HospitalSet/BedInfo/BedInfo'),
         name: 'BedInfo',
@@ -277,7 +264,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 床位信息',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -289,7 +275,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 员工信息',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -301,7 +286,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 诊疗组',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -313,7 +297,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 通讯录',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -325,10 +308,9 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 消息管理',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
-      }
+      }*/
     ]
   },
   {
@@ -341,6 +323,17 @@ export const constantRoutes = [{
       noCache: true
     },
     children: [{
+        path: 'taskMg',
+        component: () => import('@/views/SystemMg/taskMg/taskMg'),
+        name: 'TaskMg',
+        meta: {
+          isUseCache: true,
+          keepAlive: true,
+          title: ' 学校信息',
+          affix: false
+        }
+      },
+      {
         path: 'moduleMg',
         component: () => import('@/views/SystemMg/moduleMg/moduleMg'),
         name: 'ModuleMg',
@@ -348,7 +341,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 模块管理',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -360,7 +352,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 角色管理',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -372,19 +363,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 字典管理',
-          icon: require('../_layout/components/image/子菜单.png'),
-          affix: false
-        }
-      },
-      {
-        path: 'taskMg',
-        component: () => import('@/views/SystemMg/taskMg/taskMg'),
-        name: 'TaskMg',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 任务管理',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -395,12 +373,11 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 附件管理',
-          icon: require('../_layout/components/image/子菜单.png'),
+          title: ' 权限管理',
           affix: false
         }
       },
-      {
+      /*{
         path: 'appAuthorization',
         component: () => import('@/views/SystemMg/appAuthorization/appAuthorization'),
         name: 'AppAuthorization',
@@ -408,7 +385,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 应用授权',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -420,7 +396,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 版本管理',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -432,7 +407,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' MEWS评分规则',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -444,7 +418,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' MEWS评分监护',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -456,7 +429,6 @@ export const constantRoutes = [{
           isUseCache: true,
           // keepAlive: true,
           title: ' MEWS表单关联',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -468,7 +440,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 病区动态显示配置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -480,7 +451,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 病区动态数据库配置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -492,7 +462,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 大屏交接班科室配置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -504,7 +473,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' 交接班排序方式',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
       },
@@ -516,61 +484,56 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' pda表单配置',
-          icon: require('../_layout/components/image/子菜单.png'),
           affix: false
         }
-      }
+      }*/
     ]
   },
-  {
-    path: '/LogSet',
-    component: Layout,
-    redirect: '/profile/index',
-    meta: {
-      isUseCache: true,
-      keepAlive: true,
-      title: ' 日志设置',
-      icon: require('../_layout/components/image/日志管理.png'),
-      noCache: true
-    },
-    children: [{
-        path: 'signlog',
-        component: () => import('@/views/LogSet/loginLog/loginLog'),
-        name: 'Signlog',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 登录日志',
-          icon: require('../_layout/components/image/子菜单.png'),
-          affix: false
-        }
-      },
-      {
-        path: 'operateLog',
-        component: () => import('@/views/LogSet/operateLog/operateLog'),
-        name: 'OperateLog',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 操作日志',
-          icon: require('../_layout/components/image/子菜单.png'),
-          affix: false
-        }
-      },
-      {
-        path: 'taskLog',
-        component: () => import('@/views/LogSet/taskLog/taskLog'),
-        name: 'TaskLog',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 任务日志',
-          icon: require('../_layout/components/image/子菜单.png'),
-          affix: false
-        }
-      }
-    ]
-  }
+  // {
+  //   path: '/LogSet',
+  //   component: Layout,
+  //   redirect: '/profile/index',
+  //   meta: {
+  //     isUseCache: true,
+  //     keepAlive: true,
+  //     title: ' 日志设置',
+  //     noCache: true
+  //   },
+  //   children: [{
+  //       path: 'signlog',
+  //       component: () => import('@/views/LogSet/loginLog/loginLog'),
+  //       name: 'Signlog',
+  //       meta: {
+  //         isUseCache: true,
+  //         keepAlive: true,
+  //         title: ' 登录日志',
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: 'operateLog',
+  //       component: () => import('@/views/LogSet/operateLog/operateLog'),
+  //       name: 'OperateLog',
+  //       meta: {
+  //         isUseCache: true,
+  //         keepAlive: true,
+  //         title: ' 操作日志',
+  //         affix: false
+  //       }
+  //     },
+  //     {
+  //       path: 'taskLog',
+  //       component: () => import('@/views/LogSet/taskLog/taskLog'),
+  //       name: 'TaskLog',
+  //       meta: {
+  //         isUseCache: true,
+  //         keepAlive: true,
+  //         title: ' 任务日志',
+  //         affix: false
+  //       }
+  //     }
+  //   ]
+  // }
 ]
 
 

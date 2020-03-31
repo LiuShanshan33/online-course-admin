@@ -4,27 +4,18 @@
 
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
     <div class="left-menu">
-      <div class="image"><img src="../components/image/用户.png">&nbsp;</div>
+      <div class="image"><img src="../components/image/用户 (2).png"></div>
       <!-- <span>当前登录用户：{{ user.user.empName }} - {{ user1.user.empName }}  - {{ empName }}</span> -->
       <span>当前登录用户：{{ user1.user.empNo }}</span>&nbsp;
       <span>用户角色：{{ user1.user.empName }}</span>
     </div>
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <!-- <search id="header-search" class="right-menu-item" />
-
-        <error-log class="errLog-container right-menu-item hover-effect" />
-
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="Global Size" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip> -->
         <ul class="nav">
-          <li><a><img class="image" src="../components/image/应用前台.png"> 应用前台</a></li>
+          <!-- <li><a><img class="image" src="../components/image/应用前台.png"> 应用前台</a></li>
           <li><div class="verticalBar" /></li>
           <li><a><img class="image" src="../components/image/刷新.png"> 刷新缓存</a></li>
-          <li><div class="verticalBar" /></li>
+          <li><div class="verticalBar" /></li> -->
           <li><a @click="logout"><img class="image" src="../components/image/退出.png"> 退出</a></li>
         </ul>
       </template>
@@ -103,106 +94,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .navbar {
-//   display: flex;
-//   flex-direction: row;
-//   height: 50px;
-//   overflow: hidden;
-//   position: relative;
-//   background:linear-gradient(180deg,rgba(185,211,223,1) 0%,rgba(255,255,255,1) 100%);;
-//   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-// .left-menu{
-//     flex:1;
-//     float:left;
-//     font-size: 12px !important;
-//     // margin-top: 16px;
-//     margin-left: 10px;
-//     .span{
-//       margin-right: 12px;
-//     }
-//   }
-  // .hamburger-container {
-  //   line-height: 46px;
-  //   height: 100%;
-  //   float: left;
-  //   cursor: pointer;
-  //   transition: background .3s;
-  //   -webkit-tap-highlight-color:transparent;
-
-  //   &:hover {
-  //     background: rgba(0, 0, 0, .025)
-  //   }
-  // }
-
-  // .breadcrumb-container {
-  //   float: left;
-  // }
-
-  // .errLog-container {
-  //   display: inline-block;
-  //   vertical-align: top;
-  // }
-// }
-//   .right-menu {
-//     flex:1;
-//     float: right;
-//     height: 100%;
-//     // line-height: 50px;
-//     }
-//     // &:focus {
-//     //   outline: none;
-//     // }
-
-    // .right-menu-item {
-    //   display: inline-block;
-    //   padding: 0 8px;
-    //   height: 100%;
-    //   font-size: 18px;
-    //   color: #5a5e66;
-    //   vertical-align: text-bottom;
-
-    //   &.hover-effect {
-    //     cursor: pointer;
-    //     transition: background .3s;
-
-    //     &:hover {
-    //       background: rgba(0, 0, 0, .025)
-    //     }
-    //   }
-    // }
-
-    // .avatar-container {
-    //   margin-right: 30px;
-
-    //   .avatar-wrapper {
-    //     margin-top: 5px;
-    //     position: relative;
-
-    //     .user-avatar {
-    //       cursor: pointer;
-    //       width: 40px;
-    //       height: 40px;
-    //       border-radius: 10px;
-    //     }
-
-    //     .el-icon-caret-bottom {
-    //       cursor: pointer;
-    //       position: absolute;
-    //       right: -20px;
-    //       top: 25px;
-    //       font-size: 12px;
-    //     }
-    //   }
-    // }
 .navbar {
   display: flex;
   flex-direction: row;
   height: 50px;
   overflow: hidden;
   position: relative;
-  // background:linear-gradient(180deg,rgba(185,211,223,1) 0%,rgba(255,255,255,1) 100%);
-  // box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  background-image: url('../components/image/矩形@2x(1).png');
+  // background:linear-gradient(180deg,rgba(28, 39, 55, 1) 0%,rgba(185,211,223,1) 100%);
+  background: rgba(185,211,223,1);
+  // box-shadow: 0 1px 4px rgba(0,21,41,.08);50, 66, 95
+  // background-image: url('../components/image/矩形@2x(1).png');28, 39, 55
   background-size: 1px 100%;
   background-repeat:  repeat-x;
   padding-top: 4px;
@@ -216,6 +117,7 @@ export default {
     margin-left: 15px;
     .image{
       margin-bottom: 1px;
+      margin-right: 2px;
     }
     .span{
       margin-right: 12px;

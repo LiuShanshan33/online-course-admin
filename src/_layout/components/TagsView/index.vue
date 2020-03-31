@@ -236,9 +236,10 @@ export default {
     rgba(216, 230, 237, 1) 0%,
     rgba(246, 249, 251, 1) 100%
   );
+  // background: rgba(185,211,223,1);
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-  border-bottom: 3px solid #4baaa6;
+  border-bottom: 3px solid #3f5e96;
   .tags-view-wrapper {
     display: flex;
     flex-direction: row;
@@ -270,7 +271,7 @@ export default {
         color: #ffffff;
         .index {
           padding: 1px 3px;
-          background: #4baaa6;
+          background: #3f5e96;
         }
         .title {
           color: #333333;
@@ -286,19 +287,21 @@ export default {
         margin-right: 15px;
       }
       &.active {
-        background: linear-gradient(
-          180deg,
-          rgba(31, 147, 151, 1) 0%,
-          rgba(85, 176, 171, 1) 100%
-        );
+        // background: linear-gradient(
+        //   180deg,
+        //   rgba(31, 147, 151, 1) 0%,
+        //   rgba(85, 176, 171, 1) 100%
+        // );
+        // background: linear-gradient(180deg, rgba(69, 120, 201, 1) 0%, rgba(89, 126, 207, 1) 100%);
+        background: #3f5e96;
         border-radius: 2px 2px 0px 0px;
         border: 1px solid rgba(16, 99, 123, 1);
         color: #fff;
-        border-color: #42b983;
+        border-color: #3f5e96;
         .tags-view-content {
           color: #333333;
           .index {
-            background: #b6d7d8;
+            background: #9bbfc0;
           }
           .title,
           .el-icon-close {
@@ -341,7 +344,7 @@ export default {
   .hr {
     width: 100%;
     height: 3px;
-    background-color: #4baaa6;
+    background-color: #3f5e96;
   }
   .contextmenu {
     margin: 0;
@@ -367,32 +370,3 @@ export default {
 }
 </style>
 
-<style lang="scss">
-//reset element css of el-icon-close
-// .tags-view-wrapper {
-//   .tags-view-item {
-//     .el-icon-close {
-//       width: 16px;
-//       height: 16px;
-//       vertical-align: 2px;
-//       border-radius: 50%;
-//       text-align: center;
-//       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-//       transform-origin: 100% 50%;
-//       color: #000;
-//       &:before {
-//         transform: scale(0.6);
-//         display: inline-block;
-//         vertical-align: -3px;
-//       }
-//       &:hover {
-//         background-color: #b4bccc;
-//         color: #fff;
-//       }
-//       &:active {
-//         color: #fff;
-//       }
-//     }
-//   }
-// }
-</style>

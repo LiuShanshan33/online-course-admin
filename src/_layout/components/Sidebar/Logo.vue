@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      title: require('../image/宸瑞后台管理系统.png'),
+      title: require('../image/网络课程后台管理系统.png'),
       logo: require('../image/logo.png')
     }
   }
@@ -51,11 +51,11 @@ export default {
   width: 100%;
   height: 49px;
   line-height: 49px;
-  background-image: url('../image/矩形@2x(1).png');
+  // background-image: url('../image/矩形@2x(1).png');
   background-size: 1px 100%;
   .sidebar-logo-link{
   margin-top: 4px;
-  background-image: url('../image/标题背景图@2x.png');
+  // background-image: url('../image/标题背景图@2x.png');
   background-size: 1px 100%;
   border-radius:0px 10px 0px 0px;
   border-bottom-style: solid;
@@ -73,7 +73,7 @@ export default {
       width: 32px;
       height: 32px;
       vertical-align: middle;
-      margin-right: 12px;
+      margin-right: 6px;
     }
 
     & .sidebar-title {

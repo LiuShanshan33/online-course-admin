@@ -1,23 +1,25 @@
 // base color
 $blue:#324157;
-$light-blue:#3A71A8;
+$light-blue:#32425f;
 $red:#C03639;
 $pink: #E65D6E;
 $green: #30B08F;
 $tiffany: #4AB7BD;
 $yellow:#FEC171;
-$panGreen: #30B08F;
+$panGreen: #32425f;
 
 // sidebar
-$menuText:#333333;
-$menuActiveText:#333333;
-$subMenuActiveText:#FFFFFF; // https://github.com/ElemeFE/element/issues/12951
-$naveBg:linear-gradient(180deg, rgba(31, 147, 151, 1) 0%, rgba(85, 176, 171, 1) 100%);
-$menuBg:linear-gradient(180deg, rgba(241, 246, 249, 1) 0%, rgba(218, 234, 242, 1) 100%);
-$menuHover:#1F9397;
+$menuText:#adbacc; // 侧边栏子菜单文字颜色
+$menuActiveText:#cbd6e6; // 菜单选中文字的颜色
+$subMenuActiveText:#cbd6e6; // https://github.com/ElemeFE/element/issues/12951
+// $naveBg:linear-gradient(180deg, rgba(31, 147, 151, 1) 0%, rgba(85, 176, 171, 1) 100%);
+$naveBg:#1c2737;
+// $menuBg:linear-gradient(180deg, rgba(241, 246, 249, 1) 0%, rgba(218, 234, 242, 1) 100%);
+$menuBg:#1c2737;
+$menuHover:#32425f;
 
-$subMenuBg:#F8FDFF;
-$subMenuHover:#FFF6BF;
+$subMenuBg:#1c2737; //父级菜单颜色
+$subMenuHover:#32425f; //侧边栏鼠标滑过颜色
 
 $sideBarWidth: 200px;
 

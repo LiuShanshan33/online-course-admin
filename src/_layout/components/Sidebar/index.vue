@@ -2,7 +2,7 @@
   <div :class="{'has-logo':showLogo}" class="sider-container">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <div class="funtion-menu">
-      <div><img src="../image/功能菜单.png"></div>
+      <div><img src="../image/菜单.png"></div>
       <div><img src="../image/功能菜单(1).png"></div>
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
@@ -61,17 +61,16 @@ export default {
 .funtion-menu{
   display: flex;
   flex-direction: row;
-  background-image: url('../image/矩形@2x.png');
-  background-size: 1px 100%;
-  background-repeat:  repeat-x;
+  // background-image: url('../image/矩形@2x.png');
   position: relative;
   width: 100%;
   height: 42px;
-  border-right:1px solid #B2CDD2;
-  border-bottom:1px solid #B2CDD2;
+  // border-right:1px solid #B2CDD2;
+  border-top:1px solid #32425f;
+  border-bottom:1px solid #32425f;
   >div{
     padding-top: 10px;
-    padding-left: 12px;
+    padding-left: 16px;
   }
 }
 

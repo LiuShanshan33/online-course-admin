@@ -1,5 +1,5 @@
 module.exports = {
-  title: '护理后台管理系统',
+  title: '网络课程后台管理系统',
 
   /**
    * @type {boolean} true | false

@@ -65,15 +65,14 @@
 
     .el-submenu__title,
     .el-menu-item {
-      height: 32px; //父级和子级的行高
-      line-height: 32px !important;
-      padding-left: 40px !important; //父级图标文字居中
-
+      height: 36px; //父级和子级的行高
+      line-height: 36px !important;
+      padding-left: 50px !important; //父级图标文字居中
     }
 
     .el-submenu__title,
     .submenu-title-noDropdown {
-      border-bottom: 1px solid #C8CED1; //父级下边框分割线
+      border-bottom: 1px solid #2a3851; //父级下边框分割线
     }
 
     // .el-menu-item.submenu-title-noDropdown{
@@ -83,11 +82,11 @@
     //   }
     // }
     .el-scrollbar {
-      border-right: 1px solid #B2CDD2;
+      border-right: 1px solid #32425f;
     }
-
+    //
     .scrollbar-wrapper.el-scrollbar__wrap {
-      background-color: #f0f9fd;
+      background-color: #1c2737;
     }
 
     // menu hover
@@ -95,7 +94,7 @@
     .el-submenu__title {
       background-image: $menuBg;
       padding-left: 20px;
-
+      color:#adbacc!important;
       &:hover {
         // background-color: red !important;
         background-color: $menuHover !important;
@@ -105,7 +104,7 @@
     .submenu-title-noDropdown.is-active {
       //不能下拉菜单点击后的背景色
       color: $subMenuActiveText !important;
-      background: linear-gradient(180deg, rgba(31, 147, 151, 1) 0%, rgba(85, 176, 171, 1) 100%) !important; //父级被触发的背景色
+      background: #32425f !important; //父级被触发的背景色
     }
 
     .submenu-title-noDropdown & .nest-menu .el-submenu>.el-submenu__title,
@@ -218,6 +217,7 @@
   .el-menu-item {
     &:hover {
       // you can use $subMenuHover
+      color:#adbacc!important;
       background-color: $menuHover !important;
     }
   }

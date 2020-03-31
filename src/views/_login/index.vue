@@ -59,7 +59,7 @@
     <div class="bottom">
       <div class="container">
         <div class="login-footer">
-          <span>广州宸瑞普惠网络科技有限公司 版权所有</span>
+          <span>2020-毕业设计</span>
         </div>
       </div>
     </div>
@@ -277,7 +277,7 @@ $cursor: #333333;
   .el-button{
     width:320px !important;
     height:40px;
-    background:rgba(24,167,152,1);
+    background:#3f5e96;
     border-radius:3px;
     margin: 20px 25px;
   }
@@ -310,7 +310,7 @@ $light_gray:#eee;
     margin:auto;
   }
   .top{
-    height:80px;
+    height:72px;
     .login-logo{
       float:left;
       width: 258px;
@@ -322,7 +322,7 @@ $light_gray:#eee;
 
   .middle{
     height:600px;
-    background-image: url('../_login/components/image/背景图.png');
+    background-image: url('../_login/components/image/背景图2.png');
     background-color: $bg;
     background-position: center;
     .login-form {
@@ -371,7 +371,7 @@ $light_gray:#eee;
   }
   .bottom{
     width: 100%;
-    margin:17px 30%;
+    margin:17px 36%;
     .login-footer{
       font-size:12px;
       font-family:STSongti-SC-Regular,STSongti-SC;
