@@ -130,8 +130,8 @@
         <div class="hr-dashed"></div>
         <p class="announcement-title">{{announcementTitle}}</p>
         <p>&nbsp; 各位亲爱的教师用户：</p>
-        <p class="announcement-content">{{content}}</p>
-        <p class="more">查看更多>></p>
+        <p class="announcement-content">&nbsp; {{content}}</p>
+        <a class="more">查看更多>></a>
       </div>
     </div>
   </div>

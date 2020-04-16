@@ -247,9 +247,9 @@ export const constantRoutes = [{
         }
       },
       {
-        path: 'DeptInfo',
-        component: () => import('@/views/HospitalSet/DeptInfo/DeptInfo'),
-        name: 'DeptInfo',
+        path: 'uploadCourseware',
+        component: () => import('@/views/courseMg/coursewareMg/uploadCourseware.vue'),
+        name: 'UploadCourseware',
         meta: {
           isUseCache: true,
           keepAlive: true,
