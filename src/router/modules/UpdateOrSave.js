@@ -4,21 +4,21 @@ import Layout from '@/_layout'
 
 const UpdateRouter = [
   {
-    path: '/NursingSet',
+    path: '/UserMg',
     component: Layout,
     meta: {
-      title: ' 护理设置',
+      title: ' 用户管理',
       affix: false
     },
     children: [{
-        path: 'update-diagnose',
-        component: () => import('@/views/NursingSet/diagnose/updateDiagnose.vue'),
-        name: 'UpdateDiagnose',
+        path: 'updateStuInfoe',
+        component: () => import('@/views/UserMg/studentInfo/updatestuInfo.vue'),
+        name: 'UpdateStuInfo',
         hidden: true,
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 修改',
+          title: ' 修改学生信息',
           affix: false
         }
       },
@@ -239,7 +239,7 @@ const UpdateRouter = [
         }
       }
     ]
-  
+
 },
   {
     path: '/formSet',

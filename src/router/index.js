@@ -104,7 +104,7 @@ export const constantRoutes = [{
     ]
   },
   {
-    path: '/NursingSet',
+    path: '/UserMg',
     component: Layout,
     redirect: '/Home/working',
     meta: {
@@ -113,22 +113,11 @@ export const constantRoutes = [{
       affix: false,
       roles: ['admin', 'editor']
     },
-    children: [{
-        path: 'setting-assessment',
-        component: () => import('@/views/NursingSet/assessment/setting-assessment'),
-        name: 'Setting-Assessment',
-        hidden: true,
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 评估设置',
-          affix: false
-        }
-      },
+    children: [
       {
-        path: 'assess',
-        component: () => import('@/views/NursingSet/assessment/assessment.vue'),
-        name: 'Assess',
+        path: 'teacherInfo',
+        component: () => import('@/views/UserMg/teacherInfo/teacherInfo.vue'),
+        name: 'TeacherInfo',
         meta: {
           isUseCache: true,
           keepAlive: true,
@@ -137,9 +126,9 @@ export const constantRoutes = [{
         }
       },
       {
-        path: 'diagnose',
-        component: () => import('@/views/NursingSet/diagnose/diagnose'),
-        name: 'Diagonse',
+        path: 'studentInfo',
+        component: () => import('@/views/UserMg/studentInfo/studentInfo.vue'),
+        name: 'StudentInfo',
         meta: {
           isUseCache: true,
           keepAlive: true,
@@ -227,7 +216,7 @@ export const constantRoutes = [{
     ]
   },
   {
-    path: '/HospitalSet',
+    path: '/CourseMg',
     component: Layout,
     meta: {
       title: ' 课程管理',
@@ -235,13 +224,25 @@ export const constantRoutes = [{
       affix: false
     },
     children: [{
-        path: 'HospitalInfo',
-        component: () => import('@/views/HospitalSet/HospitalInfo/HospitalInfo'),
-        name: 'HospitalInfo',
+        path: 'coursewareMg',
+        component: () => import('@/views/courseMg/coursewareMg/coursewareMg.vue'),
+        name: 'CoursewareMg',
         meta: {
           isUseCache: true,
           keepAlive: true,
           title: ' 课程信息',
+          affix: false
+        }
+      },
+      {
+        path: 'coursewareDetail',
+        component: () => import('@/views/courseMg/coursewareMg/coursewareDetail.vue'),
+        name: 'CoursewareDetail',
+        hidden: true,
+        meta: {
+          isUseCache: true,
+          keepAlive: true,
+          title: ' 课件信息',
           affix: false
         }
       },
@@ -252,7 +253,7 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 课件管理',
+          title: ' 课件上传',
           affix: false
         }
       },
@@ -323,9 +324,9 @@ export const constantRoutes = [{
       noCache: true
     },
     children: [{
-        path: 'taskMg',
-        component: () => import('@/views/SystemMg/taskMg/taskMg'),
-        name: 'TaskMg',
+        path: 'schoolInfo',
+        component: () => import('@/views/SystemMg/SchoolInfo/schoolInfo.vue'),
+        name: 'SchoolInfo',
         meta: {
           isUseCache: true,
           keepAlive: true,
@@ -373,7 +374,7 @@ export const constantRoutes = [{
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 权限管理',
+          title: ' 修改密码',
           affix: false
         }
       },

@@ -3,15 +3,39 @@
 import Layout from '@/_layout'
 
 const AddSaveRouter = [{
-  path: '/NursingSet',
+  path: '/UserMg',
   component: Layout,
   meta: {
     isUseCache: false,
     keepAlive: true,
-    title: ' 护理设置',
+    title: ' 用户管理',
     affix: false
   },
-  children: [{
+  children: [
+    {
+      path: 'addStuInfo',
+      component: () => import('@/views/UserMg/studentInfo/addstuInfo.vue'),
+      name: 'AddStuInfo',
+      hidden: true,
+      meta: {
+        isUseCache: true,
+        keepAlive: true,
+        title: ' 添加学生信息',
+        affix: false
+      }
+    },
+    {
+      path: 'addteacherInfo',
+      component: () => import('@/views/UserMg/studentInfo/addstuInfo.vue'),
+      name: 'AddStuInfo',
+      hidden: true,
+      meta: {
+        isUseCache: true,
+        keepAlive: true,
+        title: ' 添加学生信息',
+        affix: false
+      }
+    },{
     path: 'create-template',
     component: () => import('@/views/NursingSet/mission-template/create-template.vue'),
     name: 'Create-Template',
@@ -55,18 +79,8 @@ const AddSaveRouter = [{
       title: ' 添加床位',
       affix: false
     }
-  }, {
-    path: 'addDept',
-    component: () => import('@/views/HospitalSet/DeptInfo/addDept.vue'),
-    name: 'AddDept',
-    hidden: true,
-    meta: {
-      isUseCache: true,
-      keepAlive: true,
-      title: ' 添加科室',
-      affix: false
-    }
-  }, {
+  },
+  {
     path: 'addStaff',
     component: () => import('@/views/HospitalSet/StaffInfo/addStaff.vue'),
     name: 'AddStaff',

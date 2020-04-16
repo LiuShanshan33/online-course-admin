@@ -8,11 +8,21 @@
     <div class="content">
       <div class="scoll" :style="conheight">
           <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" size="mini">
-            <el-form-item label="组织机构代码">
+            <el-form-item label="院校代码">
               <el-input v-model="ruleForm.code" />
             </el-form-item>
-            <el-form-item label="医院名称" prop="name">
+            <el-form-item label="学校名称" prop="name">
               <el-input v-model="ruleForm.name" />
+            </el-form-item>
+            <el-form-item label="学校级别">
+              <el-select v-model="ruleForm.grade" placeholder="请输入">
+                <el-option v-for="grades in gradeItems" :key="grades" :value="grades" />
+              </el-select>
+            </el-form-item>
+             <el-form-item label="所在校区">
+              <el-select v-model="ruleForm.type" placeholder="请选择">
+                <el-option v-for="types in typeItems" :key="types" value="湛江校区" />
+              </el-select>
             </el-form-item>
             <el-form-item label="电话">
               <el-input v-model="ruleForm.telephone" />
@@ -22,19 +32,6 @@
             </el-form-item>
             <el-form-item label="邮政编码" prop="zipCode">
               <el-input v-model="ruleForm.zipCode" />
-            </el-form-item>
-            <el-form-item label="编制床位" prop="bedNum">
-              <el-input v-model="ruleForm.bedNum" />
-            </el-form-item>
-            <el-form-item label="医院类型">
-              <el-select v-model="ruleForm.type" placeholder="请选择">
-                <el-option v-for="types in typeItems" :key="types" :value="types" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="医院级别">
-              <el-select v-model="ruleForm.grade" placeholder="请输入">
-                <el-option v-for="grades in gradeItems" :key="grades" :value="grades" />
-              </el-select>
             </el-form-item>
             <el-form-item label="描述">
               <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
