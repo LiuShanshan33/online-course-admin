@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 // 护理诊断：删除接口
-export function deleteDiagnose(id) {
+export function deleteTeaInfo(id) {
   return request({
-    url: `/admin/busDiagnosis/delete/${id}`,
-    method: 'post',
+    url: `/tea/delete/${id}`,
+    method: 'get',
     id
   })
 }

@@ -5,44 +5,38 @@
       <hr>
     </div>
     <div class="content">
-      <el-form ref="DeptForm" :model="DeptForm" :rules="rules" label-width="100px" size="mini">
-        <el-form-item label="教师姓名" prop="code">
-          <el-input v-model="DeptForm.code" />
+      <el-form ref="TeaForm" :model="TeaForm" :rules="rules" label-width="100px" size="mini">
+        <el-form-item label="教师姓名" prop="tname">
+          <el-input v-model="TeaForm.tname" />
         </el-form-item>
-        <el-form-item label="学号" prop="name">
-          <el-input v-model="DeptForm.name" />
+        <el-form-item label="工号" prop="tid">
+          <el-input v-model="TeaForm.tid" />
         </el-form-item>
-        <el-form-item label="性别">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+        <el-form-item label="性别" prop="tsex">
+          <el-select v-model="TeaForm.tsex" placeholder="请选择">
+            <el-option v-for="o in TsexOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="年级">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+        <el-form-item label="职称">
+          <el-select v-model="TeaForm.positon" placeholder="请选择">
+            <el-option v-for="Positon in PositonOptions" :key="Positon" :value="Positon" />
           </el-select>
         </el-form-item>
         <el-form-item label="校区">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="TeaForm.tcampus" placeholder="请选择">
+            <el-option v-for="o in campusOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-         <el-form-item label="所属学院">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="专业">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+        <el-form-item label="所属学院">
+          <el-select v-model="TeaForm.tcollege" placeholder="请选择">
+            <el-option v-for="o in collegeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="DeptForm.name" />
+          <el-input v-model="TeaForm.tphone" />
         </el-form-item>
-
         <el-form-item size="small">
-          <el-button class="add-botton" @click="saveDept('DeptForm')">保存</el-button>
+          <el-button class="add-botton" @click="saveTeaForm('TeaForm')">保存</el-button>
           <el-button @click="closeForm(tag)">关闭</el-button>
         </el-form-item>
       </el-form>
@@ -51,29 +45,31 @@
 </template>
 
 <script>
-import { saveDeptInfo } from '@/api/addOrSave'
+import { updateTeaInfo } from '@/api/addOrSave'
 
 export default {
-  name: 'UpdateStuInfo',
+  name: 'UpdateTeacherInfo',
   data() {
     return {
-      DeptForm: {
+      TeaForm: {
         id: this.$route.query.id,
-        code: this.$route.query.code,
-        name: this.$route.query.name,
-        alias: this.$route.query.alias,
-        bigDept: this.$route.query.bigDept,
-        type: this.$route.query.type,
-        symbol: this.$route.query.symbol,
-        postion: this.$route.query.postion,
-        intro: this.$route.query.intro
+        tphone: this.$route.query.tphone,
+        tname: this.$route.query.tname,
+        tid: this.$route.query.tid,
+        tcampus: this.$route.query.tcampus,
+        tsex: this.$route.query.tsex,
+        positon: this.$route.query.positon,
+        tcollege: this.$route.query.tcollege
       },
-      TypeOptions: ['其他', '门诊', '住院', '护理单元', '药房', '财务'], // 类型选择
+      TsexOptions: ['男', '女'], // 性别选择
+      PositonOptions: ['高级教师', '讲师'], // 职称选择
+      campusOptions: ['湛江校区', '东莞校区'], // 校区选择
+      collegeOptions: ['生物医学工程学院', '基础医学院'], // 学院选择
       rules: {
-        code: [
+        tname: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ],
-        name: [
+        tid: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ]
       }
@@ -82,11 +78,18 @@ export default {
   created() {
   },
   methods: {
-    saveDept(formName) {
+    saveTeaForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveDeptInfo(this.DeptForm).then(response => {
-            this.DeptForm = response.data
+          const id = this.TeaForm.id
+          const tphone = this.TeaForm.tphone
+          const tcampus = this.TeaForm.tcampus
+          const tid = this.TeaForm.tid
+          const tname = this.TeaForm.tname
+          const tsex = this.TeaForm.tsex
+          const positon = this.TeaForm.positon
+          const tcollege = this.TeaForm.tcollege
+          updateTeaInfo(id, tname, tsex, tid, tphone, tcampus, tcollege, positon).then(response => {
             this.$message({
               type: 'success',
               message: '保存成功'

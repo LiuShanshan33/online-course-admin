@@ -6,8 +6,8 @@
     <div class="left-menu">
       <div class="image"><img src="../components/image/用户 (2).png"></div>
       <!-- <span>当前登录用户：{{ user.user.empName }} - {{ user1.user.empName }}  - {{ empName }}</span> -->
-      <span>当前登录用户：{{ user1.user.empNo }}</span>&nbsp;
-      <span>用户角色：{{ user1.user.empName }}</span>
+      <span>当前登录用户：{{ userInfo.userString }}</span>&nbsp;
+      <span>用户角色：{{ userInfo.roleString }}</span>
     </div>
     <div class="right-menu">
       <template v-if="device!=='mobile'">
@@ -49,6 +49,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { getInfo } from '@/api/user'
 // import Breadcrumb from '@/components/Breadcrumb'
 // import Hamburger from '@/components/Hamburger'
 // import ErrorLog from '@/components/ErrorLog'
@@ -65,6 +66,14 @@ export default {
     // SizeSelect,
     // Search
   },
+  data() {
+    return {
+      userInfo: {
+        roleString: '',
+        userString: ''
+      }
+    }
+  },
   computed: {
     user1() {
       return this.$store.state.user
@@ -78,6 +87,9 @@ export default {
       'device'
     ])
   },
+  created() {
+    this.getUserInfo()
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
@@ -88,7 +100,14 @@ export default {
     },
     handleLogout() {
       this.$store.dispatch('user/logout')
-    }
+    },
+    getUserInfo() {
+      getInfo().then(res => {console.log('NavBar测试用户角色', res)
+        this.userInfo.roleString = res.data.data.roleString
+        this.userInfo.userString = res.data.data.userString
+        // this.$store.dispatch('/user', res.data.data)
+      })
+    }
   }
 }
 </script>

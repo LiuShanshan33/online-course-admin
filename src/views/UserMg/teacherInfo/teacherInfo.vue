@@ -58,21 +58,21 @@
     <div class="panelBar">
       <ul class="toolBar">
         <li>
-          <a @click="dialogFormVisible = true">
+          <a @click="addTeacherInfo">
             <img src="../../../views/images/添加.png" style="width: 17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
-          <a @click="dbhandleCurrentChange">
+          <a @click="updateTeacherInfo">
             <img src="../../../views/images/编辑.png" style="width: 17px">
             <span class="barIcon">修改</span>
           </a>
         </li>
         <!-- style="vertical-align: text-bottom;width: 17px;height: 17px" -->
         <li>
-          <a>
-            <img src="../../../views/images/删除.png"  style="width: 17px">
+          <a @click="deleteRow">
+            <img src="../../../views/images/删除.png" style="width: 17px">
             <span class="barIcon">删除</span>
           </a>
         </li>
@@ -93,38 +93,26 @@
       :header-cell-style="{background:'#F0F5F7', color:'#333333'}"
       :cell-style="{padding:'3px 2px'}"
       @row-click="checkViews"
-      @row-dblclick="dbhandleCurrentChange"
+      @row-dblclick="updateTeacherInfo"
     >
       <!-- 序号 -->
       <el-table-column label="序号" type="index" align="center" width="50px" />
       <!-- 名称 -->
-      <el-table-column label="教师姓名" prop="name" align="left" width="160px" />
+      <el-table-column label="教师姓名" prop="tname" align="left" width="160px" />
       <!-- 表单编码 -->
-      <el-table-column label="工号" prop="formCode" align="left" min-width="160px" />
+      <el-table-column label="工号" prop="tid" align="left" min-width="160px" />
       <!-- 表单版本 -->
-      <el-table-column label="性别" prop="formVersion" align="center" width="80px" />
-      <el-table-column label="职称" prop="type" align="left" width="160px">
-        <template slot-scope="scope">
-          {{ map[scope.row.type] }}
-          <!-- {{ scope.row.type == 1 ? '表单' : scope.row.type == 2 ?'列表': '列表和打印' }} -->
-        </template>
-      </el-table-column>
-      <el-table-column label="所属学院" prop="status" align="left" width="160px">
-        <template slot-scope="{row}">
-          {{ row.status =='1' ?'已启用':'已禁用' }}
-          <!-- {{ row.status }} -->
-        </template>
-      </el-table-column>
-       <!-- 手机号 -->
-      <el-table-column label="手机号" prop="formCode" align="left" min-width="200px" />
+      <el-table-column label="性别" prop="tsex" align="center" width="80px" />
+      <el-table-column label="职称" prop="positon" align="left" width="160px" />
+      <el-table-column label="所属学院" prop="tcollege" align="left" width="160px" />
+      <!-- 手机号 -->
+      <el-table-column label="手机号" prop="tphone" align="left" min-width="200px" />
       <el-table-column label="操作" prop="formOperateType" align="center" min-width="80">
-        <template slot-scope="{ row }">
-          <el-button
-            type="text"
-            size="mini"
-            @click="handleStatus(row,'2')"
-          >重置密码</el-button>
-        </template>
+        <el-button
+          type="text"
+          size="mini"
+          @click="resetPwd"
+        >重置密码</el-button>
       </el-table-column>
     </el-table>
     <!-- 记录条数 分页-->
@@ -139,11 +127,12 @@
 </template>
 
 <script>
+import { getInfo } from '@/api/user'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getPage_1 } from '@/api/user'
-import { enableStatus, disableStatus } from '@/api/columnBtn'
+import { getTeaInfo } from '@/api/user'
+import { deleteTeaInfo } from '@/api/delete'
 
 // 类型
 const TypeOptions = [
@@ -189,11 +178,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 20,
-        name: '',
-        type: '',
-        status: '',
-        sort: '+id'
+        pageSize: 10
       },
       StatusOptions, // 状态选择
       TypeOptions, // 类型
@@ -223,31 +208,58 @@ export default {
   },
   created() {
     this.getList()
+    this.getUserInfo()
   },
   methods: {
+    // 测试用户角色
+    getUserInfo() {
+      getInfo().then(res => {
+        console.log('测试用户角色', res)
+      })
+    },
+    // 判断是否选择某行
     checkViews: function(data) {
       this.form = data
       this.ableCheck = true
-      console.log('有变化么', this.form)
+      console.log('选中行的信息', this.form)
       // console.log(this.form.title)
     },
-    // 添加学生信息
+    // 添加教师信息
     addTeacherInfo() {
       this.$router.push({ path: '../teacherInfo/addteacherInfo.vue', name: 'AddTeacherInfo' })
     },
+    // 修改教师信息
+    updateTeacherInfo: function(form) {
+      if (this.ableCheck) {
+        this.$router.push({
+          path: '../teacherInfo/updateteacherInfo.vue',
+          name: 'UpdateTeacherInfo',
+          query: {
+            id: this.form.id,
+            tphone: this.form.tphone,
+            tname: this.form.tname,
+            tid: this.form.tid,
+            tcampus: this.form.tcampus,
+            tsex: this.form.tsex,
+            positon: this.form.positon,
+            tcollege: this.form.tcollege
+          }
+        })
+      } else {
+        this.$confirm('请先选择表单', '查看提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
+      }
+    },
     getList() {
       this.listLoading = true
-      const data = {
-        pageIndex: this.listQuery.pageIndex,
-        pageSize: this.listQuery.pageSize,
-        name: this.listQuery.name,
-        type: this.listQuery.type,
-        status: this.listQuery.status
-      }
-      getPage_1(data).then(response => {
-        this.list = response.data.list
-        this.total = response.data.count
-        console.log('测试长度', this.list.length)
+      console.log(this.listQuery.pageIndex)
+      getTeaInfo(this.listQuery.pageIndex).then(response => {
+        console.log('接口测试', response)
+        this.list = response.data.content
+        this.total = response.data.totalElements
+        console.log('this.list', this.list)
         if (this.list.length === 0) {
           this.$confirm('未搜到相关表单！', '搜索提示', {
             confirmButtonText: '确定',
@@ -270,66 +282,44 @@ export default {
         this.getList()
       }
     },
-    dbhandleCurrentChange: function(form) {
-      if (this.ableCheck) {
-        this.$router.push({
-          path: '../NursingSet/setting-assessment',
-          name: 'Setting-Assessment',
-          query: {
-            name: this.form.name,
-            publicUse: this.form.publicUse,
-            deptCode: this.form.deptCode,
-            unit: this.form.unit,
-            evalState: this.form.evalState,
-            executorName: this.form.executorName,
-            printDesc: this.form.printDesc,
-            evalCurveX: this.form.evalCurveX,
-            evalCurveY: this.form.evalCurveY,
-            seqNo: this.form.seqNo,
-            intro: this.form.intro,
-            id: this.form.id
-          }
+
+    // 重置密码
+  resetPwd() {
+      this.$confirm('确定重置该用户的密码吗?', '重置密码提示', {
+        cancelButtonText: '取消',
+        confirmButtonText: '确定',
+        type: 'warning'
+      })
+        .then(() => {
+            this.$message({
+              type: 'success',
+              message: '密码已重置'
+            })
         })
-      } else {
-        this.$confirm('请先选择表单', '查看提示', {
-          confirmButtonText: '确定',
-          type: 'warning'
-        })
-      }
     },
-    // (row,) {
-    //   this.$router.push({ path: '../NursingSet/setting-assessment' })
-    // },
-    // 禁用启用状态
-    handleStatus(row, status) {
-      if (row.status === '1') {
-        this.$confirm('确定禁用此表单?', '禁用提示', {
+     // 删除
+    deleteRow() {
+      if (this.ableCheck) {
+        this.$confirm('确定删除此行信息?', '删除提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确定',
           type: 'warning'
         })
-          .then(() => {
-            disableStatus(row.id)
-            row.status = status
-            this.$message({
-              type: 'success',
-              message: '操作成功'
+        .then(() => {
+          deleteTeaInfo(this.form.id)
+            .then(() => {
+              this.getList()
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
             })
-          })
+        })
       } else {
-        this.$confirm('确定启用此表单?', '启用提示', {
-          cancelButtonText: '取消',
+        this.$confirm('请先选择表单', '删除提示', {
           confirmButtonText: '确定',
           type: 'warning'
         })
-          .then(() => {
-            disableStatus(row.id)
-            row.status = status
-            this.$message({
-              type: 'success',
-              message: '操作成功'
-            })
-          })
       }
     }
   }

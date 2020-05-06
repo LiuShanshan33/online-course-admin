@@ -50,8 +50,8 @@
     <!-- 表格 -->
     <el-table
       :key="tableKey"
-      v-loading="listLoading"
       ref="NodeTable"
+      v-loading="listLoading"
       :data="list"
       size="mini"
       :height="tableHeight"
@@ -157,7 +157,7 @@ export default {
       list: null,
       total: 0,
       id: '',
-      delarr:[],
+      delarr: [],
       // NodeTable: {},
       ableCheck: false,
       listLoading: true,
@@ -281,6 +281,7 @@ export default {
         })
     },
     handleSelectionChange(val) {
+        this.ableCheck = true
         this.multipleSelection = val
         console.log('多选选中的行', this.multipleSelection)
     },
@@ -291,7 +292,7 @@ export default {
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          for(let i = 0 ; i < this.multipleSelection.length; i++){
+          for (let i = 0; i < this.multipleSelection.length; i++) {
             console.log(this.multipleSelection[i].nodeCode)
             deleteNodeCode(this.multipleSelection[i].nodeCode)
           }
@@ -309,7 +310,7 @@ export default {
           type: 'warning'
         })
       }
-    },
+    }
   }
 }
 </script>

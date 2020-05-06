@@ -45,37 +45,37 @@
       <div class="unit-right">
         <div class="countsInfo">
           <div class="count-icon">
-            <img src="../home/components/image/课件.png" width="30px" />
+            <img src="../home/components/image/课件.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{this.coursewareCount}}</span>
+            <span class="counts">{{ coursewareCount }}</span>
             <span class="count-text">系统总课件数</span>
           </div>
         </div>
         <div class="countsInfo">
           <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px" />
+            <img src="../images/文件夹@2x.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{this.coursewareCount}}</span>
+            <span class="counts">{{ coursewareCount }}</span>
             <span class="count-text">系统总课程数</span>
           </div>
         </div>
         <div class="countsInfo">
           <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px" />
+            <img src="../images/文件夹@2x.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{this.coursewareCount}}</span>
+            <span class="counts">{{ coursewareCount }}</span>
             <span class="count-text">教师用户数量</span>
           </div>
         </div>
         <div class="countsInfo">
           <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px" />
+            <img src="../images/文件夹@2x.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{this.coursewareCount}}</span>
+            <span class="counts">{{ coursewareCount }}</span>
             <span class="count-text">学生用户数量</span>
           </div>
         </div>
@@ -114,7 +114,7 @@
           <div class="functions">课件上传</div>
           <div class="functions">修改密码</div>
           <div class="add-functions">
-            <img src="../home/components/image/添加.png" width="40px" />
+            <img src="../home/components/image/添加.png" width="40px">
           </div>
         </div>
       </div>
@@ -123,14 +123,14 @@
           <p class="text">{{ nowYear }}</p>
           <span class="date-text">{{ nowDate + ' '+ nowWeek }}</span>
         </div>
-        <Calendar :sundayStart="true"></Calendar>
+        <Calendar :sunday-start="true" />
       </div>
       <div class="block">
         <span class="left-title">最新公告</span>
-        <div class="hr-dashed"></div>
-        <p class="announcement-title">{{announcementTitle}}</p>
+        <div class="hr-dashed" />
+        <p class="announcement-title">{{ announcementTitle }}</p>
         <p>&nbsp; 各位亲爱的教师用户：</p>
-        <p class="announcement-content">&nbsp; {{content}}</p>
+        <p class="announcement-content">&nbsp; {{ content }}</p>
         <a class="more">查看更多>></a>
       </div>
     </div>
@@ -142,7 +142,7 @@ import { getMoudleOptions } from '@/api/moudle'
 import { systemInfo } from '@/api/system'
 import { json } from '@/json/moudle.js'
 import draggable from 'vuedraggable'
-import Calendar from "vue-calendar-component";
+import Calendar from 'vue-calendar-component'
 // import { version } from 'punycode'
 export default {
   // name: 'Working',
@@ -158,12 +158,12 @@ export default {
       nowWeek: '', // 当前星期
       nowYear: '', // 当前年份
       info: '',
-      coursewareCount: '1580', //系统总课件数
-      announcementTitle: '服务暂停通知', //公告标题
+      coursewareCount: '1580', // 系统总课件数
+      announcementTitle: '服务暂停通知', // 公告标题
       content: '根据近期各位老师对于课件上传功能的意见反馈，我们决定于5月1日0:00 - 24:00对此模块进行更新维护，维护期间此功能暂停开放，请需要上传课件的老师于5月2日登录系统进行上传，感谢各位的理解与合作。',
       options: [],
       empNo: this.$store.state.user.user.empNo,
-      data: json,
+      data: json
 
     }
   },
@@ -183,17 +183,17 @@ export default {
   //   }
   // },
   methods: {
-    async getList() {
-      await getMoudleOptions(this.empNo).then(response => {
-        this.options = response.data.options
-      })
-      console.log("获取json文件的数据", this.data)
-      console.log("获取排序的选项", this.options)
-    },
+    // async getList() {
+    //   await getMoudleOptions(this.empNo).then(response => {
+    //     this.options = response.data.options
+    //   })
+    //   console.log("获取json文件的数据", this.data)
+    //   console.log("获取排序的选项", this.options)
+    // },
     currentTime() {
       setInterval(this.getDate, 500)
     },
-    getDate: function () {
+    getDate: function() {
       var _this = this
       const yy = new Date().getFullYear()
       const mm = new Date().getMonth() + 1

@@ -55,8 +55,8 @@ module.exports = {
       'after': true
     }],
     'handle-callback-err': [2, '^(err|error)$'],
-    'indent': ['2', 2, {
-      'SwitchCase': 1
+    'indent': ['0', 0, {
+      'SwitchCase': 0
     }],
     'jsx-quotes': [2, 'prefer-single'],
     'key-spacing': [2, {
@@ -98,7 +98,7 @@ module.exports = {
     'no-implied-eval': 2,
     'no-inner-declarations': [2, 'functions'],
     'no-invalid-regexp': 2,
-    'no-irregular-whitespace': 2,
+    'no-irregular-whitespace': "off",
     'no-iterator': 2,
     'no-label-var': 2,
     'no-labels': [2, {

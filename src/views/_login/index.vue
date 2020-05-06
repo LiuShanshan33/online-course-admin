@@ -70,6 +70,7 @@
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 import { login } from '@/api/user'
+
 export default {
   name: 'Login',
   components: { SocialSign },
@@ -82,21 +83,26 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (!validUsername(value) && value.length < 6) {
-        callback(new Error('账号或密码输入有误，请重新输入'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePassword = (rule, value, callback) => {
+    //   if (!validUsername(value) && !'') {
+    //     callback(new Error('账号或密码输入有误'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'ad123456'
+        username: '开发',
+        password: '321'
       },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      items: null,
+      // loginRules: {
+      //   username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+      //   password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      // },
+       loginRules: {
+        username: [{ required: true, trigger: 'blur' }],
+        password: [{ required: true, trigger: 'blur' }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -163,36 +169,30 @@ export default {
         this.$message.error('请输入密码')
         return
       }
-
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          // this.$store.dispatch('user/login', this.loginForm)
-          //   .then(() => {
-          //     this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-          //     this.loading = false
-          //   })
-          //   .catch(() => {
-          //     this.loading = false
-          //   })
-          login(this.loginForm.username, this.loginForm.password).then(res => {
-            console.log(res, 'res')
-
-            this.$store.dispatch('user/login', res)
-
-            // this.$store.dispatch('user/logout', res)
-
+          console.log('验证测试', this.loginForm)
+          const data = {
+            username: this.loginForm.username,
+            password: this.loginForm.password
+          }
+          login(this.loginForm.username, this.loginForm.password).then(response => {
+            console.log('返回数据', response)
+            this.$store.dispatch('user/login', response)
             this.loading = false
             this.$message.success('登录成功')
             // 登录成功后跳转到工作台首页
             this.$router.push('/Home/working')
-          }).catch((e) => {
-            // this.$message.error('账号/密码不正确请重新输入')
-            // new Error('账号或密码输入有误，请重新输入')
-            this.loading = false
           })
+          // .catch((e) => {
+          //   // this.$message.error('账号/密码不正确请重新输入')
+          //   // new Error('账号或密码输入有误，请重新输入')
+          //   console.log('错误捕捉返回')
+          //   this.loading = false
+          // })
         } else {
-          console.log('error submit!!')
+          console.log('error submit!!', this.loginForm)
           return false
         }
       })

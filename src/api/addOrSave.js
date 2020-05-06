@@ -1,19 +1,21 @@
 import request from '@/utils/request'
 import qs from 'qs'
-// 护理诊断：修改保存接口
-export function saveDiagnose(data) {
+// tphone,tcampus,tid,tname,tsex,positon,tcollege
+// 添加教师信息
+export function addTeaInfo(tname, tsex, tid, tphone, tcampus, tcollege, positon) {
   return request({
-    url: '/admin/busDiagnosis/saveOrUpdate',
+    url: '/tea/add',
     method: 'post',
-    data
+    data: qs.stringify({ tname, tsex, tid, tphone, tcampus, tcollege, positon })
   })
 }
-// 护理等级：保存或修改
-export function saveGrade(data) {
+
+// 修改教师信息
+export function updateTeaInfo(id, tname, tsex, tid, tphone, tcampus, tcollege, positon) {
   return request({
-    url: '/admin/busNursingClass/save',
+    url: '/tea/update',
     method: 'post',
-    data
+    data: qs.stringify({ id, tname, tsex, tid, tphone, tcampus, tcollege, positon })
   })
 }
 // 宣教模板：保存或修改
@@ -167,7 +169,6 @@ export function saveVersion(data) {
   })
 }
 
-
 // MEWS表单关联保存
 export function saveMewsFormRelDept(data) {
   return request({
@@ -299,7 +300,7 @@ export function saveOrUpdateAllByWard(data) {
   })
 }
 
-//模板字典编码排序：保存更新
+// 模板字典编码排序：保存更新
 export function saveOrUpdateDictSort(data) {
   return request({
     url: '/dictCodeOrder/saveOrUpdate',

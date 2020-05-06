@@ -135,8 +135,8 @@ export const constantRoutes = [{
           title: ' 学生管理',
           affix: false
         }
-      },
-      /*{
+      }
+      /* {
         path: 'grade',
         component: () => import('@/views/NursingSet/grade/grade'),
         name: 'Grade',
@@ -256,8 +256,8 @@ export const constantRoutes = [{
           title: ' 课件上传',
           affix: false
         }
-      },
-      /*{
+      }
+      /* {
         path: 'BedInfo',
         component: () => import('@/views/HospitalSet/BedInfo/BedInfo'),
         name: 'BedInfo',
@@ -317,7 +317,6 @@ export const constantRoutes = [{
   {
     path: '/SystemMg',
     component: Layout,
-    redirect: '/SystemMg/index',
     meta: {
       title: ' 系统管理',
       icon: require('../_layout/components/image/系统管理.png'),
@@ -377,8 +376,8 @@ export const constantRoutes = [{
           title: ' 修改密码',
           affix: false
         }
-      },
-      /*{
+      }
+      /* {
         path: 'appAuthorization',
         component: () => import('@/views/SystemMg/appAuthorization/appAuthorization'),
         name: 'AppAuthorization',
@@ -489,7 +488,7 @@ export const constantRoutes = [{
         }
       }*/
     ]
-  },
+  }
   // {
   //   path: '/LogSet',
   //   component: Layout,
@@ -536,8 +535,6 @@ export const constantRoutes = [{
   //   ]
   // }
 ]
-
-
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support

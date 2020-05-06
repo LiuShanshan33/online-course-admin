@@ -1,48 +1,68 @@
 <template>
-<el-scrollbar style="height:100%">
-  <div class="container">
-    <div class="top-container">
-      <div class="content-title">课件上传</div>
-      <hr>
-    </div>
-    <div class="content">
-      <div class="scoll" :style="conheight">
+  <el-scrollbar style="height:100%">
+    <div class="container">
+      <div class="top-container">
+        <div class="content-title">课件上传</div>
+        <hr>
+      </div>
+      <div class="content">
+        <div class="scoll" :style="conheight">
           <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="80px" size="mini">
             <el-form-item label="课件类型">
-              <el-input v-model="ruleForm.code" />
+              <el-select v-model="TypeOptions" placeholder="请选择">
+                <el-option
+                  v-for="item in TypeOptions"
+                  :key="item.key"
+                  :label="item.display_name"
+                  :value="item.display_name"
+                />
+              </el-select>
             </el-form-item>
             <el-form-item label="教学科目" prop="name">
-              <el-input v-model="ruleForm.name" />
+              <el-select v-model="TypeOptions" placeholder="请选择">
+                <el-option
+                  v-for="item in TypeOptions"
+                  :key="item.key"
+                  :label="item.display_name"
+                  :value="item.display_name"
+                />
+              </el-select>
             </el-form-item>
             <el-form-item label="课程类别" prop="name">
-              <el-radio v-model="radio" label="公共课">公共课</el-radio>
-              <el-radio v-model="radio" label="专业课">专业课</el-radio>
+              <el-radio-group v-model="radio" @change="radioChange">
+                <el-radio :label="0">公共课</el-radio>
+                <el-radio :label="1">专业课</el-radio>
+              </el-radio-group>
             </el-form-item>
-            <el-form-item label="院系专业">
+            <el-form-item v-if="radio" label="院系专业">
               <el-cascader
                 :options="options"
                 :props="cascaderProp"
-                clearable></el-cascader>
+                size="medium"
+                class="cascader"
+                clearable
+              />
             </el-form-item>
-             <el-form-item label="所在校区">
-              <el-select v-model="ruleForm.type" placeholder="请选择">
-                <el-option v-for="types in typeItems" :key="types" value="湛江校区" />
-              </el-select>
+            <el-form-item label="上传课件">
+              <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="3"
+                :on-exceed="handleExceed"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">请选择需要上传的课件，一次不超过3个</div>
+              </el-upload>
             </el-form-item>
-            <el-form-item label="电话">
-              <el-input v-model="ruleForm.telephone" />
-            </el-form-item>
-            <el-form-item label="地址" prop="address">
-              <el-input v-model="ruleForm.address" />
-            </el-form-item>
-            <el-form-item label="邮政编码" prop="zipCode">
-              <el-input v-model="ruleForm.zipCode" />
-            </el-form-item>
-            <el-form-item label="描述">
+            <el-form-item label="课件描述">
               <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="saveHosInfo('ruleForm')">保存</el-button>
+              <el-button type="primary" @click="saveHosInfo('ruleForm')">确认上传</el-button>
               <!-- <el-button @click="resetForm('ruleForm')">取消</el-button> -->
             </el-form-item>
           </el-form></div>
@@ -55,14 +75,27 @@
 import { getHospital } from '@/api/user'
 import { saveHospital } from '@/api/addOrSave'
 
+// 类型
+const TypeOptions = [
+  { key: '1', display_name: '视频' },
+  { key: '2', display_name: 'PPT' },
+  { key: '3', display_name: 'Word文档' }
+]
+const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
+  acc[cur.key] = cur.display_name
+  return acc
+}, {})
 export default {
   name: 'HospitalInfo',
   data() {
     return {
-      radio: ['公共课', '专业课'],
-      typeItems: ['综合', '专科'],
-      gradeItems: ['特级', '三甲', '三乙', '三丙', '二甲', '二乙', '二丙', '一甲', '一乙', '一丙'],
-      ruleForm: {},
+      radio: 0,
+      fileList: '',
+      Campus: ['湛江校区', '东莞校区'],
+      TypeOptions,
+      ruleForm: {
+        type: '视频'
+      },
       conheight: {
         height: ''
       },
@@ -82,7 +115,7 @@ export default {
       },
       options: [{
           value: 'zhinan',
-          label: '指南',
+          label: '2016',
           children: [{
             value: 'shejiyuanze',
             label: '设计原则',
@@ -112,7 +145,7 @@ export default {
           }]
         }, {
           value: 'zujian',
-          label: '组件',
+          label: '2017',
           children: [{
             value: 'basic',
             label: 'Basic',
@@ -263,7 +296,7 @@ export default {
           }]
         }, {
           value: 'ziyuan',
-          label: '资源',
+          label: '2018',
           children: [{
             value: 'axure',
             label: 'Axure Components'
@@ -276,9 +309,9 @@ export default {
           }]
         }],
       cascaderProp: {
-        multiple: true, 
+        multiple: true,
         checkStrictly: true
-      }   
+      }
     }
   },
   created() {
@@ -289,6 +322,21 @@ export default {
   methods: {
     tableHeight() {
       this.conheight.height = window.innerHeight - 140 + 'px'
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    radioChange($event) {
+      console.log('选中状态改变时radio的值', this.radio)
     },
     getHosInfo() {
       this.listLoading = false
@@ -335,16 +383,8 @@ export default {
 .el-textarea {
   width: 50%;
 }
-.el-button {
-  width: 75px;
-  height: 30px;
-  &:nth-last-of-type(1) {
-    background: linear-gradient(
-      180deg,
-      rgba(31, 147, 151, 1) 0%,
-      rgba(85, 176, 171, 1) 100%
-    );
-    border-radius: 2px;
-  }
+.cascader{
+  width: 50%;
 }
+
 </style>

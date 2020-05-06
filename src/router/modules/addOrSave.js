@@ -26,34 +26,22 @@ const AddSaveRouter = [{
     },
     {
       path: 'addteacherInfo',
-      component: () => import('@/views/UserMg/studentInfo/addstuInfo.vue'),
-      name: 'AddStuInfo',
+      component: () => import('@/views/UserMg/teacherInfo/addteacherInfo.vue'),
+      name: 'AddTeacherInfo',
       hidden: true,
       meta: {
         isUseCache: true,
         keepAlive: true,
-        title: ' 添加学生信息',
+        title: ' 添加教师信息',
         affix: false
       }
-    },{
+    }, {
     path: 'create-template',
     component: () => import('@/views/NursingSet/mission-template/create-template.vue'),
     name: 'Create-Template',
     hidden: true,
     meta: {
       isUseCache: false,
-      keepAlive: true,
-      title: ' 添加',
-      affix: false
-    }
-  },
-  {
-    path: 'add-diagnose',
-    component: () => import('@/views/NursingSet/diagnose/addDiagnose.vue'),
-    name: 'AddDiagnose',
-    hidden: true,
-    meta: {
-      isUseCache: true,
       keepAlive: true,
       title: ' 添加',
       affix: false

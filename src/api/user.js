@@ -1,38 +1,39 @@
 import request from '@/utils/request'
 import qs from 'qs'
 // 登录接口
-export function login(empNo, password) {
+export function login(username, password) {
   return request({
-    url: '/login.do',
+    url: '/login',
     method: 'post',
     data: qs.stringify({
-      empNo,
+      username,
       password
     })
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: {
-      token
-    }
+    url: '/hello',
+    method: 'get'
   })
 }
 
-// 护理评估分页查询接口
-export function getPage_1(data, pageIndex, pageSize) {
+export function testData() {
   return request({
-    url: '/admin/busForm/getPage',
-    method: 'post',
-    data,
-    pageIndex,
-    pageSize
+    url: '/hello',
+    method: 'get'
   })
 }
-update
+
+// 教师信息页面
+export function getTeaInfo(page) {
+  return request({
+    url: `/tea/query/?page=${page}`,
+    method: 'get'
+  })
+}
+
 // 护理评估评估设置
 export function update(data) {
   return request({
@@ -468,7 +469,7 @@ export function getTemplateMg(data) {
 export function getQcTemplateGroup() {
   return request({
     url: '/qcTemplate/getQcTemplateGroup',
-    method: 'get',
+    method: 'get'
   })
 }
 // 质控评价项目分页查询
@@ -483,14 +484,14 @@ export function getQCEPM(data) {
 export function getqcItemType() {
   return request({
     url: '/qcItemType/getList',
-    method: 'get',
+    method: 'get'
   })
 }
 // 获取所有质控模板表
 export function getqcTemplate() {
   return request({
     url: '/qcTemplate/getList',
-    method: 'get',
+    method: 'get'
   })
 }
 // 根据模板编号获取项目列表
@@ -559,7 +560,7 @@ export function saveDictCd(data) {
     data
   })
 }
-//字典编码排序： 获取字典排序
+// 字典编码排序： 获取字典排序
 export function getDictSort(dictCode, templateCode) {
   return request({
     url: `/dictCodeOrder/getList/${dictCode}/${templateCode}`,

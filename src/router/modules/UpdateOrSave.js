@@ -11,7 +11,7 @@ const UpdateRouter = [
       affix: false
     },
     children: [{
-        path: 'updateStuInfoe',
+        path: 'updateStuInfo',
         component: () => import('@/views/UserMg/studentInfo/updatestuInfo.vue'),
         name: 'UpdateStuInfo',
         hidden: true,
@@ -23,14 +23,14 @@ const UpdateRouter = [
         }
       },
       {
-        path: 'update-missionTemplate',
-        component: () => import('@/views/NursingSet/mission-template/updateMissionTemplate.vue'),
-        name: 'UpdateMissionTemplate',
+        path: 'updateteacherInfo',
+        component: () => import('@/views/UserMg/teacherInfo/updateteacherInfo.vue'),
+        name: 'UpdateTeacherInfo',
         hidden: true,
         meta: {
           isUseCache: true,
           keepAlive: true,
-          title: ' 修改',
+          title: ' 修改教师信息',
           affix: false
         }
       }
