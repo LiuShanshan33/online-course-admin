@@ -19,12 +19,6 @@ export function getInfo() {
   })
 }
 
-export function testData() {
-  return request({
-    url: '/hello',
-    method: 'get'
-  })
-}
 
 // 教师信息页面
 export function getTeaInfo(page) {
@@ -34,12 +28,11 @@ export function getTeaInfo(page) {
   })
 }
 
-// 护理评估评估设置
-export function update(data) {
+// 学生信息页面
+export function getStuInfo(page) {
   return request({
-    url: '/admin/busForm/update',
-    method: 'post',
-    data
+    url: `/stu/query/?page=${page}`,
+    method: 'get'
   })
 }
 

@@ -18,12 +18,20 @@ export function updateTeaInfo(id, tname, tsex, tid, tphone, tcampus, tcollege, p
     data: qs.stringify({ id, tname, tsex, tid, tphone, tcampus, tcollege, positon })
   })
 }
-// 宣教模板：保存或修改
-export function saveMissionTemplate(data) {
+// 添加学生信息
+export function addStuInfo(scollege, sid, scampus, grade, major, sphone, sname, ssex) {
   return request({
-    url: '/admin/busMissionTemplate/save',
+    url: '/stu/add',
     method: 'post',
-    data
+    data: qs.stringify({ scollege, sid, scampus, grade, major, sphone, sname, ssex })
+  })
+}
+// 修改学生信息
+export function updateStuInfo(id, scollege, sid, scampus, grade, major, sphone, sname, ssex) {
+  return request({
+    url: '/stu/update',
+    method: 'post',
+    data: qs.stringify({ id, scollege, sid, scampus, grade, major, sphone, sname, ssex })
   })
 }
 

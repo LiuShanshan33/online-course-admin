@@ -157,7 +157,7 @@ const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
 }, {})
 
 export default {
-  name: 'Assess',
+  // name: 'Assess',
   components: { Pagination },
   directives: { waves },
   filters: {
@@ -284,7 +284,7 @@ export default {
     },
 
     // 重置密码
-  resetPwd() {
+    resetPwd() {
       this.$confirm('确定重置该用户的密码吗?', '重置密码提示', {
         cancelButtonText: '取消',
         confirmButtonText: '确定',
@@ -297,7 +297,7 @@ export default {
             })
         })
     },
-     // 删除
+    // 删除
     deleteRow() {
       if (this.ableCheck) {
         this.$confirm('确定删除此行信息?', '删除提示', {

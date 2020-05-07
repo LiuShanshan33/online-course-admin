@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-// 护理诊断：删除接口
+// 教师信息删除
 export function deleteTeaInfo(id) {
   return request({
     url: `/tea/delete/${id}`,
@@ -7,11 +7,11 @@ export function deleteTeaInfo(id) {
     id
   })
 }
-// 科室信息：删除接口
-export function deleteDeptInfo(id) {
+// 学生信息删除
+export function deleteStuInfo(id) {
   return request({
-    url: `/admin/sysDept/delete/${id}`,
-    method: 'post',
+    url: `/stu/delete/${id}`,
+    method: 'get',
     id
   })
 }

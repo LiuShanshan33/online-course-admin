@@ -89,7 +89,7 @@ export default {
           const tsex = this.TeaForm.tsex
           const positon = this.TeaForm.positon
           const tcollege = this.TeaForm.tcollege
-          updateTeaInfo(id, tname, tsex, tid, tphone, tcampus, tcollege, positon).then(response => {
+          updateTeaInfo(id, scollege, sid, scampus, grade, major, sphone, sname, ssex).then(response => {
             this.$message({
               type: 'success',
               message: '保存成功'

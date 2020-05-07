@@ -86,7 +86,7 @@
         </li>
         <!-- style="vertical-align: text-bottom;width: 17px;height: 17px" -->
         <li>
-          <a>
+          <a @click="deleteRow">
             <img src="../../../views/images/删除.png"  style="width: 17px">
             <span class="barIcon">删除</span>
           </a>
@@ -113,27 +113,18 @@
       <!-- 序号 -->
       <el-table-column label="序号" type="index" align="center" width="50px" />
       <!-- 名称 -->
-      <el-table-column label="学生姓名" prop="name" align="left" width="160px" />
+      <el-table-column label="学生姓名" prop="sname" align="left" width="160px" />
       <!-- 表单编码 -->
-      <el-table-column label="学号" prop="formCode" align="left" min-width="160px" />
+      <el-table-column label="学号" prop="sid" align="left" min-width="160px" />
       <!-- 表单版本 -->
-      <el-table-column label="性别" prop="formVersion" align="center" width="80px" />
-      <el-table-column label="年级" prop="type" align="left" width="80px">
-        <template slot-scope="scope">
-          {{ map[scope.row.type] }}
-          <!-- {{ scope.row.type == 1 ? '表单' : scope.row.type == 2 ?'列表': '列表和打印' }} -->
-        </template>
-      </el-table-column>
-       <el-table-column label="专业" prop="formVersion" align="left" width="160px" />
-      <el-table-column label="所属学院" prop="status" align="left" width="160px">
-        <template slot-scope="{row}">
-          {{ row.status =='1' ?'已启用':'已禁用' }}
-          <!-- {{ row.status }} -->
-        </template>
+      <el-table-column label="性别" prop="ssex" align="center" width="80px" />
+      <el-table-column label="年级" prop="grade" align="left" width="80px" />
+       <el-table-column label="专业" prop="major" align="left" width="160px" />
+      <el-table-column label="所属学院" prop="scollege" align="left" width="160px">
       </el-table-column>
        <!-- 手机号 -->
-      <el-table-column label="手机号" prop="formCode" align="left" width="160px" />
-      <el-table-column label="校区" prop="formCode" align="left" width="160px" />
+      <el-table-column label="手机号" prop="sphone" align="left" width="160px" />
+      <el-table-column label="校区" prop="scampus" align="left" width="160px" />
       <!-- <el-table-column label="操作" prop="formOperateType" align="center" min-width="80">
         <template slot-scope="{ row }">
           <el-button
@@ -159,8 +150,8 @@
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getPage_1 } from '@/api/user'
-import { enableStatus, disableStatus } from '@/api/columnBtn'
+import { getStuInfo } from '@/api/user'
+import { deleteStuInfo } from '@/api/delete'
 
 // 类型
 const TypeOptions = [
@@ -185,7 +176,7 @@ const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
 }, {})
 
 export default {
-  name: 'Assess',
+  // name: 'StudentInfo',
   components: { Pagination },
   directives: { waves },
   filters: {
@@ -206,18 +197,21 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 20,
-        name: '',
-        type: '',
-        status: '',
-        sort: '+id'
+        pageSize: 10
       },
       StatusOptions, // 状态选择
       TypeOptions, // 类型
       showReviewer: false,
       dialogFormVisible: false,
       form: {
-        name: ''
+        grade: '',
+        major: '',
+        scampus: '',
+        scollege: '',
+        sid: '',
+        sname: '',
+        sphone: '',
+        ssex: ''
       },
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
@@ -260,14 +254,14 @@ export default {
           name: 'UpdateStuInfo',
           query: {
             id: this.form.id,
-            code: this.form.code,
-            name: this.form.name,
-            alias: this.form.alias,
-            bigDept: this.form.bigDept,
-            type: this.form.type,
-            symbol: this.form.symbol,
-            postion: this.form.postion,
-            intro: this.form.intro
+            grade: this.form.grade,
+            scampus: this.form.scampus,
+            major: this.form.major,
+            scollege: this.form.scollege,
+            sid: this.form.sid,
+            sname: this.form.sname,
+            sphone: this.form.sphone,
+            ssex: this.form.ssex
           }
         })
       } else {
@@ -286,10 +280,10 @@ export default {
         type: this.listQuery.type,
         status: this.listQuery.status
       }
-      getPage_1(data).then(response => {
-        this.list = response.data.list
-        this.total = response.data.count
-        console.log('测试长度', this.list.length)
+      getStuInfo(this.listQuery.pageIndex).then(response => {
+        this.list = response.data.content
+        this.total = response.data.totalElements
+        console.log('测试长度', this.list)
         if (this.list.length === 0) {
           this.$confirm('未搜到相关表单！', '搜索提示', {
             confirmButtonText: '确定',
@@ -312,66 +306,29 @@ export default {
         this.getList()
       }
     },
-    dbhandleCurrentChange: function(form) {
+    // 删除
+    deleteRow() {
       if (this.ableCheck) {
-        this.$router.push({
-          path: '../NursingSet/setting-assessment',
-          name: 'Setting-Assessment',
-          query: {
-            name: this.form.name,
-            publicUse: this.form.publicUse,
-            deptCode: this.form.deptCode,
-            unit: this.form.unit,
-            evalState: this.form.evalState,
-            executorName: this.form.executorName,
-            printDesc: this.form.printDesc,
-            evalCurveX: this.form.evalCurveX,
-            evalCurveY: this.form.evalCurveY,
-            seqNo: this.form.seqNo,
-            intro: this.form.intro,
-            id: this.form.id
-          }
-        })
-      } else {
-        this.$confirm('请先选择表单', '查看提示', {
-          confirmButtonText: '确定',
-          type: 'warning'
-        })
-      }
-    },
-    // (row,) {
-    //   this.$router.push({ path: '../NursingSet/setting-assessment' })
-    // },
-    // 禁用启用状态
-    handleStatus(row, status) {
-      if (row.status === '1') {
-        this.$confirm('确定禁用此表单?', '禁用提示', {
+        this.$confirm('确定删除此行信息?', '删除提示', {
           cancelButtonText: '取消',
           confirmButtonText: '确定',
           type: 'warning'
         })
-          .then(() => {
-            disableStatus(row.id)
-            row.status = status
-            this.$message({
-              type: 'success',
-              message: '操作成功'
+        .then(() => {
+          deleteStuInfo(this.form.id)
+            .then(() => {
+              this.getList()
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
             })
-          })
+        })
       } else {
-        this.$confirm('确定启用此表单?', '启用提示', {
-          cancelButtonText: '取消',
+        this.$confirm('请先选择表单', '删除提示', {
           confirmButtonText: '确定',
           type: 'warning'
         })
-          .then(() => {
-            disableStatus(row.id)
-            row.status = status
-            this.$message({
-              type: 'success',
-              message: '操作成功'
-            })
-          })
       }
     }
   }

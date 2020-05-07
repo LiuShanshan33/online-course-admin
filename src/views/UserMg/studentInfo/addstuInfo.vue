@@ -7,44 +7,44 @@
       <hr>
     </div>
     <div class="content">
-      <el-form ref="DeptForm" :model="DeptForm" :rules="rules" label-width="100px" size="mini">
-        <el-form-item label="学生姓名" prop="code">
-          <el-input v-model="DeptForm.code" />
+      <el-form ref="StuForm" :model="StuForm" :rules="rules" label-width="100px" size="mini">
+        <el-form-item label="学生姓名" prop="sname">
+          <el-input v-model="StuForm.sname" />
         </el-form-item>
-        <el-form-item label="学号" prop="name">
-          <el-input v-model="DeptForm.name" />
+        <el-form-item label="学号" prop="sid">
+          <el-input v-model="StuForm.sid" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.ssex" placeholder="请选择">
+            <el-option v-for="o in SsexOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
         <el-form-item label="年级">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.grade" placeholder="请选择">
+            <el-option v-for="o in GradeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
         <el-form-item label="校区">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.scampus" placeholder="请选择">
+            <el-option v-for="o in ScampusOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
          <el-form-item label="所属学院">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.scollege" placeholder="请选择">
+            <el-option v-for="o in ScollegeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
         <el-form-item label="专业">
-          <el-select v-model="DeptForm.type" placeholder="请选择">
-            <el-option v-for="o in TypeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.major" placeholder="请选择">
+            <el-option v-for="o in MajorOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="DeptForm.name" />
+          <el-input v-model="StuForm.sphone" />
         </el-form-item>
 
         <el-form-item size="small">
-          <el-button class="add-botton" @click="saveDept('DeptForm')">保存</el-button>
+          <el-button class="add-botton" @click="saveStuInfo('StuForm')">保存</el-button>
           <el-button @click="closeForm(tag)">关闭</el-button>
         </el-form-item>
       </el-form>
@@ -54,23 +54,27 @@
 </template>
 
 <script>
-import { saveDeptInfo } from '@/api/addOrSave'
+import { addStuInfo } from '@/api/addOrSave'
 
 export default {
   name: 'AddStuInfo',
   data() {
     return {
-      DeptForm: {
-        code: '',
-        name: '',
-        alias: '',
-        bigDept: '',
-        type: '',
-        symbol: '',
-        postion: '',
-        intro: ''
+      StuForm: {
+        grade: '',
+        major: '',
+        scampus: '',
+        scollege: '',
+        sid: '',
+        sname: '',
+        sphone: '',
+        ssex: ''
       },
-      TypeOptions: ['其他', '门诊', '住院', '护理单元', '药房', '财务'], // 类型选择
+      SsexOptions: ['男', '女'], // 性别选择
+      GradeOptions: ['2015', '2016', '2017', '2018', '2019'], // 年级选择
+      ScampusOptions: ['湛江校区', '东莞校区'], // 校区选择
+      ScollegeOptions:['生物医学工程学院', '护理学院', '外国语学院', '人文与管理学院', '基础医学院', '第二临床医学院', '药学院', '医学检验学院', '公共卫生学院'], // 专业选择
+      MajorOptions: ['信息管理与信息系统', '生物医学工程', '信息资源管理'], // 类型选择
       rules: {
         name: [
           { required: true, message: '必填字段', trigger: 'blur' }
@@ -82,14 +86,27 @@ export default {
     }
   },
   created() {
-    this.DeptForm.type = this.TypeOptions[0]
+    // this.StuForm.type = this.TypeOptions[0]
   },
   methods: {
-    saveDept(formName) {
+     saveStuInfo(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveDeptInfo(this.DeptForm).then(response => {
-            this.DeptForm = response.data
+          // tphone,tcampus,tid,tname,tsex,positon,tcollege
+            console.log('this.StuForm', this.StuForm)
+            const grade = this.StuForm.grade
+            const major = this.StuForm.major
+            const scampus = this.StuForm.scampus
+            const scollege = this.StuForm.scollege
+            const sid = this.StuForm.sid
+            const sname = this.StuForm.sname
+            const sphone = this.StuForm.sphone
+            const ssex = this.StuForm.ssex
+          addStuInfo(
+            scollege, sid, scampus, grade, major, sphone, sname, ssex
+            )
+          .then(response => {
+            console.log('response成功', response)
             this.$message({
               type: 'success',
               message: '保存成功'
