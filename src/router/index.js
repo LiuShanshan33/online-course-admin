@@ -83,7 +83,7 @@ export const constantRoutes = [{
         name: 'Working',
         meta: {
           isUseCache: true,
-          keepAlive: false,
+          keepAlive: true,
           title: ' 首页 ',
           icon: require('../_layout/components/image/首页.png'),
           affix: true
@@ -120,7 +120,7 @@ export const constantRoutes = [{
         name: 'TeacherInfo',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 教师管理',
           affix: false
         }
@@ -131,7 +131,7 @@ export const constantRoutes = [{
         name: 'StudentInfo',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 学生管理',
           affix: false
         }
@@ -191,27 +191,6 @@ export const constantRoutes = [{
           affix: false
         }
       },
-      {
-        path: 'nursing-record',
-        component: () => import('@/views/NursingSet/nursing-record/nursing-record'),
-        name: 'NursingRecord',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 护理记录',
-          affix: false
-        }
-      },
-      {
-        path: 'related-department',
-        component: () => import('@/views/NursingSet/related-department/related-department'),
-        name: 'RelatedDepartment',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 表单关联部门',
-          affix: false
-        }
       }*/
     ]
   },
@@ -355,21 +334,21 @@ export const constantRoutes = [{
           affix: false
         }
       },
+      // {
+      //   path: 'dictionaryMg',
+      //   component: () => import('@/views/SystemMg/dictionaryMg/dictionaryMg'),
+      //   name: 'DictionaryMg',
+      //   meta: {
+      //     isUseCache: true,
+      //     keepAlive: true,
+      //     title: ' 字典管理',
+      //     affix: false
+      //   }
+      // },
       {
-        path: 'dictionaryMg',
-        component: () => import('@/views/SystemMg/dictionaryMg/dictionaryMg'),
-        name: 'DictionaryMg',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 字典管理',
-          affix: false
-        }
-      },
-      {
-        path: 'accessoryMg',
-        component: () => import('@/views/SystemMg/accessoryMg/accessoryMg'),
-        name: 'AccessoryMg',
+        path: 'updatePwd',
+        component: () => import('@/views/SystemMg/updatePwd/updatePwd'),
+        name: 'UpdatePwd',
         meta: {
           isUseCache: true,
           keepAlive: true,

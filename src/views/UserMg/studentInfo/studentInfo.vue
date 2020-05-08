@@ -11,15 +11,6 @@
         clearable
         @keyup.enter.native="handleSelect"
       />
-      <span class="text-lable">学号：</span>
-      <el-input
-        v-model="listQuery.name"
-        placeholder="请输入"
-        style="width: 118px;"
-        class="filter-item"
-        clearable
-        @keyup.enter.native="handleSelect"
-      />
       <span class="text-lable">年级：</span>
       <el-select
         v-model="listQuery.status"

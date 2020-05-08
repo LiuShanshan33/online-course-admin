@@ -27,7 +27,15 @@ export function getTeaInfo(page) {
     method: 'get'
   })
 }
-
+// url: `/tea/findteacher/?Tname=${Tname}&Tid=${Tid}&Positon=${Positon}&Tcollege=${Tcollege}`,
+// 查询教师信息
+export function selectTeacher(data) {
+  return request({
+    url: '/tea/findteacher',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
 // 学生信息页面
 export function getStuInfo(page) {
   return request({

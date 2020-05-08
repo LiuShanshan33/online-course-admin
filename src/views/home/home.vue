@@ -157,22 +157,28 @@ export default {
       nowTime: '', // 当前时间
       nowWeek: '', // 当前星期
       nowYear: '', // 当前年份
-      info: '',
+      info: {
+        'os.name': 1111111,
+        'os.version': 222222,
+        'user.name': 333333,
+        'user.timezone': 332211,
+        'file.encoding': 123123
+      },
       coursewareCount: '1580', // 系统总课件数
       announcementTitle: '服务暂停通知', // 公告标题
       content: '根据近期各位老师对于课件上传功能的意见反馈，我们决定于5月1日0:00 - 24:00对此模块进行更新维护，维护期间此功能暂停开放，请需要上传课件的老师于5月2日登录系统进行上传，感谢各位的理解与合作。',
       options: [],
-      empNo: this.$store.state.user.user.empNo,
+      // empNo: this.$store.state.user.user.empNo,
       data: json
 
     }
   },
   created() {
-    this.getList()
+    // this.getList()
     this.getDate()
   },
   mounted() {
-    systemInfo().then(res => { this.info = res.data })
+    // systemInfo().then(res => { this.info = res.data })
     this.currentTime()
   },
   // // 销毁定时器

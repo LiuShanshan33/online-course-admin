@@ -4,7 +4,7 @@
     <div class="filter-container">
       <span class="text-lable">姓名：</span>
       <el-input
-        v-model="listQuery.name"
+        v-model="listQuery.Tname"
         placeholder="请输入"
         style="width: 118px;"
         class="filter-item"
@@ -13,7 +13,7 @@
       />
       <span class="text-lable">工号：</span>
       <el-input
-        v-model="listQuery.name"
+        v-model="listQuery.Tid"
         placeholder="请输入"
         style="width: 118px;"
         class="filter-item"
@@ -22,32 +22,32 @@
       />
       <span class="text-lable">职称：</span>
       <el-select
-        v-model="listQuery.status"
+        v-model="listQuery.Positon"
         placeholder="请选择"
         clearable
         class="filter-item"
         style="width: 118px"
       >
         <el-option
-          v-for="item in StatusOptions"
-          :key="item.key"
-          :label="item.display_name"
-          :value="item.key"
+          v-for="item in PositonOptions"
+          :key="item"
+          :label="item"
+          :value="item"
         />
       </el-select>
       <span class="text-lable">所属学院：</span>
       <el-select
-        v-model="listQuery.status"
+        v-model="listQuery.Tcollege"
         placeholder="请选择"
         clearable
         class="filter-item"
         style="width: 118px"
       >
         <el-option
-          v-for="item in StatusOptions"
-          :key="item.key"
-          :label="item.display_name"
-          :value="item.key"
+          v-for="item in TcollegeOptions"
+          :key="item"
+          :label="item"
+          :value="item"
         />
       </el-select>
       <el-button v-waves class="filter-item search-btn" type="primary" @click="handleSelect">
@@ -82,7 +82,7 @@
     <el-table
       :key="tableKey"
       v-loading="listLoading"
-      :data="list"
+      :data="list.slice((listQuery.pageIndex-1)*listQuery.pageSize,listQuery.pageIndex*listQuery.pageSize)"
       size="mini"
       :height="tableHeight"
       border
@@ -131,7 +131,7 @@ import { getInfo } from '@/api/user'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getTeaInfo } from '@/api/user'
+import { getTeaInfo, selectTeacher } from '@/api/user'
 import { deleteTeaInfo } from '@/api/delete'
 
 // 类型
@@ -140,21 +140,12 @@ const TypeOptions = [
   { key: '2', display_name: '列表' },
   { key: '3', display_name: '列表和打印' }
 ]
-// 状态选择
-const StatusOptions = [
-  { key: '1', display_name: '已启用' },
-  { key: '2', display_name: '已禁用' }
-]
 
 const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
   acc[cur.key] = cur.display_name
   return acc
 }, {})
 
-const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
-  abc[curr.key] = curr.display_name
-  return abc
-}, {})
 
 export default {
   // name: 'Assess',
@@ -178,10 +169,16 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 10,
+        Tname:'',
+        Tid:'',
+        Positon:'',
+        Tcollege:''
       },
-      StatusOptions, // 状态选择
       TypeOptions, // 类型
+      PositonOptions: ['高级教师', '讲师'], // 职称选择
+      // campusOptions: ['湛江校区', '东莞校区'], // 校区选择
+      TcollegeOptions: ['生物医学工程学院', '基础医学院'], // 学院选择
       showReviewer: false,
       dialogFormVisible: false,
       form: {
@@ -274,9 +271,34 @@ export default {
 
     // 搜索
     handleSelect() {
-      if (this.listQuery.name !== '' && this.listQuery.type !== '' && this.listQuery.status !== '') {
-        this.listQuery.page = 1
-        this.getList()
+      if (this.listQuery.Tname !== '' || this.listQuery.Tid !== '' || this.listQuery.Positon !== ''|| this.listQuery.Tcollege !== '') {
+        let data = {
+        page: this.listQuery.pageIndex,
+        size: this.listQuery.pageSize
+        }
+        if(this.listQuery.Tname){
+          data.Tname = this.listQuery.Tname
+        }
+        if(this.listQuery.Tid){
+          data.Tid = this.listQuery.Tid
+        }
+        if(this.listQuery.Positon){
+          data.Positon = this.listQuery.Positon
+        }
+        if(this.listQuery.Tcollege){
+          data.Tcollege = this.listQuery.Tcollege
+        }
+        // let Tname = this.listQuery.Tname
+        // let Tid = this.listQuery.Tid
+        // let Positon= this.listQuery.Positon
+        // let Tcollege = this.listQuery.Tcollege
+        console.log('查询前的东西',data)
+        selectTeacher(data).then(response =>{
+          console.log('搜索结果',response.data.length)
+          this.list = response.data
+          
+          this.total = response.data.length
+        })
       } else { // 全空做刷新
         this.listQuery.page = 1
         this.getList()
