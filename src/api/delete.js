@@ -15,11 +15,11 @@ export function deleteStuInfo(id) {
     id
   })
 }
-// 床位信息：删除接口
-export function deleteBedInfo(id) {
+// 公告删除
+export function deleteAnnInfo(id) {
   return request({
-    url: `/admin/sysBed/delete/${id}`,
-    method: 'post',
+    url: `/ann/delete/${id}`,
+    method: 'get',
     id
   })
 }

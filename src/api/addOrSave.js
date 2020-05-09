@@ -34,7 +34,22 @@ export function updateStuInfo(id, scollege, sid, scampus, grade, major, sphone, 
     data: qs.stringify({ id, scollege, sid, scampus, grade, major, sphone, sname, ssex })
   })
 }
-
+// 添加公告
+export function addAnnInfo(content, title) {
+  return request({
+    url: '/ann/add',
+    method: 'post',
+    data: qs.stringify({ content, title })
+  })
+}
+// 修改公告
+export function updateAnnInfo(id, content, title) {
+  return request({
+    url: '/ann/add',
+    method: 'post',
+    data: qs.stringify({ id, content, title })
+  })
+}
 // 医院信息：保存接口
 export function saveHospital(data) {
   return request({

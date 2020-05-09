@@ -82,7 +82,7 @@
     <el-table
       :key="tableKey"
       v-loading="listLoading"
-      :data="list.slice((listQuery.pageIndex-1)*listQuery.pageSize,listQuery.pageIndex*listQuery.pageSize)"
+      :data="list"
       size="mini"
       :height="tableHeight"
       border
@@ -127,7 +127,6 @@
 </template>
 
 <script>
-import { getInfo } from '@/api/user'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
@@ -208,12 +207,7 @@ export default {
     this.getUserInfo()
   },
   methods: {
-    // 测试用户角色
-    getUserInfo() {
-      getInfo().then(res => {
-        console.log('测试用户角色', res)
-      })
-    },
+  
     // 判断是否选择某行
     checkViews: function(data) {
       this.form = data

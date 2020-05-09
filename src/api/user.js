@@ -27,7 +27,7 @@ export function getTeaInfo(page) {
     method: 'get'
   })
 }
-// url: `/tea/findteacher/?Tname=${Tname}&Tid=${Tid}&Positon=${Positon}&Tcollege=${Tcollege}`,
+
 // 查询教师信息
 export function selectTeacher(data) {
   return request({
@@ -43,6 +43,14 @@ export function getStuInfo(page) {
     method: 'get'
   })
 }
+// 公告管理页面
+export function getAnnInfo(page) {
+  return request({
+    url: `/ann/query/?page=${page}`,
+    method: 'get'
+  })
+}
+
 
 // 护理诊断分页查询接口
 export function getPage_2(data, pageIndex, pageSize) {

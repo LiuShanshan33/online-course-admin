@@ -346,6 +346,17 @@ export const constantRoutes = [{
       //   }
       // },
       {
+        path: 'annMg',
+        component: () => import('@/views/SystemMg/announcementMg/announcementMg'),
+        name: 'AnnMg',
+        meta: {
+          isUseCache: true,
+          keepAlive: false,
+          title: ' 公告管理',
+          affix: false
+        }
+      },
+      {
         path: 'updatePwd',
         component: () => import('@/views/SystemMg/updatePwd/updatePwd'),
         name: 'UpdatePwd',
