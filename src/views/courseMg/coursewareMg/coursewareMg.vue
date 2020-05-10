@@ -78,8 +78,8 @@
       <!-- 表单编码 -->
       <el-table-column label="课程类型" prop="nodeName" align="left" width="140px" />
       <!-- 表单版本 -->
-      <el-table-column label="所属教研室" prop="pendingNodeName" align="left" width="210px" />
-      <el-table-column label="大小" prop="handledNodeName" align="left" width="140px" />
+      <el-table-column label="面向专业" prop="pendingNodeName" align="left" width="210px" />
+      <el-table-column label="授课教师" prop="handledNodeName" align="left" width="140px" />
       <el-table-column label="创建时间" prop="handledNodeName" align="left" width="210px" />
       <!-- <el-table-column label="类型" prop="type" align="center" width="80px">
         <template slot-scope="scope">

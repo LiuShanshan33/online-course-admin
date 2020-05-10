@@ -73,12 +73,14 @@
       <!-- 序列号 -->
       <el-table-column label="序号" type="index" align="left" width="80px" />
       <!-- 名称 -->
-      <el-table-column label="节点编码" prop="nodeCode" align="left" min-width="200px" />
+      <el-table-column label="课件名称" prop="nodeCode" align="left" min-width="200px" />
       <!-- 表单编码 -->
-      <el-table-column label="节点名称" prop="nodeName" align="left" width="210px" />
+      <el-table-column label="课件类型" prop="nodeName" align="left" width="210px" />
       <!-- 表单版本 -->
-      <el-table-column label="待处理节点名称" prop="pendingNodeName" align="left" width="210px" />
-      <el-table-column label="已处理节点名称" prop="handledNodeName" align="left" width="210px" />
+      <el-table-column label="大小" prop="pendingNodeName" align="left" width="210px" />
+      <el-table-column label="课件描述" prop="handledNodeName" align="left" width="210px" />
+      <el-table-column label="上传日期" prop="handledNodeName" align="left" width="210px" />
+      <el-table-column label="上传者" prop="handledNodeName" align="left" width="210px" />
       <!-- <el-table-column label="类型" prop="type" align="center" width="80px">
         <template slot-scope="scope">
           {{ map[scope.row.type] }}

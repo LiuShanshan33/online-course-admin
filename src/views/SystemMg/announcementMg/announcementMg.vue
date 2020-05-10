@@ -53,7 +53,7 @@
         </template> -->
       </el-table-column>
       <!-- 表单编码 -->
-      <el-table-column label="公告内容" prop="content" align="left" width="210px">
+      <el-table-column label="公告内容" prop="content" align="left" width="240px">
         <template slot-scope="scope">
           <a
             class="span-ellipsis"
@@ -65,7 +65,7 @@
         </template>
       </el-table-column>
       <!-- 表单版本 -->
-      <el-table-column label="发布者" prop="publisher" align="left" width="210px" />
+      <el-table-column label="发布者" prop="publisher" align="left" width="160px" />
       <el-table-column label="操作" prop="formOperateType" align="center" min-width="120px">
         <template slot-scope="scope">
           <!-- <el-button
@@ -177,11 +177,6 @@ export default {
         publisher: '',
         index: 0
       },
-      // 时间
-      nowDate: '', // 当前日期
-      nowTime: '', // 当前时间
-      nowWeek: '', // 当前星期
-      nowYear: '', // 当前年份
       userInfo: {
         roleString: '',
         userString: ''
@@ -257,7 +252,6 @@ export default {
       // 记录数据
       this.form = this.formRow
       this.form.index = row.index
-      console.log('点击时间', this.nowDate)
      },
     // 点击更新后重新赋值表格
     updateAnnouncement(form) {
@@ -268,7 +262,7 @@ export default {
             console.log('response成功', response)
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: '修改成功'
             })
             console.log('修改this.form',this.form)
         })

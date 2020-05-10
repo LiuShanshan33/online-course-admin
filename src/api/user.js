@@ -51,6 +51,14 @@ export function getAnnInfo(page) {
     method: 'get'
   })
 }
+// 上传课件页面
+export function uploadCourseware(data) {
+  return request({
+    url: '/upload',
+    method: 'post',
+    data
+  })
+}
 
 
 // 护理诊断分页查询接口

@@ -9,11 +9,11 @@
         <el-form-item label="初始密码" prop="orginalPwd">
           <el-input v-model="PwdForm.orginalPwd" type="password" />
         </el-form-item>
-        <el-form-item label="新密码" prop="orginalPwd">
-          <el-input v-model="PwdForm.newPwd" type="password" />
+        <el-form-item label="新密码" prop="password">
+          <el-input v-model="PwdForm.password" type="password" />
         </el-form-item>
-        <el-form-item label="确认密码" prop="orginalPwd">
-          <el-input v-model="PwdForm.newPwd" type="password" />
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input v-model="PwdForm.checkPass" type="password" />
         </el-form-item>
         <el-form-item size="small">
           <el-button class="add-botton" @click="saveDept('PwdForm')">保存</el-button>
@@ -28,20 +28,43 @@
 import { saveDeptInfo } from '@/api/addOrSave'
 
 export default {
-  name: 'UpdateTeacherInfo',
+  name: 'UpdatePwd',
   data() {
+    var validatePass = (rule, value, callback) => {
+        if (value === '') {
+                callback(new Error('请输入密码'));
+        } else {
+              if (this.PwdForm.checkPass !== '') {
+                  this.$refs.PwdForm.validateField('checkPass');
+              }
+              callback();
+          }
+      };
+      var validatePass2 = (rule, value, callback) => {
+          if (value === '') {
+              callback(new Error('请再次输入密码'));
+          } else if (value !== this.PwdForm.password) {
+              callback(new Error('两次输入密码不一致!'));
+          } else {
+              callback();
+          }
+      };
     return {
      PwdForm: {
        orginalPwd: '',
-       newPwd: ''
+       checkPass: '',
+       password: ''
       },
       TypeOptions: ['其他', '门诊', '住院', '护理单元', '药房', '财务'], // 类型选择
       rules: {
-        orginalPwd: [
-          { required: true, message: '必填字段', trigger: 'blur' }
+       password: [
+                { required: true, message: '请输入密码', trigger: 'blur' },
+                // { min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' },
+                { validator: validatePass, trigger: 'blur' }
         ],
-        name: [
-          { required: true, message: '必填字段', trigger: 'blur' }
+        checkPass: [
+                { required: true, message: '请再次输入密码', trigger: 'blur' },
+                { validator: validatePass2, trigger: 'blur', required: true }
         ]
       }
     }

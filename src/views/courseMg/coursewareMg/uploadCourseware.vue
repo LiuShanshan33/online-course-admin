@@ -28,13 +28,19 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="课程类别" prop="name">
-              <el-radio-group v-model="radio" @change="radioChange">
-                <el-radio :label="0">公共课</el-radio>
-                <el-radio :label="1">专业课</el-radio>
+            <el-form-item label="课程类型" prop="name">
+              <el-radio-group v-model="radio">
+                <el-radio :label="0">选修课</el-radio>
+                <el-radio :label="1">必修课</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="radio" label="院系专业">
+            <el-form-item label="面向专业" prop="name">
+              <el-radio-group v-model="MajorRadio" @change="radioChange">
+                <el-radio :label="0">全体学生</el-radio>
+                <el-radio :label="1">部分学生</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="MajorRadio" label="院系专业">
               <el-cascader
                 :options="options"
                 :props="cascaderProp"
@@ -46,13 +52,12 @@
             <el-form-item label="上传课件">
               <el-upload
                 class="upload-demo"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
+                action="http://47.98.251.65:80/api/upload/"
+                ref="upload"
+                :file-list="fileList"
+                :http-request="modeUpload"
                 multiple
                 :limit="3"
-                :on-exceed="handleExceed"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">请选择需要上传的课件，一次不超过3个</div>
@@ -62,7 +67,7 @@
               <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="saveHosInfo('ruleForm')">确认上传</el-button>
+              <el-button type="primary" @click="submitUpload">确认上传</el-button>
               <!-- <el-button @click="resetForm('ruleForm')">取消</el-button> -->
             </el-form-item>
           </el-form></div>
@@ -72,27 +77,29 @@
 </template>
 
 <script>
-import { getHospital } from '@/api/user'
-import { saveHospital } from '@/api/addOrSave'
+
+import { uploadCourseware } from '@/api/user'
 
 // 类型
-const TypeOptions = [
-  { key: '1', display_name: '视频' },
-  { key: '2', display_name: 'PPT' },
-  { key: '3', display_name: 'Word文档' }
-]
-const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+// const TypeOptions = [
+//   { key: '1', display_name: '视频' },
+//   { key: '2', display_name: 'PPT' },
+//   { key: '3', display_name: 'Word文档' }
+// ]
+// const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
+//   acc[cur.key] = cur.display_name
+//   return acc
+// }, {})
 export default {
   name: 'HospitalInfo',
   data() {
     return {
       radio: 0,
-      fileList: '',
+      MajorRadio: 0,
+      fileList: [],
       Campus: ['湛江校区', '东莞校区'],
-      TypeOptions,
+      TypeOptions:['PPT', 'Word', '视频'],
+      mode:{},
       ruleForm: {
         type: '视频'
       },
@@ -315,55 +322,65 @@ export default {
     }
   },
   created() {
-    this.getHosInfo()
     this.tableHeight()
-    // this.saveHosInfo()
   },
   methods: {
     tableHeight() {
       this.conheight.height = window.innerHeight - 140 + 'px'
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
+    // submitUpload() {
+    //     this.$refs.upload.submit()
+    //     this.$message({
+    //       type: 'success',
+    //       message: '上传成功'
+    //     })
+    // },
+    // handleRemove(file, fileList) {
+    //   console.log(file, fileList)
+    // },
+    // handleExceed(files, fileList) {
+    //   this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    // },
+    // beforeRemove(file, fileList) {
+    //   return this.$confirm(`确定移除 ${file.name}？`)
+    // },
+    // 上传列表
+    modeUpload: function(item) {
+        console.log('item.file',item.file)
+        this.mode = item.file
+        console.log('this.mode',this.mode)
     },
-    handlePreview(file) {
-      console.log(file)
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+    // 点击确认上传
+    submitUpload() {
+      let Courseware = new FormData()
+      Courseware.append('files', this.mode)
+      console.log('上传的东西', Courseware.get('files'))
+      uploadCourseware(Courseware).then(response => {
+        console.log(response.data);
+      })
     },
     radioChange($event) {
       console.log('选中状态改变时radio的值', this.radio)
     },
-    getHosInfo() {
-      this.listLoading = false
-      getHospital().then(response => {
-        this.ruleForm = response.data
-        console.log('HospitalInfo', this.ruleForm)
-      })
-    },
-    saveHosInfo(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          saveHospital(this.ruleForm).then(response => {
-            this.ruleForm = response.data
-            this.$message({
-              type: 'success',
-              message: '保存成功'
-            })
-          })
-        } else {
-          this.$message({
-            type: 'error',
-            message: '提交数据不完整，请改正后再提交！'
-          })
-          return false
-        }
-      })
-    }
+    // saveHosInfo(formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       saveHospital(this.ruleForm).then(response => {
+    //         this.ruleForm = response.data
+    //         this.$message({
+    //           type: 'success',
+    //           message: '保存成功'
+    //         })
+    //       })
+    //     } else {
+    //       this.$message({
+    //         type: 'error',
+    //         message: '提交数据不完整，请改正后再提交！'
+    //       })
+    //       return false
+    //     }
+    //   })
+    // }
   }
 }
 </script>
