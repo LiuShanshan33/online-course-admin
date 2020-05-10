@@ -83,7 +83,7 @@ export const constantRoutes = [{
         name: 'Working',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 首页 ',
           icon: require('../_layout/components/image/首页.png'),
           affix: true

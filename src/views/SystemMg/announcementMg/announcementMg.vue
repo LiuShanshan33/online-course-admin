@@ -218,6 +218,7 @@ export default {
         this.list = response.data.content
         this.total = response.data.totalElements
         console.log('公告response', response)
+        console.log('第一行数据',this.list[0])
         if (this.list.length === 0) {
           this.$confirm('未搜到相关表单！', '搜索提示', {
             confirmButtonText: '确定',

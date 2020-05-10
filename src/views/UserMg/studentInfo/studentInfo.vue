@@ -4,7 +4,7 @@
     <div class="filter-container">
       <span class="text-lable">姓名：</span>
       <el-input
-        v-model="listQuery.name"
+        v-model="listQuery.Sname"
         placeholder="请输入"
         style="width: 118px;"
         class="filter-item"
@@ -13,47 +13,47 @@
       />
       <span class="text-lable">年级：</span>
       <el-select
-        v-model="listQuery.status"
+        v-model="listQuery.Grade"
         placeholder="请选择"
         clearable
         class="filter-item"
         style="width: 118px"
       >
         <el-option
-          v-for="item in StatusOptions"
-          :key="item.key"
-          :label="item.display_name"
-          :value="item.key"
+          v-for="item in GradeOptions"
+          :key="item"
+          :label="item"
+          :value="item"
         />
       </el-select>
       <span class="text-lable">所属学院：</span>
       <el-select
-        v-model="listQuery.status"
+        v-model="listQuery.Scollege"
         placeholder="请选择"
         clearable
         class="filter-item"
         style="width: 118px"
       >
         <el-option
-          v-for="item in StatusOptions"
-          :key="item.key"
-          :label="item.display_name"
-          :value="item.key"
+          v-for="item in ScollegeOptions"
+          :key="item"
+          :label="item"
+          :value="item"
         />
       </el-select>
        <span class="text-lable">校区：</span>
       <el-select
-        v-model="listQuery.status"
+        v-model="listQuery.Scampus"
         placeholder="请选择"
         clearable
         class="filter-item"
         style="width: 118px"
       >
         <el-option
-          v-for="item in StatusOptions"
-          :key="item.key"
-          :label="item.display_name"
-          :value="item.key"
+          v-for="item in ScampusOptions"
+          :key="item"
+          :label="item"
+          :value="item"
         />
       </el-select>
       <el-button v-waves class="filter-item search-btn" type="primary" @click="handleSelect">
@@ -82,6 +82,12 @@
             <span class="barIcon">删除</span>
           </a>
         </li>
+        <li class="exportExcel">
+          <a @click="exportExcel">
+            <img src="../../../views/images/导出excel.png" style="width: 17px">
+            <span class="barIcon">导出excel</span>
+          </a>
+        </li>
       </ul>
     </div>
     <!-- 表格 -->
@@ -89,6 +95,7 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
+      id="el-table"
       size="mini"
       :height="tableHeight"
       border
@@ -143,28 +150,8 @@ import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
 import { getStuInfo } from '@/api/user'
 import { deleteStuInfo } from '@/api/delete'
-
-// 类型
-const TypeOptions = [
-  { key: '1', display_name: '表单' },
-  { key: '2', display_name: '列表' },
-  { key: '3', display_name: '列表和打印' }
-]
-// 状态选择
-const StatusOptions = [
-  { key: '1', display_name: '已启用' },
-  { key: '2', display_name: '已禁用' }
-]
-
-const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
-const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
-  abc[curr.key] = curr.display_name
-  return abc
-}, {})
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 
 export default {
   // name: 'StudentInfo',
@@ -188,10 +175,16 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 10,
+        sname:'',
+        grade:'',
+        scollege:'',
+        scampus:''
       },
-      StatusOptions, // 状态选择
-      TypeOptions, // 类型
+      nowTime: '', // 当前时间
+      GradeOptions:['2015','2016','2017','2018','2019'],
+      ScampusOptions:['东莞校区', '湛江校区'], // 状态选择
+      ScollegeOptions:['生物医学工程学院', '基础医学院'], // 类型
       showReviewer: false,
       dialogFormVisible: false,
       form: {
@@ -210,11 +203,6 @@ export default {
         title: [{ required: true, message: 'title is required', trigger: 'blur' }]
       },
       downloadLoading: false,
-      map: {
-        1: '表单',
-        2: '列表',
-        3: '列表和打印'
-      }
     }
   },
   // 表格高度
@@ -264,14 +252,24 @@ export default {
     },
     getList() {
       this.listLoading = true
-      const data = {
-        pageIndex: this.listQuery.pageIndex,
-        pageSize: this.listQuery.pageSize,
-        name: this.listQuery.name,
-        type: this.listQuery.type,
-        status: this.listQuery.status
-      }
-      getStuInfo(this.listQuery.pageIndex).then(response => {
+       let data = {
+        page: this.listQuery.pageIndex,
+        // size: this.listQuery.pageSize
+        }
+        if(this.listQuery.Sname){
+          data.Sname = this.listQuery.Sname
+        }
+        if(this.listQuery.Grade){
+          data.Grade = this.listQuery.Grade
+        }
+        if(this.listQuery.Scollege){
+          data.Scollege = this.listQuery.Scollege
+        }
+        if(this.listQuery.Scampus){
+          data.Scampus = this.listQuery.Scampus
+        }
+        console.log('调用接口前的data',data)
+      getStuInfo(data).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         console.log('测试长度', this.list)
@@ -286,16 +284,9 @@ export default {
         }, 1.5 * 100)
       })
     },
-
     // 搜索
     handleSelect() {
-      if (this.listQuery.name !== '' && this.listQuery.type !== '' && this.listQuery.status !== '') {
-        this.listQuery.page = 1
         this.getList()
-      } else { // 全空做刷新
-        this.listQuery.page = 1
-        this.getList()
-      }
     },
     // 删除
     deleteRow() {
@@ -321,6 +312,42 @@ export default {
           type: 'warning'
         })
       }
+    },
+    // 获取时间
+    getDate: function() {
+      var _this = this
+      const yy = new Date().getFullYear()
+      const mm = new Date().getMonth() + 1
+      const dd = new Date().getDate()
+      const hh = new Date().getHours()
+      const mf =
+        new Date().getMinutes() < 10
+          ? '0' + new Date().getMinutes()
+          : new Date().getMinutes()
+      _this.nowTime = yy + '' + mm + '' + dd + '' + hh + '' + mf// 年月日时分
+      console.log(_this.nowTime)
+    },
+    exportExcel() {
+      // let time = new Date();
+      this.getDate()
+      let wb = XLSX.utils.table_to_book(document.querySelector('#el-table'));
+      let wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+      });
+      try {
+          FileSaver.saveAs(
+              new Blob([wbout], { type: 'application/octet-stream' }),
+              `${this.nowTime} 学生信息表.xlsx` // 文件名 this.title+".xlsx"
+          );
+      } catch (e) {
+          if (typeof console !== 'undefined') {
+              this.$message.error('导出失败');
+              console.log(e, wbout);
+          }
+      }
+      return wbout;
     }
   }
 }

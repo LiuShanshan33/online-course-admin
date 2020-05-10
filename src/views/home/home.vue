@@ -139,7 +139,7 @@
 
 <script>
 import { getMoudleOptions } from '@/api/moudle'
-import { systemInfo } from '@/api/system'
+import { getAnnInfo, getInfo } from '@/api/user'
 import { json } from '@/json/moudle.js'
 import draggable from 'vuedraggable'
 import Calendar from 'vue-calendar-component'
@@ -164,6 +164,8 @@ export default {
         'user.timezone': 332211,
         'file.encoding': 123123
       },
+      list:null,
+      pageIndex: 1,
       coursewareCount: '1580', // 系统总课件数
       announcementTitle: '服务暂停通知', // 公告标题
       content: '根据近期各位老师对于课件上传功能的意见反馈，我们决定于5月1日0:00 - 24:00对此模块进行更新维护，维护期间此功能暂停开放，请需要上传课件的老师于5月2日登录系统进行上传，感谢各位的理解与合作。',
@@ -174,7 +176,7 @@ export default {
     }
   },
   created() {
-    // this.getList()
+    this.getList()
     this.getDate()
   },
   mounted() {
@@ -189,13 +191,26 @@ export default {
   //   }
   // },
   methods: {
-    // async getList() {
-    //   await getMoudleOptions(this.empNo).then(response => {
-    //     this.options = response.data.options
-    //   })
-    //   console.log("获取json文件的数据", this.data)
-    //   console.log("获取排序的选项", this.options)
-    // },
+    getList() {
+      this.listLoading = true
+      console.log(this.pageIndex)
+      getAnnInfo(this.pageIndex).then(response => {
+        this.list = response.data.content
+        console.log('公告response', response)
+        console.log('第一行数据',this.list[0].content)
+        this.announcementTitle = this.list[0].title
+        this.content = this.list[0].content
+        if (this.list.length === 0) {
+          this.$confirm('未搜到相关表单！', '搜索提示', {
+            confirmButtonText: '确定',
+            type: 'warning'
+          })
+        }
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 100)
+      })
+    },
     currentTime() {
       setInterval(this.getDate, 500)
     },

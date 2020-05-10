@@ -37,10 +37,11 @@ export function selectTeacher(data) {
   })
 }
 // 学生信息页面
-export function getStuInfo(page) {
+export function getStuInfo(data) {
   return request({
-    url: `/stu/query/?page=${page}`,
-    method: 'get'
+    url: '/stu/findstudent',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 // 公告管理页面

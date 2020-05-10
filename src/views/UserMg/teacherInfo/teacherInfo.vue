@@ -76,12 +76,20 @@
             <span class="barIcon">删除</span>
           </a>
         </li>
+        <!-- 导出功能 -->
+        <li class="exportExcel">
+          <a @click="exportExcel">
+            <img src="../../../views/images/导出excel.png" style="width: 17px">
+            <span class="barIcon">导出excel</span>
+          </a>
+        </li>
       </ul>
     </div>
     <!-- 表格 -->
     <el-table
       :key="tableKey"
       v-loading="listLoading"
+      id="el-table"
       :data="list"
       size="mini"
       :height="tableHeight"
@@ -132,18 +140,8 @@ import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
 import { getTeaInfo, selectTeacher } from '@/api/user'
 import { deleteTeaInfo } from '@/api/delete'
-
-// 类型
-const TypeOptions = [
-  { key: '1', display_name: '表单' },
-  { key: '2', display_name: '列表' },
-  { key: '3', display_name: '列表和打印' }
-]
-
-const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 
 
 export default {
@@ -174,7 +172,10 @@ export default {
         Positon:'',
         Tcollege:''
       },
-      TypeOptions, // 类型
+      nowDate: '', // 当前日期
+      nowTime: '', // 当前时间
+      nowWeek: '', // 当前星期
+      nowYear: '', // 当前年份
       PositonOptions: ['高级教师', '讲师'], // 职称选择
       // campusOptions: ['湛江校区', '东莞校区'], // 校区选择
       TcollegeOptions: ['生物医学工程学院', '基础医学院'], // 学院选择
@@ -204,16 +205,31 @@ export default {
   },
   created() {
     this.getList()
-    this.getUserInfo()
+    
   },
   methods: {
-  
     // 判断是否选择某行
     checkViews: function(data) {
       this.form = data
       this.ableCheck = true
       console.log('选中行的信息', this.form)
       // console.log(this.form.title)
+    },
+    // 获取时间
+    getDate: function() {
+      var _this = this
+      const yy = new Date().getFullYear()
+      const mm = new Date().getMonth() + 1
+      const dd = new Date().getDate()
+      const hh = new Date().getHours()
+      const mf =
+        new Date().getMinutes() < 10
+          ? '0' + new Date().getMinutes()
+          : new Date().getMinutes()
+      // _this.nowTime = hh + ':' + mf// 时间
+      _this.nowDate = yy + mm + '月' + dd + '日' // 日期
+      _this.nowTime = yy + '' + mm + '' + dd + '' + hh + '' + mf// 年月日时分
+      console.log(_this.nowTime)
     },
     // 添加教师信息
     addTeacherInfo() {
@@ -288,10 +304,10 @@ export default {
         // let Tcollege = this.listQuery.Tcollege
         console.log('查询前的东西',data)
         selectTeacher(data).then(response =>{
-          console.log('搜索结果',response.data.length)
-          this.list = response.data
+          console.log('搜索结果',response.data.totalElements)
+          this.list = response.data.content
           
-          this.total = response.data.length
+          this.total = response.data.totalElements
         })
       } else { // 全空做刷新
         this.listQuery.page = 1
@@ -337,6 +353,29 @@ export default {
           type: 'warning'
         })
       }
+    },
+    //  `名字 ${time.getTime()}.xlsx` // 文件名
+    exportExcel() {
+      // let time = new Date();
+      this.getDate()
+      let wb = XLSX.utils.table_to_book(document.querySelector('#el-table'));
+      let wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+      });
+      try {
+          FileSaver.saveAs(
+              new Blob([wbout], { type: 'application/octet-stream' }),
+              `${this.nowTime} 教师信息表.xlsx` // 文件名 this.title+".xlsx"
+          );
+      } catch (e) {
+          if (typeof console !== 'undefined') {
+              this.$message.error('导出失败');
+              console.log(e, wbout);
+          }
+      }
+      return wbout;
     }
   }
 }
@@ -348,4 +387,5 @@ export default {
     margin-right: 50px;
   }
 }
+
 </style>

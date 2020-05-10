@@ -70,7 +70,7 @@
     right: 28px;
 
     >li {
-      float: left !important;
+      float: left ;
       display: block;
       overflow: hidden;
       height: 26px;
@@ -87,7 +87,10 @@
         top: -3px !important;
       }
     }
-
+    .exportExcel{
+      float: right; 
+      margin-right:15px;
+    }
   }
 }
 
