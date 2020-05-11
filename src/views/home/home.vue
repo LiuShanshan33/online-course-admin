@@ -167,8 +167,8 @@ export default {
       list:null,
       pageIndex: 1,
       coursewareCount: '1580', // 系统总课件数
-      announcementTitle: '服务暂停通知', // 公告标题
-      content: '根据近期各位老师对于课件上传功能的意见反馈，我们决定于5月1日0:00 - 24:00对此模块进行更新维护，维护期间此功能暂停开放，请需要上传课件的老师于5月2日登录系统进行上传，感谢各位的理解与合作。',
+      announcementTitle: '', // 公告标题
+      content: '',
       options: [],
       // empNo: this.$store.state.user.user.empNo,
       data: json
