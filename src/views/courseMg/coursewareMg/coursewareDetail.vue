@@ -1,8 +1,11 @@
 // 课件管理
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <span class="text-lable">课程名称：</span>
+     <div class="coursename">
+      <div class="content-title">{{coursename}}</div>
+    </div>
+    <!-- <div class="filter-container">
+      <span class="text-lable">课件名称：</span>
       <el-input
         v-model="listQuery.name"
         placeholder="请输入课程名称"
@@ -11,7 +14,7 @@
         clearable
         @keyup.enter.native="handleSelect"
       />
-      <span class="text-lable">课程类型：</span>
+      <span class="text-lable">课件类型：</span>
       <el-select
         v-model="listQuery.status"
         placeholder="请选择"
@@ -29,7 +32,7 @@
       <el-button v-waves class="filter-item search-btn" type="primary" @click="handleSelect">
         <span>搜索</span>
       </el-button>
-    </div>
+    </div> -->
     <!-- 工具栏 -->
     <div class="panelBar">
       <ul class="toolBar">
@@ -50,7 +53,7 @@
     <!-- 表格 -->
     <el-table
       :key="tableKey"
-      ref="NodeTable"
+      ref="Courseware"
       v-loading="listLoading"
       :data="list"
       size="mini"
@@ -63,7 +66,6 @@
       :header-cell-style="{background:'#F0F5F7', color:'#333333'}"
       :cell-style="{padding:'3px 2px'}"
       @row-click="checkViews"
-      @row-dblclick="DblUpdateNode"
       @selection-change="handleSelectionChange"
     >
       <el-table-column
@@ -73,14 +75,15 @@
       <!-- 序列号 -->
       <el-table-column label="序号" type="index" align="left" width="80px" />
       <!-- 名称 -->
-      <el-table-column label="课件名称" prop="nodeCode" align="left" min-width="200px" />
-      <!-- 表单编码 -->
-      <el-table-column label="课件类型" prop="nodeName" align="left" width="210px" />
-      <!-- 表单版本 -->
-      <el-table-column label="大小" prop="pendingNodeName" align="left" width="210px" />
-      <el-table-column label="课件描述" prop="handledNodeName" align="left" width="210px" />
-      <el-table-column label="上传日期" prop="handledNodeName" align="left" width="210px" />
-      <el-table-column label="上传者" prop="handledNodeName" align="left" width="210px" />
+      <el-table-column label="课件名称" prop="cwname" align="left" min-width="200px" >
+        <template slot-scope="scope">
+          <img src="../../../views/images/文件夹.png" style="width:16px;vertical-align: text-bottom;">
+          <router-link class="table-link" :to="{name:'CheckCourseware',query:{ id:scope.row.id, cwname:scope.row.cwname }}">{{scope.row.cwname}}</router-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="课件类型" prop="cwtype" align="left" width="210px" />
+      <el-table-column label="课件描述" prop="cwintroduction" align="left" width="210px" />
+      <el-table-column label="上传日期" prop="cwcreattime" align="left" width="210px" />
       <!-- <el-table-column label="类型" prop="type" align="center" width="80px">
         <template slot-scope="scope">
           {{ map[scope.row.type] }}
@@ -116,7 +119,7 @@
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getProcessNode } from '@/api/user'
+import { getCourseware } from '@/api/user'
 import { deleteNodeCode } from '@/api/delete'
 
 // 类型
@@ -165,12 +168,10 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 20,
-        nodeName: '',
-        nodeCode: '',
-        pendingNodeName: '',
-        handledNodeName: ''
+        pageSize: 20
       },
+      courseid: this.$route.query.id,
+      coursename: this.$route.query.coursename,
       StatusOptions, // 状态选择
       TypeOptions, // 类型
       showReviewer: false,
@@ -207,14 +208,13 @@ export default {
     getList() {
       this.listLoading = true
       const data = {
-        pageIndex: this.listQuery.pageIndex,
-        pageSize: this.listQuery.pageSize,
-        nodeName: this.listQuery.nodeName,
-        nodeCode: this.listQuery.nodeCode
+        page: this.listQuery.pageIndex,
+        courseid: this.courseid
       }
-      getProcessNode(data).then(response => {
-        this.list = response.data.list
-        this.total = response.data.count
+      console.log('ceshi接口getCourseware', data)
+      getCourseware(data).then(response => {
+        this.list = response.data.content
+        this.total = response.data.totalElements
         console.log('测试长度', response.data)
         if (this.listQuery.length === 0) {
           this.$confirm('未搜到相关表单！', '搜索提示', {
@@ -230,39 +230,27 @@ export default {
     // 添加
     addForm() {
       this.$router.push({
-        path: '../QualityCtrlMg/ProcessNode/addNode.vue',
-        name: 'AddProcessNode'
+        path: '../courseMg/coursewarMg/uploadCourseware.vue',
+        name: 'UploadCourseware'
       })
     },
-    // 修改节点
-    UpdateNode(index, row) {
-      this.$router.push({
-        path: '../QualityCtrlMg/updateNode',
-        name: 'UpdateNode',
-        query: {
-          nodeCode: row.nodeCode,
-          nodeName: row.nodeName,
-          pendingNodeName: row.pendingNodeName,
-          handledNodeName: row.handledNodeName
-        }
-      })
-    },
+    // // 修改节点
+    // UpdateNode(index, row) {
+    //   this.$router.push({
+    //     path: '../QualityCtrlMg/updateNode',
+    //     name: 'UpdateNode',
+    //     query: {
+    //       nodeCode: row.nodeCode,
+    //       nodeName: row.nodeName,
+    //       pendingNodeName: row.pendingNodeName,
+    //       handledNodeName: row.handledNodeName
+    //     }
+    //   })
+    // },
     // 搜索
     handleSelect() {
         this.listQuery.page = 1
         this.getList()
-    },
-    DblUpdateNode(form) {
-        this.$router.push({
-        path: '../QualityCtrlMg/updateNode',
-        name: 'UpdateNode',
-        query: {
-          nodeCode: this.form.nodeCode,
-          nodeName: this.form.nodeName,
-          pendingNodeName: this.form.pendingNodeName,
-          handledNodeName: this.form.handledNodeName
-        }
-      })
     },
     deleteRow(index, rows) { // 删除该行
     this.$confirm('确定删除此行?', '删除提示', {
@@ -321,6 +309,19 @@ export default {
   margin-left: 25%;
   .el-button {
     margin-right: 50px;
+  }
+}
+.coursename{
+  margin: 0 5px 5px 5px;
+  .content-title {
+    width: 120px;
+    height: 30px;
+    font-size: 15px;
+    font-family: STSongti-SC-Black, STSongti-SC;
+    font-weight: 900;
+    color: rgba(51, 51, 51, 1);
+    line-height: 25px;
+    border-bottom: 3px solid #58d1b3;
   }
 }
 </style>

@@ -64,7 +64,14 @@
                 <template slot-scope="scope">
                 <el-form-item :prop="'list.' + scope.$index + '.qcItemType'" :rules="rules.qcItemType" style="margin-bottom:0px!important">
                   <el-select v-model="scope.row.qcItemType" @change="TypeChange($event, scope.row)" clearable filterable placeholder="请选择">
-                    <el-option v-for="o in itemsTypeOptions" :key="o.qcItemType" :title="o.qcItemTypeName + ' ' + o.qcItemType" :label="o.qcItemTypeName + ' ' + o.qcItemType" :value="o.qcItemType" style="width: 168px">{{ o.qcItemTypeName + ' ' + o.qcItemType }}</el-option>
+                    <el-option v-for="o in itemsTypeOptions" 
+                      :key="o.qcItemType" 
+                      :title="o.qcItemTypeName + ' ' + o.qcItemType" 
+                      :label="o.qcItemTypeName + ' ' + o.qcItemType" 
+                      :value="o.qcItemType" 
+                      style="width: 168px">
+                      {{ o.qcItemTypeName + ' ' + o.qcItemType }}
+                    </el-option>
                   </el-select>
                 </el-form-item>
                 </template>

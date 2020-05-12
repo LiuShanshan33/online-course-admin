@@ -226,6 +226,30 @@ export const constantRoutes = [{
         }
       },
       {
+        path: 'checkCourseware',
+        component: () => import('@/views/courseMg/coursewareMg/checkCourseware.vue'),
+        name: 'CheckCourseware',
+        hidden: true,
+        meta: {
+          isUseCache: true,
+          keepAlive: true,
+          title: ' 课件信息',
+          affix: false
+        }
+      },
+      {
+        path: 'addCourse',
+        component: () => import('@/views/courseMg/coursewareMg/addCourse.vue'),
+        name: 'AddCourse',
+        hidden: true,
+        meta: {
+          isUseCache: true,
+          keepAlive: true,
+          title: ' 添加课程',
+          affix: false
+        }
+      },
+      {
         path: 'uploadCourseware',
         component: () => import('@/views/courseMg/coursewareMg/uploadCourseware.vue'),
         name: 'UploadCourseware',

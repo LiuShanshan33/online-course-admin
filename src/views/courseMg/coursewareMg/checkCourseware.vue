@@ -1,34 +1,8 @@
-// 课件管理
+// 查看课件详情
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <span class="text-lable">课程名称：</span>
-      <el-input
-        v-model="listQuery.coursename"
-        placeholder="请输入课程名称"
-        style="width: 145px;"
-        class="filter-item"
-        clearable
-        @keyup.enter.native="handleSelect"
-      />
-      <span class="text-lable">课程类型：</span>
-      <el-select
-        v-model="listQuery.Type"
-        placeholder="请选择"
-        clearable
-        class="filter-item"
-        style="width: 118px"
-      >
-        <el-option
-          v-for="item in TypeOptions"
-          :key="item"
-          :label="item"
-          :value="item"
-        />
-      </el-select>
-      <el-button v-waves class="filter-item search-btn" type="primary" @click="handleSelect">
-        <span>搜索</span>
-      </el-button>
+    <div class="cwname">
+      <div class="content-title">{{cwname}}</div>
     </div>
     <!-- 工具栏 -->
     <div class="panelBar">
@@ -42,17 +16,16 @@
         <li>
           <a @click="Alldelete">
             <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
-            <span class="barIcon">查看</span>
+            <span class="barIcon">删除</span>
           </a>
         </li>
       </ul>
     </div>
-
     <!-- 表格 -->
     <el-table
       :key="tableKey"
+      ref="Courseware"
       v-loading="listLoading"
-      ref="courseTable"
       :data="list"
       size="mini"
       :height="tableHeight"
@@ -64,40 +37,33 @@
       :header-cell-style="{background:'#F0F5F7', color:'#333333'}"
       :cell-style="{padding:'3px 2px'}"
       @row-click="checkViews"
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column
+        type="selection"
+        width="55px"
+      />
       <!-- 序列号 -->
       <el-table-column label="序号" type="index" align="left" width="80px" />
       <!-- 名称 -->
-      <el-table-column label="课程文件名" prop="coursename" align="left" width="210px">
-      <template slot-scope="scope">
-          <img src="../../../views/images/文件夹.png" style="width:16px;vertical-align: text-bottom;">
-          <router-link class="table-link" :to="{name:'CoursewareDetail',query:{ id:scope.row.id, coursename:scope.row.coursename }}">{{scope.row.coursename}}</router-link>
+      <el-table-column label="文件名称" prop="teafilename" align="left" min-width="200px" />
+      <el-table-column label="文件类型" prop="teafiletype" align="left" width="210px" />
+      <el-table-column label="文件大小" prop="teafilesize" align="left" width="210px">
+        <template slot-scope="scope">
+          <span>{{scope.row.teafilesize | filterType}}</span>
         </template>
       </el-table-column>
-      <!-- 表单编码 -->
-      <el-table-column label="课程类型" prop="type" align="left" width="140px" />
-      <!-- 表单版本 -->
-      <el-table-column label="面向专业" prop="subject" align="left" width="210px" />
-      <el-table-column label="授课教师" prop="principal" align="left" width="140px" />
-      <el-table-column label="课程简介" prop="introduction" align="left" width="140px" />
-      <el-table-column label="创建时间" prop="creattime" align="left" width="210px" />
-      <!-- <el-table-column label="类型" prop="type" align="center" width="80px">
-        <template slot-scope="scope">
-          {{ map[scope.row.type] }}
-        </template>
-      </el-table-column> -->
       <el-table-column label="操作" prop="formOperateType" align="center" min-width="120px">
         <template slot-scope="scope">
-          <!-- <el-button
+          <el-button
             type="text"
             size="mini"
-            @click="UpdateNode(scope.$index,scope.row)"
-          >修改</el-button> -->
+          >下载</el-button>
           <el-button
             type="text"
             size="mini"
             @click.native.prevent="deleteRow(scope.$index, delarr)"
-          >查看</el-button>
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -116,21 +82,43 @@
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getCourse } from '@/api/user'
+import { getCwDetail } from '@/api/user'
 import { deleteNodeCode } from '@/api/delete'
 
+// 类型
+const TypeOptions = [
+  { key: '1', display_name: '表单' },
+  { key: '2', display_name: '列表' },
+  { key: '3', display_name: '列表和打印' }
+]
+// 状态选择
+const StatusOptions = [
+  { key: '1', display_name: '已启用' },
+  { key: '2', display_name: '已禁用' }
+]
+
+const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
+  acc[cur.key] = cur.display_name
+  return acc
+}, {})
+
+const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
+  abc[curr.key] = curr.display_name
+  return abc
+}, {})
 
 export default {
-  // name: 'CoursewareMg',
+  name: 'CheckCourseware',
   components: { Pagination },
   directives: { waves },
   filters: {
-    statusFilter(status) {
-      return StatusKeyValue[status]
+    filterType(val) {
+      if(val ===0 )return "0 B"
+      let k = 1024
+      let sizes = ["B","KB","MB","GB","TB","PB","EB"]
+      i = Math.floor(Math.log(val)/ Math.log(k))
+      return (val / Math.pow(k ,i)).toPrecision(3) + " " + sizes[i]
     },
-    typeFilter(type) {
-      return TypeKeyValue[type]
-    }
   },
   data() {
     return {
@@ -138,15 +126,18 @@ export default {
       list: null,
       total: 0,
       id: '',
-      delarr:[],
+      delarr: [],
       // NodeTable: {},
       ableCheck: false,
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 20
       },
-      TypeOptions:['必修','选修'], // 类型
+      cwid: this.$route.query.id,
+      cwname: this.$route.query.cwname,
+      StatusOptions, // 状态选择
+      TypeOptions, // 类型
       showReviewer: false,
       dialogFormVisible: false,
       rules: {
@@ -173,22 +164,23 @@ export default {
   },
   methods: {
     checkViews(row) {
-      // this.$refs.NodeTable.toggleRowSelection(row)
+      this.$refs.NodeTable.toggleRowSelection(row)
       this.form = row
       this.ableCheck = true
       console.log('有变化么', this.form)
     },
     getList() {
       this.listLoading = true
-      let data = {
+      const data = {
         page: this.listQuery.pageIndex,
+        cwid: this.cwid
       }
-      console.log('调用接口前的data',data)
-      getCourse(data).then(response => {
+      console.log('ceshi接口getCwDetail', data)
+      getCwDetail(data).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
-        console.log('测试长度', this.list)
-        if (this.list.length === 0) {
+        console.log('测试长度', response.data)
+        if (this.listQuery.length === 0) {
           this.$confirm('未搜到相关表单！', '搜索提示', {
             confirmButtonText: '确定',
             type: 'warning'
@@ -202,10 +194,23 @@ export default {
     // 添加
     addForm() {
       this.$router.push({
-        path: '../courseMg/coursewareMg/addCourse.vue',
-        name: 'AddCourse'
+        path: '../QualityCtrlMg/ProcessNode/addNode.vue',
+        name: 'AddProcessNode'
       })
     },
+    // // 修改节点
+    // UpdateNode(index, row) {
+    //   this.$router.push({
+    //     path: '../QualityCtrlMg/updateNode',
+    //     name: 'UpdateNode',
+    //     query: {
+    //       nodeCode: row.nodeCode,
+    //       nodeName: row.nodeName,
+    //       pendingNodeName: row.pendingNodeName,
+    //       handledNodeName: row.handledNodeName
+    //     }
+    //   })
+    // },
     // 搜索
     handleSelect() {
         this.listQuery.page = 1
@@ -230,6 +235,7 @@ export default {
         })
     },
     handleSelectionChange(val) {
+        this.ableCheck = true
         this.multipleSelection = val
         console.log('多选选中的行', this.multipleSelection)
     },
@@ -240,7 +246,7 @@ export default {
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          for(let i = 0 ; i < this.multipleSelection.length; i++){
+          for (let i = 0; i < this.multipleSelection.length; i++) {
             console.log(this.multipleSelection[i].nodeCode)
             deleteNodeCode(this.multipleSelection[i].nodeCode)
           }
@@ -258,7 +264,7 @@ export default {
           type: 'warning'
         })
       }
-    },
+    }
   }
 }
 </script>
@@ -269,9 +275,17 @@ export default {
     margin-right: 50px;
   }
 }
-// 下划线蓝色字
-// .table-link{
-//   color:#0585c0;
-//   text-decoration: underline;
-// }
+.cwname{
+  margin: 0 5px 5px 5px;
+  .content-title {
+    width: 120px;
+    height: 30px;
+    font-size: 15px;
+    font-family: STSongti-SC-Black, STSongti-SC;
+    font-weight: 900;
+    color: rgba(51, 51, 51, 1);
+    line-height: 25px;
+    border-bottom: 3px solid #58d1b3;
+  }
+}
 </style>

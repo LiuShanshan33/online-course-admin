@@ -2,57 +2,48 @@
   <el-scrollbar style="height:100%">
     <div class="container">
       <div class="top-container">
-        <div class="content-title">课件上传</div>
+        <div class="content-title">添加课程</div>
         <hr>
       </div>
       <div class="content">
         <div class="scoll" :style="conheight">
-          <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="80px" size="mini">
-             <el-form-item label="课件名称">
-              <el-input v-model="ruleForm.intro" placeholder="请输入" />
+          <el-form ref="courseForm" :model="courseForm" :rules="rules" label-width="80px" size="mini">
+            <el-form-item label="课程名称" prop="coursename">
+              <el-input v-model="courseForm.coursename" placeholder="请输入" />
             </el-form-item>
-            <el-form-item label="课件类型">
-              <el-select v-model="TypeOptions" placeholder="请选择">
-                <el-option
-                  v-for="item in TypeOptions"
-                  :key="item.key"
-                  :label="item.display_name"
-                  :value="item.display_name"
-                />
-              </el-select>
+            <el-form-item label="课程类型" prop="type">
+              <el-radio-group v-model="courseForm.type">
+                <el-radio label="必修">必修课</el-radio>
+                <el-radio label="选修">选修课</el-radio>
+              </el-radio-group>
             </el-form-item>
-            <el-form-item label="教学科目" prop="name">
-              <el-select v-model="TypeOptions" placeholder="请选择">
-                <el-option
-                  v-for="item in TypeOptions"
-                  :key="item.key"
-                  :label="item.display_name"
-                  :value="item.display_name"
-                />
-              </el-select>
+            <el-form-item label="面向专业" prop="subject">
+              <el-radio-group v-model="courseForm.subject" @change="radioChange">
+                <el-radio label="全体">全体学生</el-radio>
+                <el-radio label="部分">部分学生</el-radio>
+              </el-radio-group>
             </el-form-item>
-            <el-form-item label="上传课件">
-              <!-- <el-upload
-                class="upload-demo"
-                action="http://47.98.251.65:80/api/upload/"
-                ref="upload"
-                :file-list="fileList"
-                :http-request="modeUpload"
-                multiple
-                :limit="3"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">请选择需要上传的课件，一次不超过3个</div>
-              </el-upload> -->
-              <input type="file" multiple="multiple" ref="fileInt" value="changeHandle" id="changeHandle" @change="fileChange">
-              <p class="comment"><pre>{{ fileNameAll }}</pre></p>
+            <el-form-item v-if="changesubject" label="院系专业">
+              <el-cascader
+                ref="myCascader"
+                v-model="subject"
+                :options="options"
+                :props="cascaderProp"
+                size="medium"
+                class="cascader"
+                @change="cascaderChange"
+                clearable
+              />
             </el-form-item>
-            <el-form-item label="课件描述">
-              <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
+            <el-form-item label="课程负责人">
+              <el-input v-model="courseForm.principal" placeholder="如有多个请用“,”隔开" />
+            </el-form-item>
+             <el-form-item label="课程描述">
+              <el-input v-model="courseForm.introduction" type="textarea" placeholder="请输入" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="changeHandle">确认上传</el-button>
-              <!-- <el-button @click="resetForm('ruleForm')">取消</el-button> -->
+              <el-button type="primary" @click="saveCourse('courseForm')">确认添加</el-button>
+              <!-- <el-button @click="resetForm('courseForm')">取消</el-button> -->
             </el-form-item>
           </el-form></div>
       </div>
@@ -62,7 +53,7 @@
 
 <script>
 
-import { uploadCourseware } from '@/api/user'
+import { addCourseInfo } from '@/api/user'
 
 // 类型
 // const TypeOptions = [
@@ -75,38 +66,43 @@ import { uploadCourseware } from '@/api/user'
 //   return acc
 // }, {})
 export default {
-  name: 'HospitalInfo',
+  name: 'AddCourse',
   data() {
     return {
       radio: 0,
-      MajorRadio: 0,
+      changesubject: 0,
+      subject: [],
+      saveSubject: "",
       fileList: [],
       Campus: ['湛江校区', '东莞校区'],
       TypeOptions:['PPT', 'Word', '视频'],
       mode:{},
-      fileNameAll:"",
-      ruleForm: {
-        type: '视频'
+      courseForm: {
+        type: '必修',
+        subject: '全体'
       },
       conheight: {
         height: ''
       },
       rules: {
-        name: [
+        coursename: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ],
-        address: [
+        introduction: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ],
-        bedNum: [
+        type: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ],
-        zipCode: [
+        principal: [
+          { required: true, message: '必填字段', trigger: 'blur' }
+        ],
+        subject: [
           { required: true, message: '必填字段', trigger: 'blur' }
         ]
       },
       options: [{
-          value: 'zhinan',
+          value: '2016',
           label: '2016',
           children: [{
             value: 'shejiyuanze',
@@ -136,7 +132,7 @@ export default {
             }]
           }]
         }, {
-          value: 'zujian',
+          value: '2017',
           label: '2017',
           children: [{
             value: 'basic',
@@ -287,7 +283,7 @@ export default {
             }]
           }]
         }, {
-          value: 'ziyuan',
+          value: '2018',
           label: '2018',
           children: [{
             value: 'axure',
@@ -302,7 +298,7 @@ export default {
         }],
       cascaderProp: {
         multiple: true,
-        checkStrictly: true
+        // checkStrictly: true
       }
     }
   },
@@ -313,80 +309,52 @@ export default {
     tableHeight() {
       this.conheight.height = window.innerHeight - 140 + 'px'
     },
-    // submitUpload() {
-    //     this.$refs.upload.submit()
-    //     this.$message({
-    //       type: 'success',
-    //       message: '上传成功'
-    //     })
-    // },
-    // handleRemove(file, fileList) {
-    //   console.log(file, fileList)
-    // },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`)
-    // },
-      fileChange(){
-        this.fileNameAll = ''
-         for(var i = 0; i < this.$refs.fileInt.files.length; i++){
-          this.fileNameAll += this.$refs.fileInt.files[i].name + "\n"
-        }      
-        console.log('fileList',this.fileNameAll)
-      },
-      // 确认上传
-      changeHandle() {
-        const file = this.$refs.fileInt.files[0]
-        console.log('file',file)
-        const data = new FormData()
-        data.append('file', file);
-        // uploadCourseware(data).then(res => {
-        //   console.log(res);
-        // }).catch(err => {
-        //   console.log(err);
-        // });
-      },
-
-    // 上传列表
-    modeUpload: function(item) {
-        console.log('item.file',item.file)
-        this.mode = item.file
-        console.log('this.mode',this.mode)
-    },
-    // 点击确认上传
-    // submitUpload() {
-    //   let file = this.mode
-    //   let Courseware = new FormData()
-    //   Courseware.append('files', file)
-    //   console.log('上传的东西', Courseware.get('files'))
-    //   uploadCourseware(Courseware).then(response => {
-    //     console.log(response.data);
-    //   })
-    // },
     radioChange($event) {
-      console.log('选中状态改变时radio的值', this.radio)
+      this.changesubject = !this.changesubject
+      console.log('选中状态改变时radio的值', this.courseForm.subject)
     },
-    // saveHosInfo(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       saveHospital(this.ruleForm).then(response => {
-    //         this.ruleForm = response.data
-    //         this.$message({
-    //           type: 'success',
-    //           message: '保存成功'
-    //         })
-    //       })
-    //     } else {
-    //       this.$message({
-    //         type: 'error',
-    //         message: '提交数据不完整，请改正后再提交！'
-    //       })
-    //       return false
-    //     }
-    //   })
-    // }
+    // 获取级联选择器选中值
+    cascaderChange() {
+      console.log('subject', this.subject)
+      let Ssubject = ""
+      for(let i = 0 ; i < this.subject.length; i++ ) {
+        Ssubject += this.$refs['myCascader'].getCheckedNodes()[i].pathLabels[0] + this.$refs['myCascader'].getCheckedNodes()[i].pathLabels[2] + ","
+        console.log('测试pathLabels', this.$refs['myCascader'].getCheckedNodes()[i]) 
+      }
+      this.saveSubject = Ssubject
+      console.log('subject', this.saveSubject)      
+    },
+    saveCourse(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log('保存this.courseForm', this.courseForm)
+          const coursename = this.courseForm.coursename
+          const introduction = this.courseForm.introduction
+          const type = this.courseForm.type
+          const principal = this.courseForm.principal
+          let subject = ""
+          if(this.Ssubject !==''){
+            subject = this.saveSubject
+          }else{
+            subject = this.courseForm.subject
+          }
+          console.log('保存subject', subject)
+          // addCourseInfo(coursename, introduction, type, principal, subject).then(response => {
+          //   this.courseForm = response.data
+          //   this.$message({
+          //     type: 'success',
+          //     message: '保存成功'
+          //   })
+          // })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '提交数据不完整，请改正后再提交！'
+          })
+          return false
+        }
+      })
+    }
   }
 }
 </script>
@@ -409,7 +377,5 @@ export default {
 .cascader{
   width: 50%;
 }
-.comment{
-    white-space:pre-wrap;
-} 
+
 </style>

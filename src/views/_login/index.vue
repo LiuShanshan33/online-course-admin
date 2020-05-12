@@ -101,8 +101,8 @@ export default {
       //   password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       // },
        loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true, message: '用户名不能为空',trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空',trigger: 'blur' }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -181,9 +181,17 @@ export default {
             console.log('返回数据', response)
             this.$store.dispatch('user/login', response)
             this.loading = false
-            this.$message.success('登录成功')
-            // 登录成功后跳转到工作台首页
-            this.$router.push('/Home/working')
+            if(response.data.status === 200){
+               this.$message.success('登录成功')
+              // 登录成功后跳转到工作台首页
+              this.$router.push('/Home/working')
+            }
+            else{
+              this.$message({
+                message: response.data.data,
+                type: 'error'
+              });
+            }
           })
           // .catch((e) => {
           //   // this.$message.error('账号/密码不正确请重新输入')

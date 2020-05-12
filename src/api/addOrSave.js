@@ -34,6 +34,15 @@ export function updateStuInfo(id, scollege, sid, scampus, grade, major, sphone, 
     data: qs.stringify({ id, scollege, sid, scampus, grade, major, sphone, sname, ssex })
   })
 }
+// 添加课程
+export function addCourseInfo(coursename, introduction, type, principal, subject) {
+  return request({
+    url: '/course/add',
+    method: 'post',
+    data: qs.stringify({ coursename, introduction, type, principal, subject })
+  })
+}
+
 // 添加公告
 export function addAnnInfo(content, title) {
   return request({

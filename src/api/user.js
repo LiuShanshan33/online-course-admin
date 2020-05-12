@@ -59,8 +59,30 @@ export function uploadCourseware(data) {
     data
   })
 }
-
-
+// 课程信息页面
+export function getCourse(data) {
+  return request({
+    url: '/course/query',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+// 课件信息页面
+export function getCourseware(data) {
+  return request({
+    url: '/courseware/query',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+// 课件详情页面
+export function getCwDetail(data) {
+  return request({
+    url: '/file/query',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
 // 护理诊断分页查询接口
 export function getPage_2(data, pageIndex, pageSize) {
   return request({
