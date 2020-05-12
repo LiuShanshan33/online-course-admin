@@ -34,6 +34,9 @@ import vuedraggable from 'vuedraggable';
 //   mockXHR()
 // }
 
+
+
+
 Vue.use(VueDND)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size

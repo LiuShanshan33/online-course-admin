@@ -44,7 +44,7 @@
       </div>
       <div class="unit-right">
         <div class="countsInfo">
-          <div class="count-icon">
+          <div class="count-icon1">
             <img src="../home/components/image/课件.png" width="30px">
           </div>
           <div class="icon-text">
@@ -53,8 +53,8 @@
           </div>
         </div>
         <div class="countsInfo">
-          <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px">
+          <div class="count-icon2">
+            <img src="../home/components/image/课程.png" width="30px">
           </div>
           <div class="icon-text">
             <span class="counts">{{ coursewareCount }}</span>
@@ -62,8 +62,8 @@
           </div>
         </div>
         <div class="countsInfo">
-          <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px">
+          <div class="count-icon3">
+            <img src="../home/components/image/教师.png" width="30px">
           </div>
           <div class="icon-text">
             <span class="counts">{{ coursewareCount }}</span>
@@ -71,8 +71,8 @@
           </div>
         </div>
         <div class="countsInfo">
-          <div class="count-icon">
-            <img src="../images/文件夹@2x.png" width="30px">
+          <div class="count-icon4">
+            <img src="../home/components/image/学生.png" width="30px">
           </div>
           <div class="icon-text">
             <span class="counts">{{ coursewareCount }}</span>
@@ -158,11 +158,11 @@ export default {
       nowWeek: '', // 当前星期
       nowYear: '', // 当前年份
       info: {
-        'os.name': 1111111,
-        'os.version': 222222,
-        'user.name': 333333,
-        'user.timezone': 332211,
-        'file.encoding': 123123
+        'os.name':'Windows 10',
+        'os.version': '18362.720',
+        'user.name': '开发',
+        'user.timezone': 'Asia/Shanghai',
+        'file.encoding': 'UTF-8'
       },
       list:null,
       pageIndex: 1,
@@ -258,7 +258,10 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 90%;
+  width: 100%;
+  min-width:50%;
+  max-height: 600px;
   margin: 5px 10px;
   font-size: 15px;
   font-weight: 800;
@@ -269,6 +272,7 @@ export default {
     flex-direction: row; //项目排列方向
     justify-content: space-around;
     margin-bottom: 20px;
+    max-height: 200px;
     .unit-left {
       display: flex;
       flex-direction: column;
@@ -278,6 +282,7 @@ export default {
       padding: 5px 10px;
       position: relative;
       margin-right: 20px;
+      width: 50%;
       .sysUp {
         flex: 1;
         margin: 13px auto 5px 10px;
@@ -338,48 +343,65 @@ export default {
     // 上面右边
     .unit-right {
       display: flex;
-      flex: 2;
+      flex: 1;
       flex-direction: row; //项目排列方向
       justify-content: space-around;
       flex-wrap: wrap;
       margin-bottom: 20px;
-      flex: 1;
       padding: 5px 10px;
       position: relative;
       margin-right: 0px;
+     
       // 右边课件信息数据
       .countsInfo {
-        // display: flex;
-        // flex: 1;
-        width: 220px;
+        display: flex;
+        flex: 1;
+        width: 35%;
         height: 50px;
         background: rgba(249, 249, 249, 1);
         box-shadow: -2px 2px 5px rgb(202, 202, 202);
         position: relative;
         margin-top: 15px;
         margin-right: 30px;
-        .count-icon {
+        .count-icon1 {
           display: inline-block;
           background: #fcd12c;
+          padding: 8px;
+        }
+         .count-icon2 {
+          display: inline-block;
+          background: #5bccf1;
+          padding: 8px;
+          
+        }
+         .count-icon3 {
+          display: inline-block;
+          background: #ff6d5a;
+          padding: 8px;
+        }
+         .count-icon4 {
+          display: inline-block;
+          background: #63d0c5;
           padding: 8px;
         }
         .icon-text {
           display: inline-block;
           width: 140px;
           .counts {
-            width: 100%;
-            text-align: center;
+            width: 80%;
+            text-align:right;
             font-size: 20px;
             color: #000;
             line-height: 20px;
             display: inline-block;
+            margin-top: 5px;
           }
           .count-text {
-            width: 100%;
-            text-align: center;
-            font-size: 13px;
-            margin: 2px auto;
-            color: rgb(109, 109, 109);
+            width: 90%;
+            text-align: right;
+            font-size: 12px;
+            margin: 3px auto;
+            color: #bbbbbb;
             display: inline-block;
           }
         }

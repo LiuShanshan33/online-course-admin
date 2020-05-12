@@ -21,7 +21,7 @@
             </el-form-item>
              <el-form-item label="所在校区">
               <el-select v-model="ruleForm.type" placeholder="请选择">
-                <el-option v-for="types in typeItems" :key="types" value="湛江校区" />
+                <el-option v-for="types in typeItems" :key="types" :value="types" />
               </el-select>
             </el-form-item>
             <el-form-item label="电话">
@@ -54,8 +54,8 @@ export default {
   name: 'HospitalInfo',
   data() {
     return {
-      typeItems: ['综合', '专科'],
-      gradeItems: ['特级', '三甲', '三乙', '三丙', '二甲', '二乙', '二丙', '一甲', '一乙', '一丙'],
+      typeItems: ['湛江校区', '东莞校区','海东校区'],
+      gradeItems: ['一本','二本','三本','专科院校'],
       ruleForm: {},
       conheight: {
         height: ''

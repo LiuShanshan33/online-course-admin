@@ -65,9 +65,9 @@ export default {
         tcollege: ''
       },
       TsexOptions: ['男', '女'], // 性别选择
-      PositonOptions: ['高级教师', '讲师'], // 职称选择
+      PositonOptions: ['助教', '讲师','副教授','教授'], // 职称选择
       campusOptions: ['湛江校区', '东莞校区'], // 校区选择
-      collegeOptions: ['生物医学工程学院', '基础医学院'], // 学院选择
+      collegeOptions: ['生物医学工程学院', '基础医学院','外国语学院','第一临床医学院','第二临床医学院','第三临床医学院','医学检验学院','护理学院','药学院','人文与管理学院','公共卫生学院'], // 学院选择
       rules: {
         tname: [
           { required: true, message: '必填字段', trigger: 'blur' }

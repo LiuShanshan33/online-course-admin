@@ -184,7 +184,7 @@ export default {
       nowTime: '', // 当前时间
       GradeOptions:['2015','2016','2017','2018','2019'],
       ScampusOptions:['东莞校区', '湛江校区'], // 状态选择
-      ScollegeOptions:['生物医学工程学院', '基础医学院'], // 类型
+      ScollegeOptions:['生物医学工程学院', '基础医学院','外国语学院','第一临床医学院','第二临床医学院','第三临床医学院','医学检验学院','护理学院','药学院','人文与管理学院','公共卫生学院'], // 类型
       showReviewer: false,
       dialogFormVisible: false,
       form: {
