@@ -18,12 +18,10 @@ export function getInfo() {
     method: 'get'
   })
 }
-
-
-// 教师信息页面
-export function getTeaInfo(page) {
+// 获取首页信息接口
+export function getIndexInfo() {
   return request({
-    url: `/tea/query/?page=${page}`,
+    url: '/index',
     method: 'get'
   })
 }
@@ -45,16 +43,17 @@ export function getStuInfo(data) {
   })
 }
 // 公告管理页面
-export function getAnnInfo(page) {
+export function getAnnInfo(data) {
   return request({
-    url: `/ann/query/?page=${page}`,
-    method: 'get'
+    url: '/ann/query',
+    method: 'post',
+    data: qs.stringify(data)
   })
 }
 // 上传课件页面
 export function uploadCourseware(data) {
   return request({
-    url: '/upload',
+    url: '/courseware/upload',
     method: 'post',
     data
   })
@@ -83,6 +82,22 @@ export function getCwDetail(data) {
     data: qs.stringify(data)
   })
 }
+// 院校页面/root/log/query
+export function getCollege(page) {
+  return request({
+    url: `tb/cquery/?page=${page}`,
+    method: 'get'
+  })
+}
+// 登录日志页面
+export function getLoginLog(data) {
+  return request({
+    url: '/root/log/query',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 // 护理诊断分页查询接口
 export function getPage_2(data, pageIndex, pageSize) {
   return request({
@@ -418,14 +433,6 @@ export function getFormList() {
   return request({
     url: '/admin/form/getList',
     method: 'get'
-  })
-}
-// 登录日志
-export function getLoginLog(data) {
-  return request({
-    url: '/admin/logLogin/getPage',
-    method: 'post',
-    data
   })
 }
 // 操作日志

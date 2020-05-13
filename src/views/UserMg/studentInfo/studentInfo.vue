@@ -254,7 +254,7 @@ export default {
       this.listLoading = true
        let data = {
         page: this.listQuery.pageIndex,
-        // size: this.listQuery.pageSize
+        pagesize: this.listQuery.pageSize
         }
         if(this.listQuery.Sname){
           data.Sname = this.listQuery.Sname

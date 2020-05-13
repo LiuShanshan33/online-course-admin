@@ -57,7 +57,7 @@
             <img src="../home/components/image/课程.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{ coursewareCount }}</span>
+            <span class="counts">{{ courseCount }}</span>
             <span class="count-text">系统总课程数</span>
           </div>
         </div>
@@ -66,7 +66,7 @@
             <img src="../home/components/image/教师.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{ coursewareCount }}</span>
+            <span class="counts">{{ TeaUser }}</span>
             <span class="count-text">教师用户数量</span>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <img src="../home/components/image/学生.png" width="30px">
           </div>
           <div class="icon-text">
-            <span class="counts">{{ coursewareCount }}</span>
+            <span class="counts">{{ StuUser }}</span>
             <span class="count-text">学生用户数量</span>
           </div>
         </div>
@@ -131,15 +131,14 @@
         <p class="announcement-title">{{ announcementTitle }}</p>
         <p>&nbsp; 各位亲爱的教师用户：</p>
         <p class="announcement-content">&nbsp; {{ content }}</p>
-        <a class="more">查看更多>></a>
+        <a @click="AnnMore" class="more">查看更多>></a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getMoudleOptions } from '@/api/moudle'
-import { getAnnInfo, getInfo } from '@/api/user'
+import { getAnnInfo, getInfo, getIndexInfo  } from '@/api/user'
 import { json } from '@/json/moudle.js'
 import draggable from 'vuedraggable'
 import Calendar from 'vue-calendar-component'
@@ -166,7 +165,11 @@ export default {
       },
       list:null,
       pageIndex: 1,
-      coursewareCount: '1580', // 系统总课件数
+      pagesize: 10,
+      coursewareCount: '0', // 系统总课件数
+      courseCount:'0', //系统总课程数
+      StuUser:'0', //学生用户
+      TeaUser:'0',
       announcementTitle: '', // 公告标题
       content: '',
       options: [],
@@ -178,6 +181,7 @@ export default {
   created() {
     this.getList()
     this.getDate()
+    this.getTest()
   },
   mounted() {
     // systemInfo().then(res => { this.info = res.data })
@@ -193,8 +197,12 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      console.log(this.pageIndex)
-      getAnnInfo(this.pageIndex).then(response => {
+       let data = {
+        page: this.pageIndex,
+        pagesize: this.pagesize
+      }
+      console.log('首页调用公告',data)
+      getAnnInfo(data).then(response => {
         this.list = response.data.content
         console.log('公告response', response)
         console.log('第一行数据',this.list[0].content)
@@ -244,10 +252,19 @@ export default {
       _this.nowDate = mm + '月' + dd + '日' // 日期
       _this.nowYear = yy
     },
-    editHome() {
+    AnnMore() {
       this.$router.push({
-        path: '../Home/editing-home',
-        name: 'EditingHome'
+        path: '../announcementMg/announcementMg.vue',
+        name: 'AnnMg'
+      })
+    },
+    getTest(){
+      getIndexInfo().then( response => {
+        this.coursewareCount = response.data.data.系统总课件数
+        this.courseCount = response.data.data.系统总课程数
+        this.TeaUser = response.data.data.教师用户数量
+        this.StuUser = response.data.data.学生用户数量
+        console.log('response',response)
       })
     }
   }
@@ -388,8 +405,9 @@ export default {
           display: inline-block;
           width: 140px;
           .counts {
-            width: 80%;
-            text-align:right;
+            width: 100%;
+            text-align:center;
+            margin-left: 5px;
             font-size: 20px;
             color: #000;
             line-height: 20px;

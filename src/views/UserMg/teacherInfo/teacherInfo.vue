@@ -50,7 +50,7 @@
           :value="item"
         />
       </el-select>
-      <el-button v-waves class="filter-item search-btn" type="primary" @click="handleSelect">
+      <el-button v-waves class="filter-item search-btn" type="primary" @click="getList">
         <span>搜索</span>
       </el-button>
     </div>
@@ -138,7 +138,7 @@
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { getTeaInfo, selectTeacher } from '@/api/user'
+import { selectTeacher } from '@/api/user'
 import { deleteTeaInfo } from '@/api/delete'
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
@@ -261,8 +261,24 @@ export default {
     },
     getList() {
       this.listLoading = true
-      console.log(this.listQuery.pageIndex)
-      getTeaInfo(this.listQuery.pageIndex).then(response => {
+        let data = {
+        page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize
+        }
+        if(this.listQuery.Tname){
+          data.Tname = this.listQuery.Tname
+        }
+        if(this.listQuery.Tid){
+          data.Tid = this.listQuery.Tid
+        }
+        if(this.listQuery.Positon){
+          data.Positon = this.listQuery.Positon
+        }
+        if(this.listQuery.Tcollege){
+          data.Tcollege = this.listQuery.Tcollege
+        }
+        console.log('调用接口前的data',data)
+      selectTeacher(data).then(response => {
         console.log('接口测试', response)
         this.list = response.data.content
         this.total = response.data.totalElements
@@ -279,41 +295,41 @@ export default {
       })
     },
 
-    // 搜索
-    handleSelect() {
-      if (this.listQuery.Tname !== '' || this.listQuery.Tid !== '' || this.listQuery.Positon !== ''|| this.listQuery.Tcollege !== '') {
-        let data = {
-        page: this.listQuery.pageIndex,
-        size: this.listQuery.pageSize
-        }
-        if(this.listQuery.Tname){
-          data.Tname = this.listQuery.Tname
-        }
-        if(this.listQuery.Tid){
-          data.Tid = this.listQuery.Tid
-        }
-        if(this.listQuery.Positon){
-          data.Positon = this.listQuery.Positon
-        }
-        if(this.listQuery.Tcollege){
-          data.Tcollege = this.listQuery.Tcollege
-        }
-        // let Tname = this.listQuery.Tname
-        // let Tid = this.listQuery.Tid
-        // let Positon= this.listQuery.Positon
-        // let Tcollege = this.listQuery.Tcollege
-        console.log('查询前的东西',data)
-        selectTeacher(data).then(response =>{
-          console.log('搜索结果',response.data.totalElements)
-          this.list = response.data.content
+    // // 搜索
+    // handleSelect() {
+    //   if (this.listQuery.Tname !== '' || this.listQuery.Tid !== '' || this.listQuery.Positon !== ''|| this.listQuery.Tcollege !== '') {
+    //     let data = {
+    //     page: this.listQuery.pageIndex,
+    //     size: this.listQuery.pageSize
+    //     }
+    //     if(this.listQuery.Tname){
+    //       data.Tname = this.listQuery.Tname
+    //     }
+    //     if(this.listQuery.Tid){
+    //       data.Tid = this.listQuery.Tid
+    //     }
+    //     if(this.listQuery.Positon){
+    //       data.Positon = this.listQuery.Positon
+    //     }
+    //     if(this.listQuery.Tcollege){
+    //       data.Tcollege = this.listQuery.Tcollege
+    //     }
+    //     // let Tname = this.listQuery.Tname
+    //     // let Tid = this.listQuery.Tid
+    //     // let Positon= this.listQuery.Positon
+    //     // let Tcollege = this.listQuery.Tcollege
+    //     console.log('查询前的东西',data)
+    //     selectTeacher(data).then(response =>{
+    //       console.log('搜索结果',response.data.totalElements)
+    //       this.list = response.data.content
           
-          this.total = response.data.totalElements
-        })
-      } else { // 全空做刷新
-        this.listQuery.page = 1
-        this.getList()
-      }
-    },
+    //       this.total = response.data.totalElements
+    //     })
+    //   } else { // 全空做刷新
+    //     this.listQuery.page = 1
+    //     this.getList()
+    //   }
+    // },
 
     // 重置密码
     resetPwd() {

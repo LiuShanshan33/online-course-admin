@@ -53,7 +53,7 @@
 
 <script>
 
-import { addCourseInfo } from '@/api/user'
+import { addCourseInfo } from '@/api/addOrSave'
 
 // 类型
 // const TypeOptions = [
@@ -321,7 +321,7 @@ export default {
         Ssubject += this.$refs['myCascader'].getCheckedNodes()[i].pathLabels[0] + this.$refs['myCascader'].getCheckedNodes()[i].pathLabels[2] + ","
         console.log('测试pathLabels', this.$refs['myCascader'].getCheckedNodes()[i]) 
       }
-      this.saveSubject = Ssubject
+      this.courseForm.subject = Ssubject
       console.log('subject', this.saveSubject)      
     },
     saveCourse(formName) {
@@ -332,20 +332,22 @@ export default {
           const introduction = this.courseForm.introduction
           const type = this.courseForm.type
           const principal = this.courseForm.principal
-          let subject = ""
-          if(this.Ssubject !==''){
-            subject = this.saveSubject
-          }else{
-            subject = this.courseForm.subject
-          }
-          console.log('保存subject', subject)
-          // addCourseInfo(coursename, introduction, type, principal, subject).then(response => {
-          //   this.courseForm = response.data
-          //   this.$message({
-          //     type: 'success',
-          //     message: '保存成功'
-          //   })
-          // })
+          let subject = this.courseForm.subject
+          // if(this.saveSubject !==''){
+          //   this.subject = this.saveSubject
+          //   console.log('保存subject', subject)
+          // }else{
+          //   this.subject = this.courseForm.subject
+          //   console.log('else')
+          // }
+          console.log('保存subject', this.subject)
+          addCourseInfo(coursename, introduction, type, principal, subject).then(response => {
+            this.$message({
+              type: 'success',
+              message: '保存成功'
+            })
+            this.closeForm()
+          })
         } else {
           this.$message({
             type: 'error',
@@ -354,6 +356,10 @@ export default {
           return false
         }
       })
+    },
+    closeForm(tag) {
+      this.$store.state.tagsView.visitedViews.splice(this.$store.state.tagsView.visitedViews.findIndex(item => item.path === this.$route.path), 1)
+      this.$router.push(this.$store.state.tagsView.visitedViews[this.$store.state.tagsView.visitedViews.length - 1].path)
     }
   }
 }

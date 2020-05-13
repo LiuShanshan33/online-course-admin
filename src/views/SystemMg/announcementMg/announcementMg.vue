@@ -6,13 +6,13 @@
       <ul class="toolBar">
         <li>
           <a @click="addForm('form')">
-            <img src="../../../views/images/添加@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/添加.png" width="17px" height="17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
           <a @click="Alldelete">
-            <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/删除.png" width="17px" height="17px">
             <span class="barIcon">删除</span>
           </a>
         </li>
@@ -208,8 +208,12 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
+      let data = {
+        page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize
+      }
       console.log(this.listQuery.pageIndex)
-      getAnnInfo(this.listQuery.pageIndex).then(response => {
+      getAnnInfo(data).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         console.log('公告response', response)

@@ -220,8 +220,8 @@ export const constantRoutes = [{
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
-          title: ' 课件信息',
+          keepAlive: false,
+          title: ' 课件文件信息',
           affix: false
         }
       },
@@ -232,8 +232,8 @@ export const constantRoutes = [{
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
-          title: ' 课件信息',
+          keepAlive: false,
+          title: ' 课件详情',
           affix: false
         }
       },

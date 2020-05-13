@@ -9,13 +9,13 @@
       <ul class="toolBar">
         <li>
           <a @click="addForm">
-            <img src="../../../views/images/添加@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/添加.png" width="17px" height="17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
           <a @click="Alldelete">
-            <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/删除.png" width="17px" height="17px">
             <span class="barIcon">删除</span>
           </a>
         </li>
@@ -116,7 +116,7 @@ export default {
       if(val ===0 )return "0 B"
       let k = 1024
       let sizes = ["B","KB","MB","GB","TB","PB","EB"]
-      i = Math.floor(Math.log(val)/ Math.log(k))
+      let i = Math.floor(Math.log(val)/ Math.log(k))
       return (val / Math.pow(k ,i)).toPrecision(3) + " " + sizes[i]
     },
   },
@@ -173,6 +173,7 @@ export default {
       this.listLoading = true
       const data = {
         page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize,
         cwid: this.cwid
       }
       console.log('ceshi接口getCwDetail', data)

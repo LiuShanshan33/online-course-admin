@@ -38,13 +38,25 @@
       <ul class="toolBar">
         <li>
           <a @click="addForm">
-            <img src="../../../views/images/添加@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/添加.png" width="17px" height="17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
+          <a >
+            <img src="../../../views/images/查看.png" width="17px" height="17px">
+            <span class="barIcon">查看</span>
+          </a>
+        </li>
+        <li>
           <a @click="Alldelete">
-            <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/编辑.png" width="17px" height="17px">
+            <span class="barIcon">修改</span>
+          </a>
+        </li>
+        <li>
+          <a @click="Alldelete">
+            <img src="../../../views/images/删除.png" width="17px" height="17px">
             <span class="barIcon">删除</span>
           </a>
         </li>
@@ -112,6 +124,32 @@
       :limit.sync="listQuery.pageSize"
       @pagination="getList"
     />
+    <!-- 打开的弹窗的内容 -->
+    <el-dialog
+      title="修改课件文件夹"
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+    >
+      <el-form ref="form" :model="form" :rules="rules">
+        <el-form-item label="课件文件夹名称：" prop="cwname" :label-width="formLabelWidth">
+          <el-input v-model="form.cwname" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="课件类型" prop="cwtype">
+              <el-select v-model="form.cwtype" placeholder="请选择">
+                <el-option
+                  v-for="item in TypeOptions"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+            </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="callOf('form')">取 消</el-button>
+        <el-button type="primary">添 加</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -122,22 +160,13 @@ import Pagination from '@/_components/Pagination' // secondary package based on 
 import { getCourseware } from '@/api/user'
 import { deleteNodeCode } from '@/api/delete'
 
-// 类型
-const TypeOptions = [
-  { key: '1', display_name: '表单' },
-  { key: '2', display_name: '列表' },
-  { key: '3', display_name: '列表和打印' }
-]
+
 // 状态选择
 const StatusOptions = [
   { key: '1', display_name: '已启用' },
   { key: '2', display_name: '已禁用' }
 ]
 
-const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
 
 const StatusKeyValue = StatusOptions.reduce((abc, curr) => {
   abc[curr.key] = curr.display_name
@@ -170,10 +199,17 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
+      form:{
+        cwname: '',
+        cwtypr: '',
+        cwintroduction: ''
+      },
+      dialogFormVisible: false,
+      formLabelWidth: '90px',
       courseid: this.$route.query.id,
       coursename: this.$route.query.coursename,
       StatusOptions, // 状态选择
-      TypeOptions, // 类型
+      TypeOptions:['Word','Excel','PPT','视频'], // 类型
       showReviewer: false,
       dialogFormVisible: false,
       rules: {
@@ -209,6 +245,7 @@ export default {
       this.listLoading = true
       const data = {
         page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize,
         courseid: this.courseid
       }
       console.log('ceshi接口getCourseware', data)
@@ -300,7 +337,13 @@ export default {
           type: 'warning'
         })
       }
-    }
+    },
+    // 点击取消
+    callOf(formName) {
+  　　this.$refs['form'].resetFields()
+      // 关闭对话框
+  　　this.dialogFormVisible = false
+    },
   }
 }
 </script>

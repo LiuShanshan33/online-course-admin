@@ -7,12 +7,12 @@
       </div>
       <div class="content">
         <div class="scoll" :style="conheight">
-          <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="80px" size="mini">
+          <el-form ref="cwForm" :model="cwForm" :rules="rules" label-width="80px" size="mini">
              <el-form-item label="课件名称">
-              <el-input v-model="ruleForm.intro" placeholder="请输入" />
+              <el-input v-model="cwForm.cwname" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="课件类型">
-              <el-select v-model="TypeOptions" placeholder="请选择">
+              <el-select v-model="cwForm.cwtype" placeholder="请选择"  @change="TypeChange($event)">
                 <el-option
                   v-for="item in TypeOptions"
                   :key="item.key"
@@ -21,38 +21,26 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="教学科目" prop="name">
-              <el-select v-model="TypeOptions" placeholder="请选择">
+            <el-form-item label="教学课程" prop="name">
+              <el-select v-model="cwForm.courseid" placeholder="请选择" @change="CourseChange($event)">
                 <el-option
-                  v-for="item in TypeOptions"
-                  :key="item.key"
-                  :label="item.display_name"
-                  :value="item.display_name"
+                  v-for="item in courseOptions"
+                  :key="item.id"
+                  :label="item.coursename + '(' + item.subject + ')'"
+                  :value="item.id"
                 />
               </el-select>
             </el-form-item>
             <el-form-item label="上传课件">
-              <!-- <el-upload
-                class="upload-demo"
-                action="http://47.98.251.65:80/api/upload/"
-                ref="upload"
-                :file-list="fileList"
-                :http-request="modeUpload"
-                multiple
-                :limit="3"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">请选择需要上传的课件，一次不超过3个</div>
-              </el-upload> -->
-              <input type="file" multiple="multiple" ref="fileInt" value="changeHandle" id="changeHandle" @change="fileChange">
+              <input type="file" multiple="multiple" ref="fileInt" value="changeHandle" id="changeHandle" :accept="courseType" @change="fileChange">
               <p class="comment"><pre>{{ fileNameAll }}</pre></p>
             </el-form-item>
             <el-form-item label="课件描述">
-              <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
+              <el-input v-model="cwForm.cwintroduction" type="textarea" placeholder="请输入" /> 
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="changeHandle">确认上传</el-button>
-              <!-- <el-button @click="resetForm('ruleForm')">取消</el-button> -->
+              <!-- <el-button @click="resetForm('cwForm')">取消</el-button> -->
             </el-form-item>
           </el-form></div>
       </div>
@@ -62,18 +50,21 @@
 
 <script>
 
-import { uploadCourseware } from '@/api/user'
+import { uploadCourseware, getCourse } from '@/api/user'
 
 // 类型
-// const TypeOptions = [
-//   { key: '1', display_name: '视频' },
-//   { key: '2', display_name: 'PPT' },
-//   { key: '3', display_name: 'Word文档' }
-// ]
-// const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
-//   acc[cur.key] = cur.display_name
-//   return acc
-// }, {})
+const TypeOptions = [
+  { key: '1', display_name: '视频' },
+  { key: '2', display_name: 'PPT' },
+  { key: '3', display_name: '文档' },
+  { key: '4', display_name: '图片' }
+]
+const TypeKeyValue = TypeOptions.reduce((acc, cur) => {
+  acc[cur.key] = cur.display_name
+  return acc
+}, {})
+
+
 export default {
   name: 'HospitalInfo',
   data() {
@@ -82,15 +73,22 @@ export default {
       MajorRadio: 0,
       fileList: [],
       Campus: ['湛江校区', '东莞校区'],
-      TypeOptions:['PPT', 'Word', '视频'],
+      TypeOptions,
+      courseOptions:'',
       mode:{},
       fileNameAll:"",
-      ruleForm: {
+      cwForm: {
         type: '视频'
+      },
+      courseType:"",
+      listQuery: {
+        pageIndex: 1,
+        pageSize: 10
       },
       conheight: {
         height: ''
       },
+      fileList:[],
       rules: {
         name: [
           { required: true, message: '必填字段', trigger: 'blur' }
@@ -308,45 +306,102 @@ export default {
   },
   created() {
     this.tableHeight()
+    this.getCourseList()
   },
   methods: {
     tableHeight() {
       this.conheight.height = window.innerHeight - 140 + 'px'
     },
-    // submitUpload() {
-    //     this.$refs.upload.submit()
-    //     this.$message({
-    //       type: 'success',
-    //       message: '上传成功'
-    //     })
-    // },
-    // handleRemove(file, fileList) {
-    //   console.log(file, fileList)
-    // },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`)
-    // },
+    // 获取课程
+    getCourseList() {
+      this.listLoading = true
+      let data = {
+        page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize
+      }
+      if(this.listQuery.Type){
+          data.type = this.listQuery.Type
+        }
+        if(this.listQuery.coursename){
+          data.coursename = this.listQuery.coursename
+        }
+      console.log('调用接口前的data',data)
+      getCourse(data).then(response => {
+        this.courseOptions = response.data.content
+        console.log('this.courseOptions', this.courseOptions)
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 100)
+      })
+    },
       fileChange(){
         this.fileNameAll = ''
          for(var i = 0; i < this.$refs.fileInt.files.length; i++){
           this.fileNameAll += this.$refs.fileInt.files[i].name + "\n"
         }      
-        console.log('fileList',this.fileNameAll)
+        console.log('fileNameAll',this.fileNameAll)
+      },
+      // 课程选择改变
+      CourseChange(event) {
+        console.log('选择后返回courseid', event)
+      },
+      // 课件类型改变
+      TypeChange(event) {
+        console.log('选择后返回type', event)
+        if( event === "视频"){
+          this.courseType = ".avi,.mp4,.mov.flv.mkv,.rmvb,.wmv"
+          console.log('视频courseType', this.courseType)
+        }
+        else if(event === "PPT"){
+          this.courseType = ".ppt,.pptx"
+          console.log('PPTcourseType', this.courseType)
+        }
+        else if(event === "文档"){
+          this.courseType = ".doc,.docx,.pdf,.xls,xlsx,.txt,.htm,.html"
+          console.log('文档courseType', this.courseType)
+        }
+        else{
+          this.courseType = ".png,.jpg,.jpeg"
+          console.log('文档courseType', this.courseType)
+        }
       },
       // 确认上传
       changeHandle() {
         const file = this.$refs.fileInt.files[0]
-        console.log('file',file)
+        let count = this.$refs.fileInt.files.length
+        console.log('count',count)
+        // 将文件循环添加到fileList[]
+        for (let i = 0; i < this.$refs.fileInt.files.length; i++) {
+          this.fileList.push(this.$refs.fileInt.files[i])
+        }
+        console.log('fileList',this.fileList)
+        // 循环append添加
         const data = new FormData()
-        data.append('file', file);
-        // uploadCourseware(data).then(res => {
-        //   console.log(res);
-        // }).catch(err => {
-        //   console.log(err);
-        // });
+        this.fileList.forEach(function (file) {
+          data.append('file',file)
+        })
+        console.log(data.getAll('file'))
+        // data.append('file', file)
+        data.append('cwname', this.cwForm.cwname)
+        data.append('cwtype', this.cwForm.cwtype)
+        data.append('cwintroduction', this.cwForm.cwintroduction)
+        data.append('courseid', this.cwForm.courseid)
+        // let form = {
+        //   cwname: this.cwForm.cwname, 
+        //   cwtype: this.cwForm.cwtype,
+        //   cwintroduction: this.cwForm.cwintroduction,
+        //   courseid: this.cwForm.courseid
+        // }
+        console.log('上传前的data',data)
+        uploadCourseware(data).then(res => {
+          console.log(res)
+          this.$message({
+            type: 'success',
+            message: '上传成功'
+          })
+        }).catch(err => {
+          console.log(err);
+        })
       },
 
     // 上传列表
@@ -371,8 +426,8 @@ export default {
     // saveHosInfo(formName) {
     //   this.$refs[formName].validate((valid) => {
     //     if (valid) {
-    //       saveHospital(this.ruleForm).then(response => {
-    //         this.ruleForm = response.data
+    //       saveHospital(this.cwForm).then(response => {
+    //         this.cwForm = response.data
     //         this.$message({
     //           type: 'success',
     //           message: '保存成功'
