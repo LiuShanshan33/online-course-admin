@@ -57,10 +57,13 @@ export default {
       },
       TypeOptions: ['其他', '门诊', '住院', '护理单元', '药房', '财务'], // 类型选择
       rules: {
+       orginalPwd:[{ required: true, message: '请先输入旧密码', trigger: 'blur' }],
        password: [
                 { required: true, message: '请输入密码', trigger: 'blur' },
                 // { min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' },
-                { validator: validatePass, trigger: 'blur' }
+                { validator: validatePass, trigger: 'blur' },
+                { min: 5,max: 25,message: '长度在 5 到 25个字符'}, 
+			          {pattern: /^(\w){5,25}$/, message: '只能输入5-25个字母、数字、下划线'}
         ],
         checkPass: [
                 { required: true, message: '请再次输入密码', trigger: 'blur' },

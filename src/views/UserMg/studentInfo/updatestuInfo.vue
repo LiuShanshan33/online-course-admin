@@ -12,32 +12,32 @@
         <el-form-item label="学号" prop="sid">
           <el-input v-model="StuForm.sid" />
         </el-form-item>
-        <el-form-item label="性别">
+        <el-form-item label="性别" prop="ssex">
           <el-select v-model="StuForm.ssex" placeholder="请选择">
             <el-option v-for="o in SsexOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="年级">
+        <el-form-item label="年级" prop="grade">
           <el-select v-model="StuForm.grade" placeholder="请选择">
             <el-option v-for="o in GradeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="校区">
+        <el-form-item label="校区" prop="scampus">
           <el-select v-model="StuForm.scampus" placeholder="请选择">
             <el-option v-for="o in ScampusOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-         <el-form-item label="所属学院">
+         <el-form-item label="所属学院" prop="sid">
           <el-select v-model="StuForm.scollege" placeholder="请选择">
             <el-option v-for="o in ScollegeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="专业">
+        <el-form-item label="专业" prop="major">
           <el-select v-model="StuForm.major" placeholder="请选择">
             <el-option v-for="o in MajorOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="手机号" prop="sphone"> 
           <el-input v-model="StuForm.sphone" />
         </el-form-item>
 
@@ -74,12 +74,38 @@ export default {
       ScollegeOptions:['生物医学工程学院', '基础医学院','外国语学院','第一临床医学院','第二临床医学院','第三临床医学院','医学检验学院','护理学院','药学院','人文与管理学院','公共卫生学院'], // 专业选择
       MajorOptions: ['信息管理与信息系统', '生物医学工程', '信息资源管理'], // 类型选择
       rules: {
-        code: [
-          { required: true, message: '必填字段', trigger: 'blur' }
+        sname: [
+          { required: true, message: '请输入学生姓名', trigger: 'blur' }
         ],
-        name: [
-          { required: true, message: '必填字段', trigger: 'blur' }
-        ]
+        sid: [
+          { required: true, message: '请输入学号', trigger: 'blur' },
+          {min: 11,max: 13,message: '请输入正确的学号！'},
+        ],
+        ssex: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+         grade: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+         major:[
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+         scampus:[
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+         scollege: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+         sphone:[
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          {validator:function(rule,value,callback){
+	            if(/^1[34578]\d{9}$/.test(value) == false){
+	                callback(new Error("请输入正确的手机号"));
+	            }else{
+	                callback();
+	            }
+	        }, trigger: 'blur'}
+        ],
       }
     }
   },

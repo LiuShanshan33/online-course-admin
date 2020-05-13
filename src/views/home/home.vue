@@ -110,9 +110,9 @@
       <div class="block">
         <span class="left-title">常用功能</span>
         <div class="used-function">
-          <div class="functions">课件上传</div>
-          <div class="functions">课件上传</div>
-          <div class="functions">修改密码</div>
+          <div @click="hrefone" class="functions">课件上传</div>
+          <div @click="hreftwo" class="functions">课程信息</div>
+          <div @click="hrefthree" class="functions">修改密码</div>
           <div class="add-functions">
             <img src="../home/components/image/添加.png" width="40px">
           </div>
@@ -210,6 +210,18 @@ export default {
           this.listLoading = false
         }, 1.5 * 100)
       })
+     
+    },
+    //跳转到课件上传
+    hrefone(){
+       this.$router.push({ path:'../CourseMg/uploadCourseware'  })
+    },
+    //跳转到课程信息
+     hreftwo(){
+       this.$router.push({ path:'../CourseMg/coursewareMg' })
+    },
+     hrefthree(){
+       this.$router.push({ path:'../SystemMg/updatePwd'  })
     },
     currentTime() {
       setInterval(this.getDate, 500)
