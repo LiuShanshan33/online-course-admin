@@ -260,8 +260,6 @@ export default {
     // 点击更新后重新赋值表格
     updateAnnouncement(form) {
       this.add = false
-      // this.$set(this.list, this.form.index, { creattime: this.nowDate, title: this.form.title, content: this.form.content, publisher: this.userInfo.userString })
-      
       updateAnnInfo(this.form.id,this.form.content,this.form.title).then(response => {
             console.log('response成功', response)
             this.$message({

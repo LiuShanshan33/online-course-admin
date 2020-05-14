@@ -31,6 +31,15 @@ export function deleteCourseware(id) {
     id
   })
 }
+// 删除课件
+export function deleteCwFile(id) {
+  return request({
+    url: `/file/delete/${id}`,
+    method: 'get',
+    id
+  })
+}
+
 // 公告删除
 export function deleteAnnInfo(id) {
   return request({

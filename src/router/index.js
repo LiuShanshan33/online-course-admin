@@ -337,17 +337,6 @@ export const constantRoutes = [{
         }
       },
       {
-        path: 'moduleMg',
-        component: () => import('@/views/SystemMg/moduleMg/moduleMg'),
-        name: 'ModuleMg',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 模块管理',
-          affix: false
-        }
-      },
-      {
         path: 'roleMg',
         component: () => import('@/views/SystemMg/roleMg/roleMg'),
         name: 'RoleMg',
@@ -391,17 +380,7 @@ export const constantRoutes = [{
           affix: false
         }
       }
-      /* {
-        path: 'appAuthorization',
-        component: () => import('@/views/SystemMg/appAuthorization/appAuthorization'),
-        name: 'AppAuthorization',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 应用授权',
-          affix: false
-        }
-      },
+      /* 
       {
         path: 'versionMg',
         component: () => import('@/views/SystemMg/versionMg/versionMg'),
@@ -414,17 +393,6 @@ export const constantRoutes = [{
         }
       },
       {
-        path: 'MEWSRule',
-        component: () => import('@/views/SystemMg/MEWSRule/MEWSRule'),
-        name: 'MEWSRule',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' MEWS评分规则',
-          affix: false
-        }
-      },
-      {
         path: 'MEWSTutelage',
         component: () => import('@/views/SystemMg/MEWSTutelage/MEWSTutelage'),
         name: 'MEWSTutelage',
@@ -432,39 +400,6 @@ export const constantRoutes = [{
           isUseCache: true,
           keepAlive: true,
           title: ' MEWS评分监护',
-          affix: false
-        }
-      },
-      {
-        path: 'MEWSRelevance',
-        component: () => import('@/views/SystemMg/MEWSRelevance/MEWSRelevance.vue'),
-        name: 'MEWSRelevance',
-        meta: {
-          isUseCache: true,
-          // keepAlive: true,
-          title: ' MEWS表单关联',
-          affix: false
-        }
-      },
-      {
-        path: 'warddeploy',
-        component: () => import('@/views/SystemMg/warddeploy/warddeploy.vue'),
-        name: 'Warddeploy',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 病区动态显示配置',
-          affix: false
-        }
-      },
-      {
-        path: 'warddatabase',
-        component: () => import('@/views/SystemMg/wardDatabase/wardDatabase'),
-        name: 'Warddatabase',
-        meta: {
-          isUseCache: true,
-          keepAlive: true,
-          title: ' 病区动态数据库配置',
           affix: false
         }
       },
@@ -502,52 +437,31 @@ export const constantRoutes = [{
         }
       }*/
     ]
+  },
+  {
+    path: '/LogSet',
+    component: Layout,
+    redirect: '/profile/index',
+    meta: {
+      isUseCache: true,
+      keepAlive: false,
+      title: ' 登录日志',
+      icon: require('../_layout/components/image/日志.png'),
+      noCache: true
+    },
+    children: [{
+        path: 'signlog',
+        component: () => import('@/views/LoginLog/loginLog'),
+        name: 'Signlog',
+        meta: {
+          isUseCache: true,
+          keepAlive: false,
+          title: ' 登录日志',
+          affix: false
+        }
+      }
+    ]
   }
-  // {
-  //   path: '/LogSet',
-  //   component: Layout,
-  //   redirect: '/profile/index',
-  //   meta: {
-  //     isUseCache: true,
-  //     keepAlive: true,
-  //     title: ' 日志设置',
-  //     noCache: true
-  //   },
-  //   children: [{
-  //       path: 'signlog',
-  //       component: () => import('@/views/LogSet/loginLog/loginLog'),
-  //       name: 'Signlog',
-  //       meta: {
-  //         isUseCache: true,
-  //         keepAlive: true,
-  //         title: ' 登录日志',
-  //         affix: false
-  //       }
-  //     },
-  //     {
-  //       path: 'operateLog',
-  //       component: () => import('@/views/LogSet/operateLog/operateLog'),
-  //       name: 'OperateLog',
-  //       meta: {
-  //         isUseCache: true,
-  //         keepAlive: true,
-  //         title: ' 操作日志',
-  //         affix: false
-  //       }
-  //     },
-  //     {
-  //       path: 'taskLog',
-  //       component: () => import('@/views/LogSet/taskLog/taskLog'),
-  //       name: 'TaskLog',
-  //       meta: {
-  //         isUseCache: true,
-  //         keepAlive: true,
-  //         title: ' 任务日志',
-  //         affix: false
-  //       }
-  //     }
-  //   ]
-  // }
 ]
 
 const createRouter = () => new Router({

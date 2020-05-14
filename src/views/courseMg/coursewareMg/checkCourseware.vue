@@ -62,7 +62,7 @@
           <el-button
             type="text"
             size="mini"
-            @click.native.prevent="deleteRow(scope.$index, delarr)"
+            @click.native.prevent="deleteRow(scope.$index)"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -75,15 +75,33 @@
       :limit.sync="listQuery.pageSize"
       @pagination="getList"
     />
+     <!-- 打开的弹窗的内容 -->
+    <el-dialog
+      title="添加课件"
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+    >
+      <el-form ref="form" :model="form" :rules="rules">
+        <el-form-item label="上传课件">
+          <input type="file" multiple="multiple" ref="fileInt" value="changeHandle" id="changeHandle" @change="fileChange">
+          <p v-if="showFileList" class="comment"><pre>{{ fileNameAll }}</pre></p>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="callOf('form')">取 消</el-button>
+        <el-button type="primary" @click="AddFiles">添 加</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
-import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
+import Pagination from '@/_components/Pagination' // 
 import { getCwDetail } from '@/api/user'
-import { deleteNodeCode } from '@/api/delete'
+import { addCwFile } from '@/api/addOrSave'
+import { deleteCwFile } from '@/api/delete'
 
 // 类型
 const TypeOptions = [
@@ -126,19 +144,20 @@ export default {
       list: null,
       total: 0,
       id: '',
-      delarr: [],
-      // NodeTable: {},
+      form: {},
+      fileList:[],
       ableCheck: false,
       listLoading: true,
       listQuery: {
         pageIndex: 1,
         pageSize: 20
       },
+      fileNameAll:"",
       cwid: this.$route.query.id,
       cwname: this.$route.query.cwname,
       StatusOptions, // 状态选择
       TypeOptions, // 类型
-      showReviewer: false,
+      showFileList: false,
       dialogFormVisible: false,
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
@@ -164,7 +183,7 @@ export default {
   },
   methods: {
     checkViews(row) {
-      this.$refs.NodeTable.toggleRowSelection(row)
+      this.$refs.Courseware.toggleRowSelection(row)
       this.form = row
       this.ableCheck = true
       console.log('有变化么', this.form)
@@ -192,30 +211,62 @@ export default {
         }, 1.5 * 100)
       })
     },
-    // 添加
+    // 添加打开对话框
     addForm() {
-      this.$router.push({
-        path: '../QualityCtrlMg/ProcessNode/addNode.vue',
-        name: 'AddProcessNode'
-      })
+      this.dialogFormVisible = true
     },
-    // // 修改节点
-    // UpdateNode(index, row) {
-    //   this.$router.push({
-    //     path: '../QualityCtrlMg/updateNode',
-    //     name: 'UpdateNode',
-    //     query: {
-    //       nodeCode: row.nodeCode,
-    //       nodeName: row.nodeName,
-    //       pendingNodeName: row.pendingNodeName,
-    //       handledNodeName: row.handledNodeName
-    //     }
-    //   })
-    // },
+    AddFiles() {
+        // const file = this.$refs.fileInt.files[0]
+        // let count = this.$refs.fileInt.files.length
+        // console.log('count',count)
+        // 将文件循环添加到fileList[]
+        for (let i = 0; i < this.$refs.fileInt.files.length; i++) {
+          this.fileList.push(this.$refs.fileInt.files[i])
+        }
+        console.log('fileList',this.fileList)
+        // 循环append添加
+        const data = new FormData()
+        this.fileList.forEach(function (file) {
+          data.append('file',file)
+        })
+        console.log(data.getAll('file'))
+        // data.append('file', file)
+        data.append('cwid', this.cwid)
+        console.log('上传前的data',data)
+        addCwFile(data).then(res => {
+          console.log(res)
+          this.$message({
+            type: 'success',
+            message: '上传成功'
+          })
+          this.dialogFormVisible = false
+          this.getList()
+        }).catch(err => {
+          console.log(err);
+        })
+    },
+    // 点击取消
+    callOf(formName) {
+  　　this.$refs['form'].resetFields()
+      // 关闭对话框
+  　　this.dialogFormVisible = false
+    },
     // 搜索
     handleSelect() {
         this.listQuery.page = 1
         this.getList()
+    },
+    fileChange(){
+        this.fileNameAll = ''
+         for(var i = 0; i < this.$refs.fileInt.files.length; i++){
+          this.fileNameAll += this.$refs.fileInt.files[i].name + "\n"
+        }
+        if(this.$refs.fileInt.files.length>1){
+          this.showFileList = true
+        }else{
+          this.showFileList = false
+        }      
+        console.log('fileNameAll',this.fileNameAll)
     },
     deleteRow(index, rows) { // 删除该行
     this.$confirm('确定删除此行?', '删除提示', {
@@ -223,7 +274,7 @@ export default {
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          deleteNodeCode(this.form.nodeCode)
+          deleteCwFile(this.form.id)
           .then(() => {
               this.list.splice(index, 1)
               console.log(this.list)
@@ -248,16 +299,16 @@ export default {
           type: 'warning'
         }).then(() => {
           for (let i = 0; i < this.multipleSelection.length; i++) {
-            console.log(this.multipleSelection[i].nodeCode)
-            deleteNodeCode(this.multipleSelection[i].nodeCode)
+            console.log(this.multipleSelection[i].id)
+            deleteCwFile(this.multipleSelection[i].id)
           }
         }).then(() => {
               console.log(this.list)
-              this.getList()
               this.$message({
                 type: 'success',
                 message: '删除成功'
               })
+            this.getList()
           })
       } else {
         this.$confirm('请先选择表单', '删除提示', {
@@ -265,7 +316,8 @@ export default {
           type: 'warning'
         })
       }
-    }
+    },
+
   }
 }
 </script>

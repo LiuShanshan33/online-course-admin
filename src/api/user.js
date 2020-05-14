@@ -66,6 +66,7 @@ export function getCourse(data) {
     data: qs.stringify(data)
   })
 }
+
 // 课件信息页面
 export function getCourseware(data) {
   return request({
@@ -82,7 +83,7 @@ export function getCwDetail(data) {
     data: qs.stringify(data)
   })
 }
-// 院校页面/root/log/query
+// 院校页面
 export function getCollege(page) {
   return request({
     url: `tb/cquery/?page=${page}`,
