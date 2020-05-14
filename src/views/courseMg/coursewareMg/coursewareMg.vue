@@ -35,13 +35,13 @@
       <ul class="toolBar">
         <li>
           <a @click="addForm">
-            <img src="../../../views/images/添加@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/添加.png" width="17px" height="17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
-          <a @click="Alldelete">
-            <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
+          <a @click="checkCourseware">
+            <img src="../../../views/images/查看.png" width="17px" height="17px">
             <span class="barIcon">查看</span>
           </a>
         </li>
@@ -64,29 +64,34 @@
       :header-cell-style="{background:'#F0F5F7', color:'#333333'}"
       :cell-style="{padding:'3px 2px'}"
       @row-click="checkViews"
+      @row-dblclick="checkCourseware"
     >
       <!-- 序列号 -->
       <el-table-column label="序号" type="index" align="left" width="80px" />
       <!-- 名称 -->
-      <el-table-column label="课程文件名" prop="coursename" align="left" width="210px">
+      <el-table-column label="课程文件名" prop="coursename" align="left" width="200px">
       <template slot-scope="scope">
           <img src="../../../views/images/文件夹.png" style="width:16px;vertical-align: text-bottom;">
           <router-link class="table-link" :to="{name:'CoursewareDetail',query:{ id:scope.row.id, coursename:scope.row.coursename }}">{{scope.row.coursename}}</router-link>
         </template>
       </el-table-column>
       <!-- 表单编码 -->
-      <el-table-column label="课程类型" prop="type" align="left" width="140px" />
+      <el-table-column label="课程类型" prop="type" align="center" width="100px" />
       <!-- 表单版本 -->
-      <el-table-column label="面向专业" prop="subject" align="left" width="210px" />
-      <el-table-column label="授课教师" prop="principal" align="left" width="140px" />
-      <el-table-column label="课程简介" prop="introduction" align="left" width="140px" />
-      <el-table-column label="创建时间" prop="creattime" align="left" width="210px" />
-      <!-- <el-table-column label="类型" prop="type" align="center" width="80px">
+      <el-table-column label="面向专业" prop="subject" align="left" width="200px" />
+      <el-table-column label="授课教师" prop="principal" align="left" width="120px" />
+      <el-table-column label="课程简介" prop="introduction" align="left" width="160px">
         <template slot-scope="scope">
-          {{ map[scope.row.type] }}
+          <span
+            class="span-ellipsis"
+            :title="scope.row.introduction"
+          >
+            {{ scope.row.introduction }}
+          </span>
         </template>
-      </el-table-column> -->
-      <el-table-column label="操作" prop="formOperateType" align="center" min-width="120px">
+      </el-table-column>
+      <el-table-column label="创建时间" prop="creattime" align="left" width="160px" />
+      <el-table-column label="操作" prop="formOperateType" align="center" min-width="100px">
         <template slot-scope="scope">
           <!-- <el-button
             type="text"
@@ -96,8 +101,8 @@
           <el-button
             type="text"
             size="mini"
-            @click.native.prevent="deleteRow(scope.$index, delarr)"
-          >查看</el-button>
+            @click.native.prevent="deleteRow(scope.$index)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,7 +122,7 @@ import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
 import { getCourse } from '@/api/user'
-import { deleteNodeCode } from '@/api/delete'
+import { deleteCourse } from '@/api/delete'
 
 
 export default {
@@ -125,12 +130,12 @@ export default {
   components: { Pagination },
   directives: { waves },
   filters: {
-    statusFilter(status) {
-      return StatusKeyValue[status]
-    },
-    typeFilter(type) {
-      return TypeKeyValue[type]
-    }
+    // statusFilter(status) {
+    //   return StatusKeyValue[status]
+    // },
+    // typeFilter(type) {
+    //   return TypeKeyValue[type]
+    // }
   },
   data() {
     return {
@@ -144,7 +149,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       TypeOptions:['必修','选修'], // 类型
       showReviewer: false,
@@ -182,7 +187,14 @@ export default {
       this.listLoading = true
       let data = {
         page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize
       }
+      if(this.listQuery.Type){
+          data.type = this.listQuery.Type
+        }
+        if(this.listQuery.coursename){
+          data.coursename = this.listQuery.coursename
+        }
       console.log('调用接口前的data',data)
       getCourse(data).then(response => {
         this.list = response.data.content
@@ -206,6 +218,24 @@ export default {
         name: 'AddCourse'
       })
     },
+    // 点击某行查看跳转
+    checkCourseware() {
+      if (this.ableCheck) {
+       this.$router.push({
+          path: '../coursewareMg/coursewareDetail.vue',
+          name: 'CoursewareDetail',
+          query: {
+            id: this.form.id,
+            coursename: this.form.coursename
+          }
+        })
+      } else {
+        this.$confirm('请先选择数据', '查看提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
+      }
+    },
     // 搜索
     handleSelect() {
         this.listQuery.page = 1
@@ -217,10 +247,8 @@ export default {
           confirmButtonText: '确定',
           type: 'warning'
         }).then(() => {
-          deleteNodeCode(this.form.nodeCode)
+          deleteCourse(this.form.id)
           .then(() => {
-              this.list.splice(index, 1)
-              console.log(this.list)
               this.getList()
               this.$message({
                 type: 'success',
@@ -228,37 +256,7 @@ export default {
               })
           })
         })
-    },
-    handleSelectionChange(val) {
-        this.multipleSelection = val
-        console.log('多选选中的行', this.multipleSelection)
-    },
-    Alldelete() { // 多选删除
-    if (this.ableCheck) {
-    this.$confirm('确定删除?', '删除提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确定',
-          type: 'warning'
-        }).then(() => {
-          for(let i = 0 ; i < this.multipleSelection.length; i++){
-            console.log(this.multipleSelection[i].nodeCode)
-            deleteNodeCode(this.multipleSelection[i].nodeCode)
-          }
-        }).then(() => {
-              console.log(this.list)
-              this.getList()
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              })
-          })
-      } else {
-        this.$confirm('请先选择表单', '删除提示', {
-          confirmButtonText: '确定',
-          type: 'warning'
-        })
-      }
-    },
+    }
   }
 }
 </script>
@@ -268,6 +266,13 @@ export default {
   .el-button {
     margin-right: 50px;
   }
+}
+// 显示不全省略号样式
+.span-ellipsis {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 // 下划线蓝色字
 // .table-link{

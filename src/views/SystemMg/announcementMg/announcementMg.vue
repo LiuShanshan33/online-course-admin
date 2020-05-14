@@ -6,13 +6,13 @@
       <ul class="toolBar">
         <li>
           <a @click="addForm('form')">
-            <img src="../../../views/images/添加@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/添加.png" width="17px" height="17px">
             <span class="barIcon">添加</span>
           </a>
         </li>
         <li>
           <a @click="Alldelete">
-            <img src="../../../views/images/删 除@2x.png" width="17px" height="17px">
+            <img src="../../../views/images/删除.png" width="17px" height="17px">
             <span class="barIcon">删除</span>
           </a>
         </li>
@@ -208,8 +208,12 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
+      let data = {
+        page: this.listQuery.pageIndex,
+        pagesize: this.listQuery.pageSize
+      }
       console.log(this.listQuery.pageIndex)
-      getAnnInfo(this.listQuery.pageIndex).then(response => {
+      getAnnInfo(data).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         console.log('公告response', response)
@@ -256,8 +260,6 @@ export default {
     // 点击更新后重新赋值表格
     updateAnnouncement(form) {
       this.add = false
-      // this.$set(this.list, this.form.index, { creattime: this.nowDate, title: this.form.title, content: this.form.content, publisher: this.userInfo.userString })
-      
       updateAnnInfo(this.form.id,this.form.content,this.form.title).then(response => {
             console.log('response成功', response)
             this.$message({

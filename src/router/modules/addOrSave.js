@@ -19,7 +19,7 @@ const AddSaveRouter = [{
       hidden: true,
       meta: {
         isUseCache: true,
-        keepAlive: true,
+        keepAlive: false,
         title: ' 添加学生信息',
         affix: false
       }
@@ -31,7 +31,7 @@ const AddSaveRouter = [{
       hidden: true,
       meta: {
         isUseCache: true,
-        keepAlive: true,
+        keepAlive: false,
         title: ' 添加教师信息',
         affix: false
       }

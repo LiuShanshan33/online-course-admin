@@ -43,6 +43,23 @@ export function addCourseInfo(coursename, introduction, type, principal, subject
   })
 }
 
+// 修改课件文件夹信息
+export function updateCourseware(id, cwname, cwtype, cwintroduction,courseid ) {
+  return request({
+    url: '/courseware/save',
+    method: 'post',
+    data: qs.stringify({id, cwname, cwtype, cwintroduction,courseid})
+  })
+}
+
+// 添加课程文件夹下文件
+export function addCwFile(data) {
+  return request({
+    url: '/file/save',
+    method: 'post',
+    data
+  })
+}
 // 添加公告
 export function addAnnInfo(content, title) {
   return request({
