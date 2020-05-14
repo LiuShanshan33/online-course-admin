@@ -7,7 +7,7 @@ const AddSaveRouter = [{
   component: Layout,
   meta: {
     isUseCache: false,
-    keepAlive: true,
+    keepAlive: false,
     title: ' 用户管理',
     affix: false
   },
@@ -42,7 +42,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: false,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加',
       affix: false
     }
@@ -63,7 +63,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加床位',
       affix: false
     }
@@ -75,7 +75,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加员工',
       affix: false
     }
@@ -86,7 +86,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加',
       affix: false
     }
@@ -98,7 +98,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加',
       affix: false
     }
@@ -119,7 +119,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加模块',
       affix: false
     }
@@ -131,7 +131,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加角色',
       affix: false
     }
@@ -142,7 +142,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加任务',
       affix: false
     }
@@ -153,7 +153,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加应用',
       affix: false
     }
@@ -165,7 +165,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加版本',
       affix: false
     }
@@ -200,7 +200,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加角色',
       affix: false
     }
@@ -212,7 +212,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加节点',
       affix: false
     }
@@ -224,7 +224,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加模版管理',
       affix: false
     }
@@ -236,7 +236,7 @@ const AddSaveRouter = [{
     hidden: true,
     meta: {
       isUseCache: true,
-      keepAlive: true,
+      keepAlive: false,
       title: ' 添加质控评价项目',
       affix: false
     }

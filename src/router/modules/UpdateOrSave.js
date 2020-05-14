@@ -17,7 +17,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改学生信息',
           affix: false
         }
@@ -29,7 +29,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改教师信息',
           affix: false
         }
@@ -50,7 +50,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive:false,
           title: ' 修改床位',
           affix: false
         }
@@ -62,7 +62,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改科室',
           affix: false
         }
@@ -74,7 +74,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改员工',
           affix: false
         }
@@ -86,7 +86,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改',
           affix: false
         }
@@ -98,7 +98,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改',
           affix: false
         }
@@ -119,7 +119,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改模块',
           affix: false
         }
@@ -131,7 +131,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改角色',
           affix: false
         }
@@ -142,7 +142,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改任务',
           affix: false
         }
@@ -153,7 +153,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改应用',
           affix: false
         }
@@ -165,7 +165,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改版本',
           affix: false
         }
@@ -186,7 +186,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改流程链',
           affix: false
         }
@@ -209,7 +209,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改角色',
           affix: false
         }
@@ -221,7 +221,7 @@ const UpdateRouter = [
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改模板管理',
           affix: false
         }
