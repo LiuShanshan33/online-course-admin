@@ -96,7 +96,7 @@ export const constantRoutes = [{
         hidden: true,
         meta: {
           isUseCache: false,
-          keepAlive: true,
+          keepAlive: false,
           title: '编辑工作台',
           affix: false
         }
@@ -208,7 +208,7 @@ export const constantRoutes = [{
         name: 'CoursewareMg',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 课程信息',
           affix: false
         }
@@ -244,7 +244,7 @@ export const constantRoutes = [{
         hidden: true,
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 添加课程',
           affix: false
         }
@@ -255,7 +255,7 @@ export const constantRoutes = [{
         name: 'UploadCourseware',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 课件上传',
           affix: false
         }

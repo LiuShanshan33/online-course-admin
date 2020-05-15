@@ -17,22 +17,22 @@
             <el-option v-for="o in TsexOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="职称">
+        <el-form-item label="职称" prop="positon">
           <el-select v-model="TeaForm.positon" placeholder="请选择">
             <el-option v-for="Positon in PositonOptions" :key="Positon" :value="Positon" />
           </el-select>
         </el-form-item>
-        <el-form-item label="校区">
+        <el-form-item label="校区" prop="tcampus">
           <el-select v-model="TeaForm.tcampus" placeholder="请选择">
             <el-option v-for="o in campusOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="所属学院">
+        <el-form-item label="所属学院" prop="tcollege">
           <el-select v-model="TeaForm.tcollege" placeholder="请选择">
             <el-option v-for="o in collegeOptions" :key="o" :value="o" />
           </el-select>
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="手机号" prop="tphone">
           <el-input v-model="TeaForm.tphone" />
         </el-form-item>
         <el-form-item size="small">
@@ -70,8 +70,31 @@ export default {
           { required: true, message: '必填字段', trigger: 'blur' }
         ],
         tid: [
-          { required: true, message: '必填字段', trigger: 'blur' }
-        ]
+          { required: true, message: '必填字段', trigger: 'blur' },
+          {min: 5,max: 10,message: '长度在 5 到 10 个字符'},
+        ],
+        tsex: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+        positon: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+        tcampus: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+        tcollege: [
+          { required: true, message: '必选字段', trigger: 'blur' }
+        ],
+        tphone: [
+          { required: true,message: '请输入手机号码',trigger: 'blur'},
+	    	{validator:function(rule,value,callback){
+	            if(/^1[34578]\d{9}$/.test(value) == false){
+	                callback(new Error("请输入正确的手机号"));
+	            }else{
+	                callback();
+	            }
+	        }, trigger: 'blur'}
+        ],
       }
     }
   },

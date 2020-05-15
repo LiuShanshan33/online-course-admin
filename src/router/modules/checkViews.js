@@ -14,7 +14,7 @@ const CheckRouter = [{
       hidden: true,
       meta: {
         isUseCache: true,
-        keepAlive: true,
+        keepAlive: false,
         title: ' 查看',
         affix: false
       }
@@ -46,7 +46,7 @@ const CheckRouter = [{
       hidden: true,
       meta: {
         isUseCache: true,
-        keepAlive: true,
+        keepAlive: false,
         title: ' 查看流程链',
         affix: false
       }
@@ -58,7 +58,7 @@ const CheckRouter = [{
       hidden: true,
       meta: {
         isUseCache: true,
-        keepAlive: true,
+        keepAlive: false,
         title: ' 查看角色',
         affix: false
       }
