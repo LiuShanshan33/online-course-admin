@@ -115,7 +115,7 @@
       <el-table-column label="所属学院" prop="tcollege" align="left" width="160px" />
       <!-- 手机号 -->
       <el-table-column label="手机号" prop="tphone" align="left" min-width="200px" />
-      <el-table-column label="操作" prop="formOperateType" align="center" min-width="80">
+      <el-table-column v-if="resetShow" label="操作" prop="formOperateType" align="center" min-width="80">
         <el-button
           type="text"
           size="mini"
@@ -138,7 +138,7 @@
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/_components/Pagination' // secondary package based on el-pagination
-import { selectTeacher } from '@/api/user'
+import { getInfo, selectTeacher, resetTeaPwd } from '@/api/user'
 import { deleteTeaInfo } from '@/api/delete'
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
@@ -172,6 +172,10 @@ export default {
         Positon:'',
         Tcollege:''
       },
+      userInfo: {
+        roleString: '',
+        userString: ''
+      },
       nowDate: '', // 当前日期
       nowTime: '', // 当前时间
       nowWeek: '', // 当前星期
@@ -181,6 +185,7 @@ export default {
       TcollegeOptions: ['生物医学工程学院', '基础医学院','外国语学院','第一临床医学院','第二临床医学院','第三临床医学院','医学检验学院','护理学院','药学院','人文与管理学院','公共卫生学院'], // 学院选择
       showReviewer: false,
       dialogFormVisible: false,
+      resetShow:false,
       form: {
         name: ''
       },
@@ -205,7 +210,7 @@ export default {
   },
   created() {
     this.getList()
-    
+    this.getUserInfo()
   },
   methods: {
     // 判断是否选择某行
@@ -294,49 +299,36 @@ export default {
         }, 1.5 * 100)
       })
     },
-
-    // // 搜索
-    // handleSelect() {
-    //   if (this.listQuery.Tname !== '' || this.listQuery.Tid !== '' || this.listQuery.Positon !== ''|| this.listQuery.Tcollege !== '') {
-    //     let data = {
-    //     page: this.listQuery.pageIndex,
-    //     size: this.listQuery.pageSize
-    //     }
-    //     if(this.listQuery.Tname){
-    //       data.Tname = this.listQuery.Tname
-    //     }
-    //     if(this.listQuery.Tid){
-    //       data.Tid = this.listQuery.Tid
-    //     }
-    //     if(this.listQuery.Positon){
-    //       data.Positon = this.listQuery.Positon
-    //     }
-    //     if(this.listQuery.Tcollege){
-    //       data.Tcollege = this.listQuery.Tcollege
-    //     }
-    //     // let Tname = this.listQuery.Tname
-    //     // let Tid = this.listQuery.Tid
-    //     // let Positon= this.listQuery.Positon
-    //     // let Tcollege = this.listQuery.Tcollege
-    //     console.log('查询前的东西',data)
-    //     selectTeacher(data).then(response =>{
-    //       console.log('搜索结果',response.data.totalElements)
-    //       this.list = response.data.content
-          
-    //       this.total = response.data.totalElements
-    //     })
-    //   } else { // 全空做刷新
-    //     this.listQuery.page = 1
-    //     this.getList()
-    //   }
-    // },
-
+    getUserInfo() {
+      getInfo().then(response => {
+        console.log('教师管理用户角色', response.data)
+        this.userInfo = response.data.data
+        console.log('this.userInfo', this.userInfo)
+        this.UserRole()
+        // this.$store.dispatch('/user', res.data.data)
+      })
+    },
+    UserRole(){
+    console.log('this.userInfo.roleString', this.userInfo.roleString)
+      if(this.userInfo.roleString === "管理员"){
+        this.resetShow = true
+      }else{
+        this.resetShow = false
+      }
+    },
     // 重置密码
     resetPwd() {
       this.$confirm('确定重置该用户的密码吗?', '重置密码提示', {
         cancelButtonText: '取消',
         confirmButtonText: '确定',
         type: 'warning'
+      }).then(() => {
+        console.log('',this.form.tid)
+        let data = {
+        username: this.form.tid
+        }
+        resetTeaPwd(data).then(res => {
+      })
       })
         .then(() => {
             this.$message({

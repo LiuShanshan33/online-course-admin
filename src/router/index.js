@@ -375,7 +375,7 @@ export const constantRoutes = [{
         name: 'UpdatePwd',
         meta: {
           isUseCache: true,
-          keepAlive: true,
+          keepAlive: false,
           title: ' 修改密码',
           affix: false
         }

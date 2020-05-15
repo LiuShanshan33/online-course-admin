@@ -30,13 +30,13 @@
           </el-select>
         </el-form-item>
          <el-form-item label="所属学院">
-          <el-select v-model="StuForm.scollege" placeholder="请选择">
-            <el-option v-for="o in ScollegeOptions" :key="o" :value="o" />
+          <el-select v-model="StuForm.scollege" placeholder="请选择" @change="scollegeChange($event)">
+            <el-option v-for="o in ScollegeOptions" :key="o.code" :value="o.value">{{o.value}}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="专业">
           <el-select v-model="StuForm.major" placeholder="请选择">
-            <el-option v-for="o in MajorOptions" :key="o" :value="o" />
+            <el-option v-for="o in MajorOptions" :key="o.code" :value="o.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="手机号">
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { getSecCollege, getSubject } from '@/api/user'
 import { addStuInfo } from '@/api/addOrSave'
 
 export default {
@@ -70,6 +71,7 @@ export default {
         sphone: '',
         ssex: ''
       },
+      scollegecode:'',
       SsexOptions: ['男', '女'], // 性别选择
       GradeOptions: ['2015', '2016', '2017', '2018', '2019'], // 年级选择
       ScampusOptions: ['湛江校区', '东莞校区'], // 校区选择
@@ -86,9 +88,60 @@ export default {
     }
   },
   created() {
+    this.getCollegeList()
     // this.StuForm.type = this.TypeOptions[0]
   },
   methods: {
+    getCollegeList(){
+      let data = {
+        page: 1,
+        pagesize: 50,
+        collegecode: 1
+      }
+      getSecCollege(data).then(response=>{
+        this.ScollegeOptions = response.data.content
+        console.log('data',response)
+      })
+    },
+    scollegeChange(event) {
+        // this.scollege = event.target.key; //getSubject
+        console.log('event',event)
+        this.StuForm.major = ''
+        if(event === "第一临床医学院"){
+          this.scollegecode = 1
+        }else if(event === "第二临床医学院"){
+          this.scollegecode = 2
+        }else if(event === "第三临床医学院"){
+          this.scollegecode = 3
+        }else if(event === "公共卫生学院"){
+          this.scollegecode = 4
+        }else if(event === "护理学院"){
+          this.scollegecode = 5
+        }else if(event === "基础医学院"){
+          this.scollegecode = 6
+        }else if(event === "外国语学院"){
+          this.scollegecode = 7
+        }else if(event === "人文与管理学院"){
+          this.scollegecode = 8
+        }else if(event === "生物医学工程学院"){
+          this.scollegecode = 9
+        }else if(event === "药学院"){
+          this.scollegecode = 10
+        }else if(event === "医学检验学院"){
+          this.scollegecode = 11
+        }
+        console.log('this.scollegecode',this.scollegecode)
+        let data = {
+          collegecode: 1,
+          secondarycollegecode:this.scollegecode,
+          page: 1,
+          pagesize: 50,
+        }
+        getSubject(data).then(response=>{
+           this.MajorOptions = response.data.content
+          console.log('data',response)
+        })
+    },
      saveStuInfo(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

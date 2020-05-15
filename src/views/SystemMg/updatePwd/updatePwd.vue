@@ -6,9 +6,6 @@
     </div>
     <div class="content">
       <el-form ref="PwdForm" :model="PwdForm" :rules="rules" label-width="100px" size="mini">
-        <el-form-item label="初始密码" prop="orginalPwd">
-          <el-input v-model="PwdForm.orginalPwd" type="password" />
-        </el-form-item>
         <el-form-item label="新密码" prop="password">
           <el-input v-model="PwdForm.password" type="password" />
         </el-form-item>
@@ -16,7 +13,7 @@
           <el-input v-model="PwdForm.checkPass" type="password" />
         </el-form-item>
         <el-form-item size="small">
-          <el-button class="add-botton" @click="saveDept('PwdForm')">保存</el-button>
+          <el-button class="add-botton" @click="savePwd('PwdForm')">保存</el-button>
           <el-button @click="closeForm(tag)">关闭</el-button>
         </el-form-item>
       </el-form>
@@ -25,7 +22,7 @@
 </template>
 
 <script>
-import { saveDeptInfo } from '@/api/addOrSave'
+import { updatePwd } from '@/api/addOrSave'
 
 export default {
   name: 'UpdatePwd',
@@ -51,7 +48,7 @@ export default {
       };
     return {
      PwdForm: {
-       orginalPwd: '',
+      //  orginalPwd: '',
        checkPass: '',
        password: ''
       },
@@ -72,21 +69,22 @@ export default {
   created() {
   },
   methods: {
-    saveDept(formName) {
+    savePwd(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveDeptInfo(this.DeptForm).then(response => {
-            this.DeptForm = response.data
+          updatePwd(this.PwdForm.password).then(response => {
+            console.log('修改密码成功')
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: '修改密码成功，请重新登录'
             })
-            this.closeForm()
+            this.$router.push(`/login`)
+            // this.closeForm()
           })
         } else {
           this.$message({
             type: 'error',
-            message: '提交数据不完整，请改正后再提交！'
+            message: '两次输入密码不一致，请确认！'
           })
           return false
         }

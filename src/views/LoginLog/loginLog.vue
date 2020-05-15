@@ -113,12 +113,12 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 1000)
-      }) 
+      })
       .catch((e) => {
             this.$message.error('对不起，当前账号无权访问！')
             console.log('错误捕捉返回')
-        }) 
-      
+        })
+
     },
     closeForm(tag) {
       this.$store.state.tagsView.visitedViews.splice(this.$store.state.tagsView.visitedViews.findIndex(item => item.path === this.$route.path), 1)

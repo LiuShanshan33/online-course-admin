@@ -34,10 +34,42 @@ export function selectTeacher(data) {
     data: qs.stringify(data)
   })
 }
+// 管理员重置教师密码
+export function resetTeaPwd(data) {
+  return request({
+    url: '/root/reset',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
 // 学生信息页面
 export function getStuInfo(data) {
   return request({
     url: '/stu/findstudent',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+// 查询学校信息
+export function getCollegeInfo(ccampus) {
+  return request({
+    url: '/college/campus',
+    method: 'post',
+    data: qs.stringify(ccampus)
+  })
+}
+// 查询二级学院
+export function getSecCollege(data) {
+  return request({
+    url: '/tb/scquery',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+// 查询专业
+export function getSubject(data) {
+  return request({
+    url: '/tb/squery',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -90,6 +122,23 @@ export function getCollege(page) {
     method: 'get'
   })
 }
+// 学校信息
+export function getSchoolInfo(ccampus) {
+  return request({
+    url: '/college/campus',
+    method: 'post',
+    data: qs.stringify(ccampus)
+  })
+}
+// 角色管理
+export function getRoleList(username) {
+  return request({
+    url: '/root/role/query',
+    method: 'post',
+    data: qs.stringify(username)
+  })
+}
+
 // 登录日志页面
 export function getLoginLog(data) {
   return request({

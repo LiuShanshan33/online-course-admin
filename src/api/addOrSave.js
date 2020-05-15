@@ -4,7 +4,7 @@ import qs from 'qs'
 // 添加教师信息
 export function addTeaInfo(tname, tsex, tid, tphone, tcampus, tcollege, positon) {
   return request({
-    url: '/tea/add',
+    url: '/root/tea/add',
     method: 'post',
     data: qs.stringify({ tname, tsex, tid, tphone, tcampus, tcollege, positon })
   })
@@ -13,7 +13,7 @@ export function addTeaInfo(tname, tsex, tid, tphone, tcampus, tcollege, positon)
 // 修改教师信息
 export function updateTeaInfo(id, tname, tsex, tid, tphone, tcampus, tcollege, positon) {
   return request({
-    url: '/tea/update',
+    url: '/root/tea/update',
     method: 'post',
     data: qs.stringify({ id, tname, tsex, tid, tphone, tcampus, tcollege, positon })
   })
@@ -76,6 +76,30 @@ export function updateAnnInfo(id, content, title) {
     data: qs.stringify({ id, content, title })
   })
 }
+// 修改密码
+export function updatePwd(password) {
+  return request({
+    url: '/modify',
+    method: 'post',
+    data: qs.stringify({ password })
+  })
+}
+// 管理员修改用户角色和密码
+export function updateRolePwd(username, password, role) {
+  return request({
+    url: '/root/modify',
+    method: 'post',
+    data: qs.stringify({ username, password, role })
+  })
+}
+// 新建管理员
+export function addRole(username, password, role) {
+  return request({
+    url: '/root/register',
+    method: 'post',
+    data: qs.stringify({ username, password, role })
+  })
+}
 // 医院信息：保存接口
 export function saveHospital(data) {
   return request({
@@ -85,74 +109,7 @@ export function saveHospital(data) {
   })
 }
 
-// 科室信息：保存接口
-export function saveDeptInfo(data) {
-  return request({
-    url: '/admin/sysDept/save',
-    method: 'post',
-    data
-  })
-}
 
-// 床位信息：保存接口
-export function saveBedInfo(data) {
-  return request({
-    url: '/admin/sysBed/save',
-    method: 'post',
-    data
-  })
-}
-
-// 员工信息：保存接口
-export function saveUser(data) {
-  return request({
-    url: '/admin/sysUser/save',
-    method: 'post',
-    data
-  })
-}
-
-// 通讯录：保存接口
-export function saveAddrBook(data) {
-  return request({
-    url: '/admin/msgPhoneBook/save',
-    method: 'post',
-    data
-  })
-}
-
-// 消息管理：查看邮件
-export function getMsgMail(id) {
-  return request({
-    url: `/admin/msgMail/getMailById/${id}`,
-    method: 'post',
-    id
-  })
-}
-// 监护方案：保存添加的监护方案
-export function savemewsTutelage(data) {
-  return request({
-    url: `/admin/mewsScoreProgramme/save`,
-    method: 'post',
-    data
-  })
-}
-// 大屏交接班科室：保存
-export function savechangeShift(data) {
-  return request({
-    url: `/admin/changeShiftDeptCode/save`,
-    method: 'post',
-    data
-  })
-}
-//  病区动态数据库：保存患者流转和医嘱项目
-export function saveWardDatabase(data) {
-  return request({
-    url: `/admin/boardRelationProcessConfigure/save`,
-    method: 'post',
-    data
-  })
-}
 // 模块管理：保存或修改
 export function saveMoudle(data) {
   return request({
@@ -243,44 +200,6 @@ export function saveShiftSortMode(data) {
   })
 }
 
-// 流程链管理：获取的流程链
-export function checkChainList(chainCode) {
-  return request({
-    url: `/flowChain/getChain/${chainCode}`,
-    method: 'get'
-  })
-}
-
-// 根据角色编码获取
-export function getRoleByCode(roleCode) {
-  return request({
-    url: `/flowRole/getByCode/${roleCode}`,
-    method: 'get'
-  })
-}
-
-// 获取所有角色
-export function getAllRole() {
-  return request({
-    url: '/flowRole/getList',
-    method: 'get'
-  })
-}
-// 获取拥有查看APP管理权限的角色
-export function getAppManage() {
-  return request({
-    url: '/flowRole/getList',
-    method: 'get'
-  })
-}
-// 流程链管理的保存：流程链关联节点和角色用户
-export function updateChainList(data) {
-  return request({
-    url: '/flowChain/saveOrUpdateAll',
-    method: 'post',
-    data
-  })
-}
 
 // 质控：修改角色
 export function getListByRoleCode(roleCode) {
@@ -295,22 +214,6 @@ export function getListByRoleCode(roleCode) {
 export function saveProcessRole(data) {
   return request({
     url: `/flowRoleUser/saveOrUpdate`,
-    method: 'post',
-    data
-  })
-}
-
-// 获取所有节点
-export function getAllNode() {
-  return request({
-    url: '/flowNode/getList',
-    method: 'get'
-  })
-}
-// 保存流程节点
-export function saveProcessNode(data) {
-  return request({
-    url: '/flowNode/saveOrUpdate',
     method: 'post',
     data
   })

@@ -7,38 +7,38 @@
     </div>
     <div class="content">
       <div class="scoll" :style="conheight">
-          <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" size="mini">
+          <el-form ref="schoolForm" :model="schoolForm" :rules="rules" label-width="100px" size="mini">
             <el-form-item label="院校代码">
-              <el-input v-model="ruleForm.code" />
+              <el-input v-model="schoolForm.cid" />
             </el-form-item>
             <el-form-item label="学校名称" prop="name">
-              <el-input v-model="ruleForm.name" />
+              <el-input v-model="schoolForm.cname" />
             </el-form-item>
             <el-form-item label="学校级别">
-              <el-select v-model="ruleForm.grade" placeholder="请输入">
+              <el-select v-model="schoolForm.clevel" placeholder="请输入">
                 <el-option v-for="grades in gradeItems" :key="grades" :value="grades" />
               </el-select>
             </el-form-item>
              <el-form-item label="所在校区">
-              <el-select v-model="ruleForm.type" placeholder="请选择">
-                <el-option v-for="types in typeItems" :key="types" :value="types" />
+              <el-select v-model="schoolForm.ccampus" placeholder="请选择" @change="campusChange">
+                <el-option v-for="items in CampusItems" :key="items.key" :value="items.display_name" />
               </el-select>
             </el-form-item>
             <el-form-item label="电话">
-              <el-input v-model="ruleForm.telephone" />
+              <el-input v-model="schoolForm.cphone" />
             </el-form-item>
             <el-form-item label="地址" prop="address">
-              <el-input v-model="ruleForm.address" />
+              <el-input v-model="schoolForm.caddress" />
             </el-form-item>
             <el-form-item label="邮政编码" prop="zipCode">
-              <el-input v-model="ruleForm.zipCode" />
+              <el-input v-model="schoolForm.ccode" />
             </el-form-item>
-            <el-form-item label="描述">
-              <el-input v-model="ruleForm.intro" type="textarea" placeholder="请输入" />
+            <el-form-item label="简介">
+              <el-input v-model="schoolForm.ccontent" type="textarea" placeholder="请输入" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="saveHosInfo('ruleForm')">保存</el-button>
-              <!-- <el-button @click="resetForm('ruleForm')">取消</el-button> -->
+              <el-button type="primary" @click="saveHosInfo('schoolForm')">保存</el-button>
+              <!-- <el-button @click="resetForm('schoolForm')">取消</el-button> -->
             </el-form-item>
           </el-form></div>
       </div>
@@ -47,16 +47,37 @@
 </template>
 
 <script>
-import { getHospital } from '@/api/user'
+import { getSchoolInfo } from '@/api/user'
 import { saveHospital } from '@/api/addOrSave'
 
+const CampusItems = [
+  { key: '1', display_name: '湛江校区' },
+  { key: '2', display_name: '东莞校区' }
+]
+
+
+const CampusKeyValue = CampusItems.reduce((abc, curr) => {
+  abc[curr.key] = curr.display_name
+  return abc
+}, {})
+
 export default {
-  name: 'HospitalInfo',
+  name: 'SchoolInfo',
   data() {
     return {
       typeItems: ['湛江校区', '东莞校区','海东校区'],
       gradeItems: ['一本','二本','三本','专科院校'],
-      ruleForm: {},
+      CampusItems,
+      schoolForm: {
+        cid:'',
+        cname:'',
+        clevel:'',
+        ccampus: "湛江校区",
+        cphone:'',
+        caddress:'',
+        ccode:'',
+        ccontent:''
+      },
       conheight: {
         height: ''
       },
@@ -77,26 +98,35 @@ export default {
     }
   },
   created() {
-    this.getHosInfo()
+    this.getSchInfo()
     this.tableHeight()
+    // this.schoolForm.ccampus = this.CampusItems[0].display_name
     // this.saveHosInfo()
   },
   methods: {
     tableHeight() {
       this.conheight.height = window.innerHeight - 140 + 'px'
     },
-    getHosInfo() {
+    getSchInfo() {
       this.listLoading = false
-      getHospital().then(response => {
-        this.ruleForm = response.data
-        console.log('HospitalInfo', this.ruleForm)
+      let data = {
+        ccampus: this.schoolForm.ccampus
+      }
+      console.log(this.schoolForm.ccampus)
+      getSchoolInfo(data).then(response => {
+        this.schoolForm = response.data[0]
+        console.log('getSchoolInfo', response)
       })
+    },
+    campusChange(){
+      console.log('校区更改',this.schoolForm.ccampus)
+      this.getSchInfo()
     },
     saveHosInfo(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          saveHospital(this.ruleForm).then(response => {
-            this.ruleForm = response.data
+          saveHospital(this.schoolForm).then(response => {
+            this.schoolForm = response.data
             this.$message({
               type: 'success',
               message: '保存成功'
